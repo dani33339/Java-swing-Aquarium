@@ -1,0 +1,167 @@
+package part2;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.io.IOException;
+import java.net.URL;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+
+
+public class AquaFrame extends JFrame implements ActionListener{
+    private AquaPanel panel;
+    
+    JFrame f;
+    // menubar
+    JMenuBar mb;
+  
+    // JMenu
+    JMenu File,Background,Help;
+  
+    // Menu items
+    JMenuItem Exit, Image, Blue, None, help;
+  
+    // create a frame
+    public AquaFrame(){   
+        // super("Post tracking system");
+	    panel = new AquaPanel(this);
+	    // add(panel);
+	    // panel.setVisible(true); 
+
+        f=new JFrame("my Aquarium");
+        f.add(panel);
+    
+        // create a menubar
+        mb = new JMenuBar();
+        
+        // create a menu
+        File = new JMenu("File");
+        Background = new JMenu("Background");
+        Help = new JMenu("Help");
+        
+        // create menuitems
+        Exit = new JMenuItem("Exit");
+        Image = new JMenuItem("Image");
+        Blue = new JMenuItem("Blue");
+        None = new JMenuItem("None");
+        help = new JMenuItem("Help");
+        
+        // add menu items to menu
+        File.add(Exit);
+        Background.add(Image);
+        Background.add(Blue);
+        Background.add(None);
+        Help.add(help);
+        
+        // add menu to menu bar
+        mb.add(File);
+        mb.add(Background);
+        mb.add(Help);
+
+        help.addActionListener(this);
+        Blue.addActionListener(this);
+        Image.addActionListener(this);
+        None.addActionListener(this);
+        Exit.addActionListener(this);
+
+        // add menubar to frame
+        f.setJMenuBar(mb);
+        
+        // set the size of the frame
+        f.setSize(700, 500);
+        f.setVisible(true);
+
+ 
+    //תקרא את זה כי בעבודה לא רשון את הקטע של איפלמנטס
+    ////  a way without implements ActionListener!!!
+    // help.addActionListener(new ActionListener() { // we add an action listener to the JMenuItem
+    //     public void actionPerformed(ActionEvent e) {
+    //        JOptionPane.showMessageDialog(f, "Home Work 3 \n GUI @ Threads");
+    //     }
+    //     });
+    
+    //     Blue.addActionListener(new ActionListener() { // we add an action listener to the JMenuItem
+    //         public void actionPerformed(ActionEvent e) {
+    //             f.getContentPane().setBackground( Color.blue );
+    //         }
+    //         });
+    
+    //      Image.addActionListener(new ActionListener() { // we add an action listener to the JMenuItem
+    //          public void actionPerformed(ActionEvent e) {
+    //             BufferedImage img = null;
+    //             try { 
+    //                 img = ImageIO.read(new URL ("https://www.ubuy.com.tr/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvODFsbzVaTGJiOUwuX0FDX1NMMTUwMF8uanBn.jpg"));
+    //             } catch (IOException exp) {};
+    //             Image dimg = img.getScaledInstance(800, 508, Image.CENTER);
+    //             ImageIcon imageIcon = new ImageIcon(dimg);
+    //             f.setContentPane(new JLabel(imageIcon));
+    //             }
+    //         });
+    
+    
+    //         None.addActionListener(new ActionListener() { // we add an action listener to the JMenuItem
+    //             public void actionPerformed(ActionEvent e) {  
+    //                 f.getContentPane().setBackground( null );
+    //             }
+    //             });
+    
+    
+    //         Exit.addActionListener(new ActionListener() { // we add an action listener to the JMenuItem
+    //             public void actionPerformed(ActionEvent e) {
+    //                 System.exit(0);
+    //             }
+    //             });
+        } 
+    @Override
+    public void actionPerformed(ActionEvent e) 
+    {
+        if(e.getSource()==help)
+            JOptionPane.showMessageDialog(f, "Home Work 3 \n GUI @ Threads");    
+        if(e.getSource()==Blue)
+            f.getContentPane().setBackground(Color.blue);
+        
+        if(e.getSource()==Image)
+        {
+            BufferedImage img = null;
+                try { 
+                    img = ImageIO.read(new URL ("https://www.ubuy.com.tr/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvODFsbzVaTGJiOUwuX0FDX1NMMTUwMF8uanBn.jpg"));
+                    Image dimg = img.getScaledInstance(800, 508, Image.CENTER);
+                    ImageIcon imageIcon = new ImageIcon(dimg);
+                    f.setContentPane(new JLabel(imageIcon));}
+                    catch (IOException exp) {};
+        }
+        if(e.getSource()==None)
+            f.getContentPane().setBackground(null);
+
+        if(e.getSource()==Exit)
+            System.exit(0);
+
+        
+    }
+        
+
+    public static void main(String[] args) {  
+
+
+
+        // AquaFrame a= new AquaFrame(); 
+        // AquaPanel b =new AquaPanel();
+
+        // a.add(b, BorderLayout.SOUTH);
+        AquaFrame fr = new AquaFrame();
+        fr.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        fr.setSize(1200,700);
+        // fr.setVisible(true);
+        
+    }
+
+}
