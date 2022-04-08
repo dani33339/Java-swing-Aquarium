@@ -8,12 +8,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.net.URL;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 
@@ -79,6 +79,8 @@ public class AquaFrame extends JFrame implements ActionListener{
         // set the size of the frame
         f.setSize(700, 500);
         f.setVisible(true);
+
+        panel.setOpaque(false);// make the panel transparent
 
  
     //תקרא את זה כי בעבודה לא רשון את הקטע של איפלמנטס
