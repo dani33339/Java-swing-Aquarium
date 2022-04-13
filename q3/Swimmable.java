@@ -1,5 +1,6 @@
 package q3;
 
+import java.awt.Graphics;
 /**
  * class  Swimmable:
  * this calss is the bais of the all calsses we have is q3
@@ -71,9 +72,10 @@ public abstract class Swimmable {
 
     public abstract void eatInc();
     
-
     public abstract String toString();
     
     public abstract boolean equals(Object other);
+    
+    public abstract void drawAnimal(Graphics g);
     
 }

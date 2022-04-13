@@ -1,4 +1,8 @@
 package q3;
+import java.awt.Graphics;
+import java.text.DateFormat.Field;
+import java.awt.Color; 
+
 
 /**
  * class  Jellyfish:
@@ -209,7 +213,34 @@ public class Jellyfish extends Swimmable {
           return false;   
       }
       else  
-        return false;
-      
+        return false; 
     } 
+
+  public void drawAnimal(Graphics g)
+  {
+
+   int numLegs;
+   if(size<40)
+    	numLegs = 5;
+   else if(size<80)
+    	numLegs = 9;
+   else
+    	numLegs = 12;
+
+    /*convert string color to Color type */
+    Color color;
+    try {
+    java.lang.reflect.Field field = Class.forName("java.awt.Color").getField(this.getColor());
+    color = (Color)field.get(null);
+    } catch (Exception e) {
+    color = null; // Not defined
+    }
+
+   g.setColor(color);
+   g.fillArc(x_front - size/2, y_front - size/4, size, size/2, 0, 180);
+		
+   for(int i=0; i<numLegs; i++)
+	g.drawLine(x_front - size/2 + size/numLegs + size*i/(numLegs+1), y_front, x_front - size/2 + size/numLegs + size*i/(numLegs+1), y_front+size/3);
+  }
+
 }

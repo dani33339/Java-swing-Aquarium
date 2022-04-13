@@ -8,7 +8,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -80,7 +79,7 @@ public class AquaFrame extends JFrame implements ActionListener{
         f.setSize(700, 500);
         f.setVisible(true);
 
-        panel.setOpaque(false);// make the panel transparent
+        // panel.setOpaque(false);// make the panel transparent
 
  
     //תקרא את זה כי בעבודה לא רשון את הקטע של איפלמנטס
@@ -127,9 +126,11 @@ public class AquaFrame extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) 
     {
         if(e.getSource()==help)
-            JOptionPane.showMessageDialog(f, "Home Work 3 \n GUI @ Threads");    
+            JOptionPane.showMessageDialog(f, "Home Work 3 \n GUI @ Threads"); 
+
         if(e.getSource()==Blue)
-            f.getContentPane().setBackground(Color.blue);
+            // f.getContentPane().setBackground(Color.blue);
+            panel.setBackground(Color.blue);
         
         if(e.getSource()==Image)
         {
@@ -138,11 +139,12 @@ public class AquaFrame extends JFrame implements ActionListener{
                     img = ImageIO.read(new URL ("https://www.ubuy.com.tr/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvODFsbzVaTGJiOUwuX0FDX1NMMTUwMF8uanBn.jpg"));
                     Image dimg = img.getScaledInstance(800, 508, Image.CENTER);
                     ImageIcon imageIcon = new ImageIcon(dimg);
-                    f.setContentPane(new JLabel(imageIcon));}
+                    f.setContentPane(new JLabel(imageIcon));
+                }   
                     catch (IOException exp) {};
         }
         if(e.getSource()==None)
-            f.getContentPane().setBackground(null);
+            panel.setBackground(Color.white);
 
         if(e.getSource()==Exit)
             System.exit(0);
