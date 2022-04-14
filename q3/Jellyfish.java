@@ -216,6 +216,11 @@ public class Jellyfish extends Swimmable {
         return false; 
     } 
 
+  
+  /** 
+   * this method draw the animal
+   * @param g
+   */
   public void drawAnimal(Graphics g)
   {
 

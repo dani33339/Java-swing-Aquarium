@@ -1,5 +1,4 @@
 package q3;
-
 import java.awt.Graphics;
 import java.text.DateFormat.Field;
 import java.awt.Color; 
@@ -217,6 +216,10 @@ public class Fish extends Swimmable {
     }
 
 
+  /** 
+   * this method draw the animal
+   * @param g
+   */
   public void drawAnimal(Graphics g)
   {
     /*convert string color to Color type */

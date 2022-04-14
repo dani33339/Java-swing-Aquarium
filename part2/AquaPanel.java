@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import q3.Swimmable;
+import q3.*;
 
 public class AquaPanel extends JPanel implements ActionListener{
     private AquaFrame frame;
@@ -44,10 +44,18 @@ public class AquaPanel extends JPanel implements ActionListener{
     }
 
 
-    public void paintComponent()
+    public void paintComponent(Graphics g)
     {
-        for (Swimmable s : set) {
-            s.drawAnimal();
+        Fish fish=new Fish(3, 0, 0,3, 3, 3);
+        super.paintComponent(g);
+
+        Jellyfish jfish=new Jellyfish(3, 50, 50,3, 3, 3);
+        set.add(jfish);
+        jfish.drawAnimal(g);
+        // fish.drawAnimal(g);
+
+        // for (Swimmable s : set) 
+        //     s.drawAnimal(g);
         repaint();
     }
     

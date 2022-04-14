@@ -1,4 +1,5 @@
 package part2;
+import q3.*;
 
 import java.awt.*;
 
@@ -88,14 +89,55 @@ public class AnimalDialog extends JDialog  implements ActionListener {
 		setLayout(new BorderLayout());
 		add("North" , p1);
 		add("South" , p2);
+
+
+
     }
 
+
+	public int getColorint()
+    {
+        int color = 1;
+        switch (colorComboBox.getSelectedItem().toString()) {
+          case "Black":
+            color = 1;
+            break;
+          case "Red":
+            color = 2;
+            break;
+          case "Blue":
+            color = 3;
+            break;
+          case "Green":
+            color = 4;
+            break;
+          case "Cyan":
+            color = 5;
+            break;
+          case "Orange":
+            color = 6;
+            break;
+          case "Yellow":
+            color = 7;
+            break;
+          case "Magenta":
+            color = 8;
+            break;
+          case "Pink":
+            color = 9;
+            break;
+        }
+        return color;
+    }
 	
 	/** 
 	 * @param e
 	 */
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if(e.getSource() == add){
+			Fish fish=new Fish(Integer.parseInt(txfsize.getText()), 0, 0,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
+		    setVisible(false);
+		}
 		
 	}
 }

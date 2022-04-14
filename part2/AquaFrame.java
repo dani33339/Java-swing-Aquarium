@@ -79,48 +79,6 @@ public class AquaFrame extends JFrame implements ActionListener{
         f.setSize(700, 500);
         f.setVisible(true);
 
-        // panel.setOpaque(false);// make the panel transparent
-
- 
-    //תקרא את זה כי בעבודה לא רשון את הקטע של איפלמנטס
-    ////  a way without implements ActionListener!!!
-    // help.addActionListener(new ActionListener() { // we add an action listener to the JMenuItem
-    //     public void actionPerformed(ActionEvent e) {
-    //        JOptionPane.showMessageDialog(f, "Home Work 3 \n GUI @ Threads");
-    //     }
-    //     });
-    
-    //     Blue.addActionListener(new ActionListener() { // we add an action listener to the JMenuItem
-    //         public void actionPerformed(ActionEvent e) {
-    //             f.getContentPane().setBackground( Color.blue );
-    //         }
-    //         });
-    
-    //      Image.addActionListener(new ActionListener() { // we add an action listener to the JMenuItem
-    //          public void actionPerformed(ActionEvent e) {
-    //             BufferedImage img = null;
-    //             try { 
-    //                 img = ImageIO.read(new URL ("https://www.ubuy.com.tr/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvODFsbzVaTGJiOUwuX0FDX1NMMTUwMF8uanBn.jpg"));
-    //             } catch (IOException exp) {};
-    //             Image dimg = img.getScaledInstance(800, 508, Image.CENTER);
-    //             ImageIcon imageIcon = new ImageIcon(dimg);
-    //             f.setContentPane(new JLabel(imageIcon));
-    //             }
-    //         });
-    
-    
-    //         None.addActionListener(new ActionListener() { // we add an action listener to the JMenuItem
-    //             public void actionPerformed(ActionEvent e) {  
-    //                 f.getContentPane().setBackground( null );
-    //             }
-    //             });
-    
-    
-    //         Exit.addActionListener(new ActionListener() { // we add an action listener to the JMenuItem
-    //             public void actionPerformed(ActionEvent e) {
-    //                 System.exit(0);
-    //             }
-    //             });
         } 
     @Override
     public void actionPerformed(ActionEvent e) 
@@ -155,16 +113,9 @@ public class AquaFrame extends JFrame implements ActionListener{
 
     public static void main(String[] args) {  
 
-
-
-        // AquaFrame a= new AquaFrame(); 
-        // AquaPanel b =new AquaPanel();
-
-        // a.add(b, BorderLayout.SOUTH);
         AquaFrame fr = new AquaFrame();
         fr.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         fr.setSize(1200,700);
-        // fr.setVisible(true);
         
     }
 
