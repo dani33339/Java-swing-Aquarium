@@ -78,20 +78,17 @@ public class AnimalDialog extends JDialog  implements ActionListener {
 		
 		p2.setLayout(new GridLayout(1,2,5,5));
 		add=new JButton("Add");
-		// ok.addActionListener(this);
+		add.addActionListener(this);
 		add.setBackground(Color.lightGray);
 		p2.add(add);		
 		cancel=new JButton("Cancel");
-		// cancel.addActionListener(this);
+		cancel.addActionListener(this);
 		cancel.setBackground(Color.lightGray);
 		p2.add(cancel);
 		
 		setLayout(new BorderLayout());
 		add("North" , p1);
 		add("South" , p2);
-
-
-
     }
 
 	public int getColorint()

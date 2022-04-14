@@ -4,14 +4,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashSet;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import java.awt.Graphics;
+
+import java.awt.image.BufferedImage;
 
 import q3.*;
 
@@ -23,6 +30,8 @@ public class AquaPanel extends JPanel implements ActionListener{
     private JScrollPane scrollPane;
     private boolean isTableVisible = false;
     private HashSet<Swimmable> set = new HashSet<>();
+    private BufferedImage image;
+
 
     public AquaPanel(AquaFrame f) {
          frame = f;
@@ -41,17 +50,30 @@ public class AquaPanel extends JPanel implements ActionListener{
  
          setLayout(new BorderLayout());
          add("South", p1);
+
     }
 
+    public void addimage(){
+        BufferedImage img = null;
+        try { 
+            img = ImageIO.read(new URL ("https://www.ubuy.com.tr/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvODFsbzVaTGJiOUwuX0FDX1NMMTUwMF8uanBn.jpg"));
+
+            }   
+        catch (IOException exp) {};
+        Image dimg = img.getScaledInstance(800, 508, Image.SCALE_DEFAULT);
+        ImageIcon imageIcon = new ImageIcon(dimg);
+        JLabel picLabel = new JLabel(imageIcon);
+        add(picLabel);
+    }
 
     public void paintComponent(Graphics g)
     {
-        Fish fish=new Fish(3, 0, 0,3, 3, 3);
+        // Fish fish=new Fish(3, 0, 0,3, 3, 3);
         super.paintComponent(g);
 
-        Jellyfish jfish=new Jellyfish(3, 50, 50,3, 3, 3);
-        set.add(jfish);
-        jfish.drawAnimal(g);
+        // Jellyfish jfish=new Jellyfish(3, 50, 50,3, 3, 3);
+        // set.add(jfish);
+        // jfish.drawAnimal(g);
         // fish.drawAnimal(g);
 
         // for (Swimmable s : set) 

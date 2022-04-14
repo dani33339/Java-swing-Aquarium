@@ -14,6 +14,8 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.net.URL;
 import java.awt.image.BufferedImage;
+import java.awt.Graphics;
+
 
 
 public class AquaFrame extends JFrame implements ActionListener{
@@ -87,30 +89,29 @@ public class AquaFrame extends JFrame implements ActionListener{
             JOptionPane.showMessageDialog(f, "Home Work 3 \n GUI @ Threads"); 
 
         if(e.getSource()==Blue)
-            // f.getContentPane().setBackground(Color.blue);
+        {
+            /*remove picLabel JLabel if it exit's*/
+            if (panel.getComponentCount()>1)
+                panel.remove(1);
             panel.setBackground(Color.blue);
+        }
         
         if(e.getSource()==Image)
         {
-            BufferedImage img = null;
-                try { 
-                    img = ImageIO.read(new URL ("https://www.ubuy.com.tr/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvODFsbzVaTGJiOUwuX0FDX1NMMTUwMF8uanBn.jpg"));
-                    Image dimg = img.getScaledInstance(800, 508, Image.CENTER);
-                    ImageIcon imageIcon = new ImageIcon(dimg);
-                    f.setContentPane(new JLabel(imageIcon));
-                }   
-                    catch (IOException exp) {};
+            panel.addimage();
         }
         if(e.getSource()==None)
+        {
+            /*remove picLabel JLabel if it exit's*/
+            if (panel.getComponentCount()>1)
+                panel.remove(1);
             panel.setBackground(Color.white);
+        }
 
         if(e.getSource()==Exit)
-            System.exit(0);
-
-        
+            System.exit(0);    
     }
         
-
     public static void main(String[] args) {  
 
         AquaFrame fr = new AquaFrame();
