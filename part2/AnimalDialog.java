@@ -94,7 +94,6 @@ public class AnimalDialog extends JDialog  implements ActionListener {
 
     }
 
-
 	public int getColorint()
     {
         int color = 1;
