@@ -43,7 +43,7 @@ public class AquaFrame extends JFrame implements ActionListener{
     
         // create a menubar
         mb = new JMenuBar();
-        
+
         // create a menu
         File = new JMenu("File");
         Background = new JMenu("Background");
@@ -80,6 +80,7 @@ public class AquaFrame extends JFrame implements ActionListener{
         // set the size of the frame
         f.setSize(700, 500);
         f.setVisible(true);
+        f.setResizable(false);
 
         } 
     @Override
@@ -99,6 +100,7 @@ public class AquaFrame extends JFrame implements ActionListener{
         if(e.getSource()==Image)
         {
             panel.addimage();
+            f.pack();
         }
         if(e.getSource()==None)
         {
@@ -116,7 +118,7 @@ public class AquaFrame extends JFrame implements ActionListener{
 
         AquaFrame fr = new AquaFrame();
         fr.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        fr.setSize(1200,700);
+        // fr.setSize(700,500);
         
     }
 

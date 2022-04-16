@@ -223,29 +223,23 @@ public class Jellyfish extends Swimmable {
    */
   public void drawAnimal(Graphics g)
   {
+    Color [] colors= new Color [] {Color.black,Color.red,Color.green, Color.cyan, Color.orange, Color.yellow, Color.magenta,Color.pink};
+    Color color = colors[col-1];
 
-   int numLegs;
-   if(size<40)
-    	numLegs = 5;
-   else if(size<80)
-    	numLegs = 9;
-   else
-    	numLegs = 12;
+    int numLegs;
+    if(size<40)
+        numLegs = 5;
+    else if(size<80)
+        numLegs = 9;
+    else
+        numLegs = 12;
 
-    /*convert string color to Color type */
-    Color color;
-    try {
-    java.lang.reflect.Field field = Class.forName("java.awt.Color").getField(this.getColor());
-    color = (Color)field.get(null);
-    } catch (Exception e) {
-    color = null; // Not defined
-    }
 
-   g.setColor(color);
-   g.fillArc(x_front - size/2, y_front - size/4, size, size/2, 0, 180);
-		
-   for(int i=0; i<numLegs; i++)
-	g.drawLine(x_front - size/2 + size/numLegs + size*i/(numLegs+1), y_front, x_front - size/2 + size/numLegs + size*i/(numLegs+1), y_front+size/3);
+    g.setColor(color);
+    g.fillArc(x_front - size/2, y_front - size/4, size, size/2, 0, 180);
+      
+    for(int i=0; i<numLegs; i++)
+    g.drawLine(x_front - size/2 + size/numLegs + size*i/(numLegs+1), y_front, x_front - size/2 + size/numLegs + size*i/(numLegs+1), y_front+size/3);
   }
 
 }

@@ -29,9 +29,7 @@ public class AquaPanel extends JPanel implements ActionListener{
     private String[] names = {"Add Animal","Sleep","Wake up","Food","Info","Exit"};
     private JScrollPane scrollPane;
     private boolean isTableVisible = false;
-    private HashSet<Swimmable> set = new HashSet<>();
-    private BufferedImage image;
-
+    private HashSet<Swimmable> swimmables = new HashSet<Swimmable>();
 
     public AquaPanel(AquaFrame f) {
          frame = f;
@@ -53,6 +51,12 @@ public class AquaPanel extends JPanel implements ActionListener{
 
     }
 
+    public HashSet<Swimmable> getswimmables(){return swimmables;}
+
+    public void addswimmables(Swimmable s){
+        this.swimmables.add(s);
+        }
+
     public void addimage(){
         BufferedImage img = null;
         try { 
@@ -67,17 +71,10 @@ public class AquaPanel extends JPanel implements ActionListener{
     }
 
     public void paintComponent(Graphics g)
-    {
-        // Fish fish=new Fish(3, 0, 0,3, 3, 3);
+    {    
         super.paintComponent(g);
-
-        // Jellyfish jfish=new Jellyfish(3, 50, 50,3, 3, 3);
-        // set.add(jfish);
-        // jfish.drawAnimal(g);
-        // fish.drawAnimal(g);
-
-        // for (Swimmable s : set) 
-        //     s.drawAnimal(g);
+        for (Swimmable s : swimmables) 
+            s.drawAnimal(g);
         repaint();
     }
     

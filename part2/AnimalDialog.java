@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 
 public class AnimalDialog extends JDialog  implements ActionListener {
@@ -131,7 +132,20 @@ public class AnimalDialog extends JDialog  implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == add){
-			Fish fish=new Fish(Integer.parseInt(txfsize.getText()), 0, 0,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
+			Random rand = new Random();
+			int x_front = rand.nextInt(680);
+			int y_front = rand.nextInt(410);
+
+			if (typeComboBox.getSelectedItem().toString()=="Fish")
+			{
+				Fish fish=new Fish(Integer.parseInt(txfsize.getText()), x_front, y_front,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
+				panel.addswimmables(fish);
+			}
+			else
+			{
+				Jellyfish Jellyfish=new Jellyfish(Integer.parseInt(txfsize.getText()), 50, 50,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
+				panel.addswimmables(Jellyfish);
+			}
 		    setVisible(false);
 		}
 		
