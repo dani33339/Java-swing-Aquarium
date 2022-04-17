@@ -1,7 +1,9 @@
 package part2;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -20,7 +22,9 @@ import java.awt.Graphics;
 
 public class AquaFrame extends JFrame implements ActionListener{
     private AquaPanel panel;
-    
+    public final static int PANEL_WIDTH = 800;
+    public final static int PANEL_HEIGTH = 600;
+    public static String STATE = "swiming";
     JFrame f;
     // menubar
     JMenuBar mb;
@@ -78,10 +82,11 @@ public class AquaFrame extends JFrame implements ActionListener{
         f.setJMenuBar(mb);
         
         // set the size of the frame
-        f.setSize(700, 500);
+        f.setPreferredSize(new Dimension(PANEL_WIDTH,PANEL_HEIGTH));
         f.setVisible(true);
-        f.setResizable(false);
-
+        f.setResizable(true);
+        
+        f.pack();
         } 
     @Override
     public void actionPerformed(ActionEvent e) 
@@ -111,6 +116,7 @@ public class AquaFrame extends JFrame implements ActionListener{
         }
 
         if(e.getSource()==Exit)
+            this.panel.Close();
             System.exit(0);    
     }
         
@@ -118,7 +124,7 @@ public class AquaFrame extends JFrame implements ActionListener{
 
         AquaFrame fr = new AquaFrame();
         fr.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        // fr.setSize(700,500);
+        
         
     }
 

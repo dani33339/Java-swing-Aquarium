@@ -1,5 +1,5 @@
 package part2;
-
+import part2.AquaFrame;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +7,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashSet;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -30,6 +35,9 @@ public class AquaPanel extends JPanel implements ActionListener{
     private JScrollPane scrollPane;
     private boolean isTableVisible = false;
     private HashSet<Swimmable> swimmables = new HashSet<Swimmable>();
+    private ExecutorService executorService = Executors.newFixedThreadPool(5);
+        
+     ;
 
     public AquaPanel(AquaFrame f) {
          frame = f;
@@ -54,7 +62,10 @@ public class AquaPanel extends JPanel implements ActionListener{
     public HashSet<Swimmable> getswimmables(){return swimmables;}
 
     public void addswimmables(Swimmable s){
+        
+        executorService.execute(s);
         this.swimmables.add(s);
+        System.out.println(this.swimmables);
         }
 
     public void addimage(){
@@ -73,8 +84,16 @@ public class AquaPanel extends JPanel implements ActionListener{
     public void paintComponent(Graphics g)
     {    
         super.paintComponent(g);
-        for (Swimmable s : swimmables) 
+        for (Swimmable s : swimmables){
             s.drawAnimal(g);
+        }
+        // try {
+        //     TimeUnit.SECONDS.sleep(1);
+        // } catch (InterruptedException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
+        
         repaint();
     }
     
@@ -83,16 +102,28 @@ public class AquaPanel extends JPanel implements ActionListener{
         dial.setVisible(true);
     }
 
-    public void Sleep() {
-
+    public  void Sleep() {
+        AquaFrame.STATE = "sleeping"; 
     }
     
+    
+
      public void Wakeup() {
-         
+        AquaFrame.STATE = "swiming";
+        for (Swimmable swimmable : this.swimmables) {
+            synchronized(swimmable) {
+                swimmable.notify();
+            }
+        }
     }
  
       public void Reset () {
+        
           
+    }
+
+      public void Close(){
+            this.executorService.shutdown();
       }
  
       
@@ -122,6 +153,7 @@ public class AquaPanel extends JPanel implements ActionListener{
      
     
     public void Exit() {
+        this.Close();
         System.exit(0);
     }
  
