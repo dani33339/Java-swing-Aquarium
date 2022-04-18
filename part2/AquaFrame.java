@@ -116,16 +116,15 @@ public class AquaFrame extends JFrame implements ActionListener{
         }
 
         if(e.getSource()==Exit)
+        {
             this.panel.Close();
-            System.exit(0);    
+            System.exit(0);  
+        }  
     }
         
     public static void main(String[] args) {  
 
         AquaFrame fr = new AquaFrame();
-        fr.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        
-        
+        fr.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );  
     }
-
 }

@@ -35,8 +35,10 @@ public class AquaPanel extends JPanel implements ActionListener{
     private String[] names = {"Add Animal","Sleep","Wake up","reset","Food","Info","Exit"};
     private JScrollPane scrollPane;
     private boolean isTableVisible = false;
+    private boolean isTable2Visible = false;
     private HashSet<Swimmable> swimmables = new HashSet<Swimmable>();
     public static ExecutorService executorService = Executors.newFixedThreadPool(5);
+    BufferedImage image=null;
         
      
 
@@ -90,6 +92,7 @@ public class AquaPanel extends JPanel implements ActionListener{
         for (Swimmable s : swimmables){
             s.drawAnimal(g);
         }
+        g.drawImage(image, 0, 0, null);
         repaint();
     }
     
@@ -115,12 +118,14 @@ public class AquaPanel extends JPanel implements ActionListener{
  
       public void Reset () {
         this.executorService.shutdown();
+        this.swimmables.clear();
     }
 
       public void Close(){
         this.executorService.shutdown();
       }
       public void food(){
+        // image = ImageIO.read(new File("C:\\Projects\\MavenSandbox\\src\\main\\resources\\img.jpg"))
 
       }
  
@@ -128,9 +133,9 @@ public class AquaPanel extends JPanel implements ActionListener{
      public void Info () {
         this.Sleep();
 
-        if(isTableVisible == true) {
+        if(isTable2Visible == true) {
             scrollPane.setVisible(false);
-            isTableVisible = false;
+            isTable2Visible = false;
         }
         if(isTableVisible == false) {
                int i=0;
