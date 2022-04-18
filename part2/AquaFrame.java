@@ -37,10 +37,7 @@ public class AquaFrame extends JFrame implements ActionListener{
   
     // create a frame
     public AquaFrame(){   
-        // super("Post tracking system");
 	    panel = new AquaPanel(this);
-	    // add(panel);
-	    // panel.setVisible(true); 
 
         f=new JFrame("my Aquarium");
         f.add(panel);
@@ -96,22 +93,23 @@ public class AquaFrame extends JFrame implements ActionListener{
 
         if(e.getSource()==Blue)
         {
-            /*remove picLabel JLabel if it exit's*/
-            if (panel.getComponentCount()>1)
-                panel.remove(1);
+            //remove image if it exit's
+
+            if(panel.getimagestatus())
+                panel.changeimagestatus();
             panel.setBackground(Color.blue);
         }
         
         if(e.getSource()==Image)
         {
-            panel.addimage();
-            f.pack();
+            if(!panel.getimagestatus())
+                panel.changeimagestatus();
         }
         if(e.getSource()==None)
         {
-            /*remove picLabel JLabel if it exit's*/
-            if (panel.getComponentCount()>1)
-                panel.remove(1);
+            //remove image if it exit's
+            if(panel.getimagestatus())
+                panel.changeimagestatus();
             panel.setBackground(Color.white);
         }
 

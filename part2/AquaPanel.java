@@ -3,10 +3,12 @@ import part2.AquaFrame;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashSet;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -37,8 +39,9 @@ public class AquaPanel extends JPanel implements ActionListener{
     private boolean isTableVisible = false;
     private boolean isTable2Visible = false;
     private HashSet<Swimmable> swimmables = new HashSet<Swimmable>();
+    private BufferedImage wormImage=null;
+    private boolean BackgroundeImageStatus=false;
     public static ExecutorService executorService = Executors.newFixedThreadPool(5);
-    BufferedImage image=null;
         
      
 
@@ -73,26 +76,39 @@ public class AquaPanel extends JPanel implements ActionListener{
         
         }
 
-    public void addimage(){
-        BufferedImage img = null;
-        try { 
-            img = ImageIO.read(new URL ("https://www.ubuy.com.tr/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvODFsbzVaTGJiOUwuX0FDX1NMMTUwMF8uanBn.jpg"));
+    public void changeimagestatus(){
 
-            }   
-        catch (IOException exp) {};
-        Image dimg = img.getScaledInstance(800, 508, Image.SCALE_DEFAULT);
-        ImageIcon imageIcon = new ImageIcon(dimg);
-        JLabel picLabel = new JLabel(imageIcon);
-        add(picLabel);
+        this.BackgroundeImageStatus= !this.BackgroundeImageStatus;
     }
+
+    public boolean getimagestatus(){return this.BackgroundeImageStatus;};
 
     public void paintComponent(Graphics g)
     {    
         super.paintComponent(g);
+        BufferedImage img = null;
+
+        if (BackgroundeImageStatus==true)
+        {
+        try {
+            img = ImageIO.read(new URL ("https://www.ubuy.com.tr/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvODFsbzVaTGJiOUwuX0FDX1NMMTUwMF8uanBn.jpg"));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Image dimg = img.getScaledInstance(800, 600, Image.SCALE_DEFAULT);
+        g.drawImage(dimg, 0, 0, null);
+        }
+
         for (Swimmable s : swimmables){
             s.drawAnimal(g);
         }
-        g.drawImage(image, 0, 0, null);
+        if (this.wormImage!=null)
+        {   
+            g.drawImage(wormImage,getWidth()/2 ,getHeight()/2 ,50, 50, null); 
+        }
+
         repaint();
     }
     
@@ -125,7 +141,14 @@ public class AquaPanel extends JPanel implements ActionListener{
         this.executorService.shutdown();
       }
       public void food(){
-        // image = ImageIO.read(new File("C:\\Projects\\MavenSandbox\\src\\main\\resources\\img.jpg"))
+        try {
+            wormImage = ImageIO.read(new File("D:\\projects\\JAVA\\hw2\\advence-oop2\\part2\\worm.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // CyclicBarrier newBarrier = new CyclicBarrier(swimmables.size());
+
 
       }
  
