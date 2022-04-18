@@ -318,7 +318,7 @@ public class Fish extends Swimmable {
       e.printStackTrace();
     }
     
-    if(this.getx_front()>=AquaFrame.PANEL_WIDTH-this.getSize() || this.getx_front()<0){
+    if(this.getx_front()>=AquaFrame.PANEL_WIDTH || this.getx_front()<0){
       this.sethorSpeed(this.gethorSpeed()* -1);
       if(this.getx_dir()==1)
           this.setx_dir(-1);
@@ -326,9 +326,9 @@ public class Fish extends Swimmable {
           this.setx_dir(1);   
     }
     // System.out.println("x:" + this.getx_front() + "," + this.gety_front());
-    this.setx_front(this.getx_front()+this.gethorSpeed()+this.getSize()*this.getx_dir());
+    this.setx_front(this.getx_front()+this.gethorSpeed());
 
-    if(this.gety_front()>= AquaFrame.PANEL_HEIGTH-this.getSize() || this.gety_front() < 0){
+    if(this.gety_front()>= AquaFrame.PANEL_HEIGTH || this.gety_front() < 0){
       this.setverSpeed(this.getverSpeed()*-1);
     }
     this.sety_front(this.gety_front()+this.getverSpeed()); 

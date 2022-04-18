@@ -280,12 +280,12 @@ public class Jellyfish extends Swimmable {
       else 
           this.setx_dir(1);   
     }
-    this.setx_front(this.getx_front()+this.gethorSpeed()+this.getSize()*this.getx_dir());
+    this.setx_front(this.getx_front()+this.gethorSpeed());
 
     if(this.gety_front()>= AquaFrame.PANEL_HEIGTH-this.getSize() || this.gety_front() < 0){
       this.setverSpeed(this.getverSpeed()*-1);
+      
     }
-    
     this.sety_front(this.gety_front()+this.getverSpeed()); 
   }
     
