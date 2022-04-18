@@ -1,6 +1,9 @@
 package q3;
 import java.awt.Graphics;
 import java.text.DateFormat.Field;
+
+import part2.AquaFrame;
+
 import java.awt.Color; 
 
 
@@ -50,6 +53,7 @@ public class Jellyfish extends Swimmable {
 	*/
     public Jellyfish(int size, int x_front, int y_front,int horSpeed, int verSpeed, int col)
     {
+        super(horSpeed,verSpeed);
         this.size=size;
         this.col=col;
         this.x_front=x_front;
@@ -57,6 +61,7 @@ public class Jellyfish extends Swimmable {
         this.eatCount=0;
         this.x_dir=1;
         this.y_dir=1;
+        
     }
 
     
@@ -223,7 +228,7 @@ public class Jellyfish extends Swimmable {
    */
   public void drawAnimal(Graphics g)
   {
-    Color [] colors= new Color [] {Color.black,Color.red,Color.green, Color.cyan, Color.orange, Color.yellow, Color.magenta,Color.pink};
+    Color [] colors= new Color [] {Color.black,Color.red,Color.blue,Color.green, Color.cyan, Color.orange, Color.yellow, Color.magenta,Color.pink};
     Color color = colors[col-1];
 
     int numLegs;
@@ -240,6 +245,66 @@ public class Jellyfish extends Swimmable {
       
     for(int i=0; i<numLegs; i++)
     g.drawLine(x_front - size/2 + size/numLegs + size*i/(numLegs+1), y_front, x_front - size/2 + size/numLegs + size*i/(numLegs+1), y_front+size/3);
+  }
+
+  
+
+  @Override
+  public void run() {
+    
+  while(!Thread.currentThread().isInterrupted()){
+    
+    if(AquaFrame.STATE == "sleeping"){
+      
+      synchronized(this) {
+        try {
+          this.wait();
+        } catch (InterruptedException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+      }
+    }
+
+    try {
+      Thread.sleep(500);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    if(this.getx_front()>=AquaFrame.PANEL_WIDTH-this.getSize() || this.getx_front()<0){
+      this.sethorSpeed(this.gethorSpeed()* -1);
+      if(this.getx_dir()==1)
+          this.setx_dir(-1);
+      else 
+          this.setx_dir(1);   
+    }
+    this.setx_front(this.getx_front()+this.gethorSpeed()+this.getSize()*this.getx_dir());
+
+    if(this.gety_front()>= AquaFrame.PANEL_HEIGTH-this.getSize() || this.gety_front() < 0){
+      this.setverSpeed(this.getverSpeed()*-1);
+    }
+    
+    this.sety_front(this.gety_front()+this.getverSpeed()); 
+  }
+    
+  }
+
+  @Override
+  public void setx_front(int x) {
+    this.x_front = x;
+    
+  }
+
+  @Override
+  public void sety_front(int y) {
+    this.y_front = y;
+  }
+
+  @Override
+  public void setx_dir(int x) {
+    this.x_dir = x;
   }
 
 }

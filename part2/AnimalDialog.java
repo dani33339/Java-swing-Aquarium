@@ -1,12 +1,14 @@
 package part2;
 import q3.*;
-
+import part2.AquaPanel;
 import java.awt.*;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
@@ -17,6 +19,7 @@ import java.util.Random;
 
 
 public class AnimalDialog extends JDialog  implements ActionListener {
+	public JFrame f;  
 	private static final long serialVersionUID = 1L;
 	private JPanel p1,p2;
     private JButton add, cancel;
@@ -132,19 +135,27 @@ public class AnimalDialog extends JDialog  implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == add){
-			
-			if (typeComboBox.getSelectedItem().toString()=="Fish")
-			{
-				Fish fish=new Fish(Integer.parseInt(txfsize.getText()), 600, 400,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
-				panel.addswimmables(fish);
+			if(panel.getswimmablessize()<5){
+				if (typeComboBox.getSelectedItem().toString()=="Fish")
+				{
+					Fish fish=new Fish(Integer.parseInt(txfsize.getText()), 600, 400,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
+					panel.addswimmables(fish);
+				}
+				else
+				{
+					
+					Jellyfish Jellyfish=new Jellyfish(Integer.parseInt(txfsize.getText()), 600, 400,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
+					panel.addswimmables(Jellyfish);
+				}
+		    	setVisible(false);
 			}
-			else
-			{
-				Jellyfish Jellyfish=new Jellyfish(Integer.parseInt(txfsize.getText()), 50, 50,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
-				panel.addswimmables(Jellyfish);
+			else{
+				f=new JFrame();  
+				JOptionPane.showMessageDialog(f,"there are maximum 5 animal in the aquarium");  
 			}
-		    setVisible(false);
 		}
-		
+		if(e.getSource() == cancel){
+			setVisible(false);
+		}
 	}
 }

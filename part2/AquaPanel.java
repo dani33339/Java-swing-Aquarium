@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.Graphics;
 
@@ -31,13 +32,13 @@ public class AquaPanel extends JPanel implements ActionListener{
     private AquaFrame frame;
     private JPanel p1;
     private JButton[] b_num;
-    private String[] names = {"Add Animal","Sleep","Wake up","Food","Info","Exit"};
+    private String[] names = {"Add Animal","Sleep","Wake up","reset","Food","Info","Exit"};
     private JScrollPane scrollPane;
     private boolean isTableVisible = false;
     private HashSet<Swimmable> swimmables = new HashSet<Swimmable>();
-    private ExecutorService executorService = Executors.newFixedThreadPool(5);
+    public static ExecutorService executorService = Executors.newFixedThreadPool(5);
         
-     ;
+     
 
     public AquaPanel(AquaFrame f) {
          frame = f;
@@ -60,12 +61,14 @@ public class AquaPanel extends JPanel implements ActionListener{
     }
 
     public HashSet<Swimmable> getswimmables(){return swimmables;}
+    
+    public int getswimmablessize(){return swimmables.size();}
 
     public void addswimmables(Swimmable s){
         
         executorService.execute(s);
         this.swimmables.add(s);
-        System.out.println(this.swimmables);
+        
         }
 
     public void addimage(){
@@ -87,13 +90,6 @@ public class AquaPanel extends JPanel implements ActionListener{
         for (Swimmable s : swimmables){
             s.drawAnimal(g);
         }
-        // try {
-        //     TimeUnit.SECONDS.sleep(1);
-        // } catch (InterruptedException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // }
-        
         repaint();
     }
     
@@ -118,30 +114,43 @@ public class AquaPanel extends JPanel implements ActionListener{
     }
  
       public void Reset () {
-        
-          
+        this.executorService.shutdown();
     }
 
       public void Close(){
-            this.executorService.shutdown();
+        this.executorService.shutdown();
+      }
+      public void food(){
+
       }
  
       
      public void Info () {
+        this.Sleep();
+
         if(isTableVisible == true) {
             scrollPane.setVisible(false);
             isTableVisible = false;
         }
-         if(isTableVisible == false) {
+        if(isTableVisible == false) {
                int i=0;
                String[] columnNames = {"Animal", "Color", "Size", "Hor. speed", "Ver. speed","Eat counter"};
-               String [][] data = new String[5][columnNames.length];
-
+               Object [][] data = new String[5][columnNames.length];
+               for (Swimmable s : swimmables) {
+                    data[i][0] = "" + s.getAnimalName();
+                    data[i][1] = "" + s.getColor();
+                    data[i][2] = "" + s.getSize();
+                    data[i][3] = "" + s.gethorSpeed();
+                    data[i][4] = "" + s.getverSpeed();
+                    data[i][5] = "" + s.getEatCount();
+                    i++;                  
+                    }
                JTable table = new JTable(data, columnNames);
                scrollPane = new JScrollPane(table);
                scrollPane.setSize(450,table.getRowHeight()*(5)+24);
                add( scrollPane, BorderLayout.CENTER );
                isTableVisible = true;
+               
          }
          else
              isTableVisible = false;
@@ -163,15 +172,17 @@ public class AquaPanel extends JPanel implements ActionListener{
      if(e.getSource() == b_num[0]) 
         AddAnimal();
      else if(e.getSource() == b_num[1]) 
-         Sleep();
+        Sleep();
      else if(e.getSource() == b_num[2])  
-         Wakeup();
+        Wakeup();
      else if(e.getSource() == b_num[3])  
-         Reset(); 
-     else if(e.getSource() == b_num[4])  
-         Info();
+        Reset(); 
+     else if(e.getSource() == b_num[4])
+        food();
      else if(e.getSource() == b_num[5])  
-         Exit();
+        Info();
+     else if(e.getSource() == b_num[6])  
+        Exit();
     }
  
     
