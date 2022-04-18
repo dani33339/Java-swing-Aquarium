@@ -154,13 +154,17 @@ public class AquaPanel extends JPanel implements ActionListener{
  
       
      public void Info () {
-        this.Sleep();
+        
 
         if(isTable2Visible == true) {
+            this.Wakeup();
             scrollPane.setVisible(false);
             isTable2Visible = false;
+            
         }
         if(isTableVisible == false) {
+               this.Sleep();
+               
                int i=0;
                String[] columnNames = {"Animal", "Color", "Size", "Hor. speed", "Ver. speed","Eat counter"};
                Object [][] data = new String[5][columnNames.length];
@@ -179,11 +183,13 @@ public class AquaPanel extends JPanel implements ActionListener{
                add( scrollPane, BorderLayout.CENTER );
                isTableVisible = true;
                
-         }
-         else
-             isTableVisible = false;
-         
-         scrollPane.setVisible(isTableVisible);
+        }
+        else{
+            isTableVisible = false;
+            this.Wakeup();
+        }
+        
+        scrollPane.setVisible(isTableVisible);
         repaint();
         
      }

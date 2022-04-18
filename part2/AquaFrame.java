@@ -113,11 +113,18 @@ public class AquaFrame extends JFrame implements ActionListener{
             panel.setBackground(Color.white);
         }
 
+
         if(e.getSource()==Exit)
         {
             this.panel.Close();
             System.exit(0);  
         }  
+
+        if(e.getSource()==Exit){
+            this.panel.Close();
+            System.exit(0);   
+        }
+
     }
         
     public static void main(String[] args) {  
