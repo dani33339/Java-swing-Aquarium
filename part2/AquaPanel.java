@@ -71,6 +71,7 @@ public class AquaPanel extends JPanel implements ActionListener{
 
     public void addswimmables(Swimmable s){
         
+        s.setCenter(getWidth()/2 ,getHeight()/2);
         executorService.execute(s);
         this.swimmables.add(s);
         
@@ -133,7 +134,10 @@ public class AquaPanel extends JPanel implements ActionListener{
     }
  
       public void Reset () {
-        this.executorService.shutdown();
+          //stop all threads.
+        for (Swimmable swimmable : this.swimmables) {
+            swimmable.shutdown();
+        }
         this.swimmables.clear();
     }
 
@@ -147,8 +151,11 @@ public class AquaPanel extends JPanel implements ActionListener{
             e.printStackTrace();
         }
 
-        // CyclicBarrier newBarrier = new CyclicBarrier(swimmables.size());
-
+        CyclicBarrier newBarrier = new CyclicBarrier(swimmables.size());
+        for (Swimmable swimmable : this.swimmables) {
+            swimmable.Foodrace(newBarrier);
+        }
+        
 
       }
  

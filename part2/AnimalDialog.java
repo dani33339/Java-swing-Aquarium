@@ -136,22 +136,30 @@ public class AnimalDialog extends JDialog  implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == add){
 			if(panel.getswimmablessize()<5){
-				if (typeComboBox.getSelectedItem().toString()=="Fish")
-				{
-					Fish fish=new Fish(Integer.parseInt(txfsize.getText()), 600, 400,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
-					panel.addswimmables(fish);
+				if (Integer.parseInt(txfsize.getText())>=20 && Integer.parseInt(txfsize.getText())<=320)
+					if (typeComboBox.getSelectedItem().toString()=="Fish")
+					{
+						Fish fish=new Fish(Integer.parseInt(txfsize.getText()), 600, 400,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
+						panel.addswimmables(fish);
+						setVisible(false);
+					}
+					else
+					{
+						
+						Jellyfish Jellyfish=new Jellyfish(Integer.parseInt(txfsize.getText()), 600, 400,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
+						panel.addswimmables(Jellyfish);
+						setVisible(false);
+					}
+				
+				else{
+					f=new JFrame();  
+					JOptionPane.showMessageDialog(f,"The size have to be from 20 to 320");  
 				}
-				else
-				{
-					
-					Jellyfish Jellyfish=new Jellyfish(Integer.parseInt(txfsize.getText()), 600, 400,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
-					panel.addswimmables(Jellyfish);
-				}
-		    	setVisible(false);
 			}
-			else{
+			else
+			{
 				f=new JFrame();  
-				JOptionPane.showMessageDialog(f,"there are maximum 5 animal in the aquarium");  
+				JOptionPane.showMessageDialog(f,"There are maximum 5 animal in the aquarium");  
 			}
 		}
 		if(e.getSource() == cancel){

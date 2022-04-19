@@ -252,7 +252,7 @@ public class Jellyfish extends Swimmable {
   @Override
   public void run() {
     
-  while(!Thread.currentThread().isInterrupted()){
+  while(!this.getshutdown()){
     
     if(AquaFrame.STATE == "sleeping"){
       

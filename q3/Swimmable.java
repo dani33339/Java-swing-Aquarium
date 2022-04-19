@@ -1,6 +1,7 @@
 package q3;
 
 import java.awt.Graphics;
+import java.util.concurrent.CyclicBarrier;
 /**
  * class  Swimmable:
  * this calss is the bais of the all calsses we have is q3
@@ -10,6 +11,11 @@ import java.awt.Graphics;
 public abstract class Swimmable implements Runnable {
     private int horSpeed;
     private int verSpeed;
+    private boolean shutdown = false;
+    private CyclicBarrier Foodrace=null;
+    private int center_x;
+    private int center_y;
+
 
     /**
 	* this method is a default constructor method to build a new Swimmable .
@@ -61,6 +67,35 @@ public abstract class Swimmable implements Runnable {
     * @return int
     */
     public int getverSpeed(){return this.verSpeed;}
+
+    public boolean getshutdown() {return this.shutdown;}
+
+    public void shutdown() {
+        this.shutdown = true;
+    }
+
+    public CyclicBarrier getFoodrace() {return this.Foodrace;}
+
+    public void Foodrace(CyclicBarrier Foodrace) {
+        this.Foodrace=Foodrace;
+    }
+
+    public void setCenter (int x,int y)
+    {
+        this.center_x=x;
+        this.center_y=y;
+    }
+
+    
+    public int getCenter_x ()
+    {
+        return this.center_x;
+    }
+
+    public int getCenter_y ()
+    {
+        return this.center_y;
+    }
 
     public abstract String getAnimalName();
 

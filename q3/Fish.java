@@ -2,8 +2,12 @@ package q3;
 import java.awt.Graphics;
 import java.awt.Color; 
 import java.awt.Polygon;
+import java.util.concurrent.BrokenBarrierException;
+
+import javax.swing.JPanel;
 
 import part2.AquaFrame;
+import part2.AquaPanel;
 
 import java.awt.Graphics2D;
 import  java.awt.BasicStroke;
@@ -23,7 +27,6 @@ public class Fish extends Swimmable {
     private int y_front;
     private int x_dir;
     private int y_dir;
-
 
     /**
 	  * this method is a constructor method to build a new Fish .
@@ -292,12 +295,39 @@ public class Fish extends Swimmable {
           g2.drawLine(x_front, y_front, x_front+size/10, y_front+size/10);
           g2.setStroke(new BasicStroke(1));
    }
-}
+  }
+
+  public void swimtocenter()
+  {
+    int distance_x=this.getCenter_x()-x_front;
+    int distance_y=this.getCenter_y()-y_front;
+    while(distance_x==0 && distance_y==0)
+    {
+      if (distance_x!=0)
+        this.x_front+=1;
+      if (distance_y!=0)
+        this.y_front+=1;
+    }
+    this.eatInc();
+    this.Foodrace(null);
+  }
 
   @Override
   public void run() {
 
-  while(!Thread.currentThread().isInterrupted()){
+  while(!this.getshutdown()){
+    if (this.getFoodrace()!=null)
+    {
+      try {
+        // System.out.println(this.getColor()+" fish is waiting");
+        this.getFoodrace().await();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      } catch (BrokenBarrierException e) {
+        e.printStackTrace();
+      }
+      this.swimtocenter();
+    }
    
     if(AquaFrame.STATE == "sleeping"){
       
@@ -325,7 +355,6 @@ public class Fish extends Swimmable {
       else 
           this.setx_dir(1);   
     }
-    // System.out.println("x:" + this.getx_front() + "," + this.gety_front());
     this.setx_front(this.getx_front()+this.gethorSpeed());
 
     if(this.gety_front()>= AquaFrame.PANEL_HEIGTH || this.gety_front() < 0){
