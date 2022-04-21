@@ -247,47 +247,52 @@ public class Jellyfish extends Swimmable {
     g.drawLine(x_front - size/2 + size/numLegs + size*i/(numLegs+1), y_front, x_front - size/2 + size/numLegs + size*i/(numLegs+1), y_front+size/3);
   }
 
+
+  public void outofrange_x()
+  {
+    if(this.getx_front()>=AquaFrame.PANEL_WIDTH-this.getSize() || this.getx_front()<0){
+      this.sethorSpeed(this.gethorSpeed()* -1); 
+    }
+  }
+
+  public void outofrange_y()
+  {
+    if(this.gety_front()>= AquaFrame.PANEL_HEIGTH || this.gety_front() < 0){
+      this.setverSpeed(this.getverSpeed()*-1);
+    }
+  }
   
 
   @Override
   public void run() {
-    
-  while(!this.getshutdown()){
-    
-    if(AquaFrame.STATE == "sleeping"){
+    while(!this.getshutdown()){
       
-      synchronized(this) {
-        try {
-          this.wait();
-        } catch (InterruptedException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
+      if(AquaFrame.STATE == "sleeping"){
+        
+        synchronized(this) {
+          try {
+            this.wait();
+          } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
         }
       }
-    }
 
-    try {
-      Thread.sleep(500);
-    } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    
-    if(this.getx_front()>=AquaFrame.PANEL_WIDTH-this.getSize() || this.getx_front()<0){
-      this.sethorSpeed(this.gethorSpeed()* -1);
-      if(this.getx_dir()==1)
-          this.setx_dir(-1);
-      else 
-          this.setx_dir(1);   
-    }
-    this.setx_front(this.getx_front()+this.gethorSpeed());
-
-    if(this.gety_front()>= AquaFrame.PANEL_HEIGTH-this.getSize() || this.gety_front() < 0){
-      this.setverSpeed(this.getverSpeed()*-1);
+      try {
+        Thread.sleep(500);
+      } catch (InterruptedException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
       
+      outofrange_x();
+      this.setx_front(this.getx_front()+this.gethorSpeed());
+
+      outofrange_y();
+        
+      this.sety_front(this.gety_front()+this.getverSpeed()); 
     }
-    this.sety_front(this.gety_front()+this.getverSpeed()); 
-  }
     
   }
 

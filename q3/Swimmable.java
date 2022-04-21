@@ -9,12 +9,12 @@ import java.util.concurrent.CyclicBarrier;
  * @author Daniel Markov ,Anton Volkov 
  */
 public abstract class Swimmable implements Runnable {
-    private int horSpeed;
-    private int verSpeed;
-    private boolean shutdown = false;
-    private CyclicBarrier Foodrace=null;
-    private int center_x;
-    private int center_y;
+    protected int horSpeed;
+    protected int verSpeed;
+    protected boolean shutdown = false;
+    protected CyclicBarrier Foodrace=null;
+    protected int center_x;
+    protected int center_y;
 
 
     /**
@@ -127,6 +127,9 @@ public abstract class Swimmable implements Runnable {
 
     public abstract void run();
 
-    // public abstract void sleep();
-    
+    public abstract void outofrange_x();
+
+    public abstract void outofrange_y();
+
+
 }

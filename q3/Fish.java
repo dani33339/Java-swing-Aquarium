@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Polygon;
 import java.util.concurrent.BrokenBarrierException;
 
+import javax.lang.model.util.ElementScanner14;
 import javax.swing.JPanel;
 
 import part2.AquaFrame;
@@ -299,23 +300,6 @@ public class Fish extends Swimmable {
 
   public void swimtocenter()
   {
-    int distance_x=this.getCenter_x()-x_front;
-    int distance_y=this.getCenter_y()-y_front;
-    while(distance_x==0 && distance_y==0)
-    {
-      if (distance_x!=0)
-        this.x_front+=1;
-      if (distance_y!=0)
-        this.y_front+=1;
-    }
-    this.eatInc();
-    this.Foodrace(null);
-  }
-
-  @Override
-  public void run() {
-
-  while(!this.getshutdown()){
     if (this.getFoodrace()!=null)
     {
       try {
@@ -326,8 +310,92 @@ public class Fish extends Swimmable {
       } catch (BrokenBarrierException e) {
         e.printStackTrace();
       }
-      this.swimtocenter();
+    while(this.getCenter_x()-x_front!=0 && this.getCenter_y()-y_front!=0)
+    {
+      try {
+        Thread.sleep(500);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+
+      // outofrange_x();
+      if (this.getCenter_x()-x_front<0)
+      {
+        if(this.getx_dir()==1)
+        {
+          this.setx_dir(-1); 
+          this.sethorSpeed(this.gethorSpeed()* -1); 
+        }
+        this.setx_front(this.getx_front()+this.gethorSpeed());
+      }
+      if (this.getCenter_x()-x_front>0)
+      {
+        if(this.getx_dir()==-1)
+        {
+          this.setx_dir(1); 
+          this.sethorSpeed(this.gethorSpeed()* -1);
+        }
+        this.setx_front(this.getx_front()+this.gethorSpeed());
+      }
+
+      // outofrange_y();
+      if (this.getCenter_y()-y_front<0)
+      {
+        if(this.getverSpeed()>0)
+          this.setverSpeed(this.getverSpeed()*-1);
+        this.sety_front(this.gety_front()+this.getverSpeed()); 
+      }
+      if (this.getCenter_y()-y_front>0){
+        if(this.getverSpeed()<0)
+          this.setverSpeed(this.getverSpeed()*-1);
+        this.sety_front(this.gety_front()+this.getverSpeed()); 
+      }
     }
+    this.eatInc();
+    this.Foodrace(null);
+  }
+}
+
+
+  public void outofrange_x()
+  {
+    if(this.getx_front()>=AquaFrame.PANEL_WIDTH || this.getx_front()<0){
+      this.sethorSpeed(this.gethorSpeed()* -1);
+      if(this.getx_dir()==1)
+          this.setx_dir(-1);
+      else 
+          this.setx_dir(1);   
+    }
+  }
+
+  public void outofrange_y()
+  {
+    if(this.gety_front()>= AquaFrame.PANEL_HEIGTH || this.gety_front() < 0){
+      this.setverSpeed(this.getverSpeed()*-1);
+    }
+  }
+
+
+
+  @Override
+  public void run() {
+
+  while(!this.getshutdown()){
+     
+    // if (this.getFoodrace()!=null)
+    // {
+    //   try {
+    //     // System.out.println(this.getColor()+" fish is waiting");
+    //     this.getFoodrace().await();
+    //   } catch (InterruptedException e) {
+    //     e.printStackTrace();
+    //   } catch (BrokenBarrierException e) {
+    //     e.printStackTrace();
+    //   }
+
+      // System.out.println(this.getColor()+" fish is ready");
+      this.swimtocenter();
+    // }
    
     if(AquaFrame.STATE == "sleeping"){
       
@@ -348,18 +416,10 @@ public class Fish extends Swimmable {
       e.printStackTrace();
     }
     
-    if(this.getx_front()>=AquaFrame.PANEL_WIDTH || this.getx_front()<0){
-      this.sethorSpeed(this.gethorSpeed()* -1);
-      if(this.getx_dir()==1)
-          this.setx_dir(-1);
-      else 
-          this.setx_dir(1);   
-    }
+    outofrange_x();
     this.setx_front(this.getx_front()+this.gethorSpeed());
 
-    if(this.gety_front()>= AquaFrame.PANEL_HEIGTH || this.gety_front() < 0){
-      this.setverSpeed(this.getverSpeed()*-1);
-    }
+    outofrange_y();
     this.sety_front(this.gety_front()+this.getverSpeed()); 
   }
     

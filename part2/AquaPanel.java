@@ -146,7 +146,7 @@ public class AquaPanel extends JPanel implements ActionListener{
       }
       public void food(){
         try {
-            wormImage = ImageIO.read(new File("D:\\projects\\JAVA\\hw2\\advence-oop2\\part2\\worm.png"));
+            wormImage = ImageIO.read(new File("part2\\worm.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -154,6 +154,18 @@ public class AquaPanel extends JPanel implements ActionListener{
         CyclicBarrier newBarrier = new CyclicBarrier(swimmables.size());
         for (Swimmable swimmable : this.swimmables) {
             swimmable.Foodrace(newBarrier);
+        }
+
+        for (Swimmable swimmable : this.swimmables) {
+            if(swimmable.getFoodrace()==null)
+            {
+                for (Swimmable s : this.swimmables) {
+                    s.Foodrace(null);
+                }
+        }
+
+
+
         }
         
 
