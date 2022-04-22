@@ -94,7 +94,6 @@ public class AquaPanel extends JPanel implements ActionListener{
      */
     public void addswimmables(Swimmable s){
         
-        s.setCenter(getWidth()/2 ,getHeight()/2);
         executorService.execute(s);
         this.swimmables.add(s);
         
@@ -136,11 +135,12 @@ public class AquaPanel extends JPanel implements ActionListener{
 
         for (Swimmable s : swimmables){
             s.drawAnimal(g);
-            s.setpanel(this);
         }
         if (this.wormImage!=null)
         {   
-            g.drawImage(wormImage,getWidth()/2 ,getHeight()/2 ,50, 50, null); 
+            int border_x = AquaFrame.PANEL_WIDTH-15;
+            int border_y= AquaFrame.PANEL_HEIGTH-85;
+            g.drawImage(wormImage,border_x /2 ,border_y/2 ,50, 50, null); 
         }
 
         repaint();
@@ -211,17 +211,6 @@ public class AquaPanel extends JPanel implements ActionListener{
         }
     }
 
-        // for (Swimmable swimmable : this.swimmables) {
-        //     if(swimmable.getFoodrace()==null)
-        //     {
-        //         for (Swimmable s : this.swimmables) {
-        //             s.Foodrace(null);
-        //         }
-        // }
-
-
-
-        // }
 
     public void callback (Swimmable s)
     {

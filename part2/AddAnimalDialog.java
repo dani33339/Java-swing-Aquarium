@@ -157,6 +157,7 @@ public class AddAnimalDialog extends JDialog  implements ActionListener {
 						Fish fish=new Fish(Integer.parseInt(txfsize.getText()), 600, 400,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
 						panel.addswimmables(fish);
 						setVisible(false);
+						fish.setpanel(panel);
 					}
 					else
 					{
@@ -164,6 +165,7 @@ public class AddAnimalDialog extends JDialog  implements ActionListener {
 						Jellyfish Jellyfish=new Jellyfish(Integer.parseInt(txfsize.getText()), 600, 400,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
 						panel.addswimmables(Jellyfish);
 						setVisible(false);
+						Jellyfish.setpanel(panel);
 					}
 				
 				else{

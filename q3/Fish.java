@@ -299,121 +299,7 @@ public class Fish extends Swimmable {
   }
 
 
-    // public void setBarrier1()
-    // {
-    //   callback.RemoveBarrier(this);
-    // }
 
-
-  /** 
-   * this method maekes the fish swim to the center
-   * @param g
-   */
-  public void swimtocenter()
-  {
-    int distance_x = this.getCenter_x()-x_front;
-    int distance_y = this.getCenter_y()-y_front;
-    if (Math.sqrt((distance_y * distance_y) + (distance_x * distance_x)) <= 5)
-    {
-      callback();
-    }
-    else
-    {
-      float angle = (float) Math.atan2(distance_x, distance_y);
-      if (Math.abs(distance_x) != 0)
-      {
-        x_dir = (int) (distance_x/Math.abs(distance_x));
-      }
-      if (Math.abs(distance_y) != 0)
-      {
-        y_dir = (int) (distance_y/Math.abs(distance_y));
-      }
-      y_front += verSpeed * Math.cos(angle);
-      x_front += horSpeed * Math.sin(angle);
-      try {
-        Thread.sleep((int)(10));
-      } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-      if (this.Barrier != null)
-        try {
-          this.Barrier.await();
-        } catch (InterruptedException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        } catch (BrokenBarrierException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-    }
-  }
-    // if (this.Barrier!=null)
-    // {
-    //   try {
-    //     // System.out.println(this.getColor()+" fish is waiting");
-    //     this.Barrier.await();
-    //   } catch (InterruptedException e) {
-    //     e.printStackTrace();
-    //   } catch (BrokenBarrierException e) {
-    //     e.printStackTrace();
-    //   }
-    // if(this.getCenter_x()-x_front!=0 && this.getCenter_y()-y_front!=0 )
-    // {
-    //   System.out.println(this.getCenter_x()-x_front);
-    //   try {
-    //     Thread.sleep(100);
-    //   } catch (InterruptedException e) {
-    //     e.printStackTrace();
-    //   }
-
-    //   // outofrange_x();
-    //   if (this.getCenter_x()-x_front<0)
-    //   {
-    //     if(this.getx_dir()==1)
-    //     {
-    //       this.setx_dir(-1); 
-    //       this.sethorSpeed(this.gethorSpeed()* -1); 
-    //     }
-    //     this.setx_front(this.getx_front()+this.gethorSpeed());
-    //   }
-    //   if (this.getCenter_x()-x_front>0)
-    //   {
-    //     if(this.getx_dir()==-1)
-    //     {
-    //       this.setx_dir(1); 
-    //       this.sethorSpeed(this.gethorSpeed()* -1);
-    //     }
-    //     this.setx_front(this.getx_front()+this.gethorSpeed());
-    //   }
-
-    //   // outofrange_y();
-    //   if (this.getCenter_y()-y_front<0)
-    //   {
-    //     if(this.getverSpeed()>0)
-    //       this.setverSpeed(this.getverSpeed()*-1);
-    //     this.sety_front(this.gety_front()+this.getverSpeed()); 
-    //   }
-    //   if (this.getCenter_y()-y_front>0){
-    //     if(this.getverSpeed()<0)
-    //       this.setverSpeed(this.getverSpeed()*-1);
-    //     this.sety_front(this.gety_front()+this.getverSpeed()); 
-    //   }
-      // if (Barrier!=null)
-      //   try {
-      //     Barrier.await();
-      //   } catch (InterruptedException e) {
-      //     e.printStackTrace();
-      //   } catch (BrokenBarrierException e) {
-      //     e.printStackTrace();
-      //   }
-  //   }
-  //   else
-  //   {
-  //     this.callback();
-  //   }
-  // }
-// }
 
   /** 
    * this method maekes the fish turn around if the fish got to the border in the X-axis
@@ -442,53 +328,91 @@ public class Fish extends Swimmable {
   /** 
    * this method run's the fish thread
    */
-  public void run() {
+  public void run()
+	{
+		float angle;
+		int distance_x, distance_y;
+    int border_x = AquaFrame.PANEL_WIDTH-15;
+    int border_y= AquaFrame.PANEL_HEIGTH-85;
+		synchronized(this)
+		{
+			int speed_x = horSpeed, speed_y = verSpeed;
+			while(!this.getshutdown())
+			{
+				if (Barrier == null)
+				{
+					x_front += speed_x;
+					y_front += speed_y;
+					if (x_front > border_x || x_front < 0)
+					{
+            System.out.println(border_x);
+            System.out.println(border_y);
 
-  while(!this.getshutdown()){
-     
-    if (this.Barrier!=null)
-    {
-      try {
-        // System.out.println(this.getColor()+" fish is waiting");
-        this.Barrier.await();
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      } catch (BrokenBarrierException e) {
-        e.printStackTrace();
-      }
-
-      // System.out.println(this.getColor()+" fish is ready");
-      // if (this.getFoodrace()!=null)
-    this.swimtocenter();
-    // System.out.println(this.getColor()+" i am out");
-    }
-   
-    if(AquaFrame.STATE == "sleeping"){
+						if (x_front > border_x)
+						{
+							x_front -= (size + size/4);
+						}
+						if (x_front < 0)
+						{
+							x_front += (size + size/4);
+						}
+						speed_x = -speed_x;
+					}
+					if (y_front - size/4 < 0 || y_front + size/4 > border_y)
+					{
+						speed_y = -speed_y;
+					}
+					x_dir = speed_x/Math.abs(speed_x);
+					y_dir = speed_y/Math.abs(speed_y);
+          if(AquaFrame.STATE == "sleeping"){
       
-      synchronized(this) {
-        try {
-          this.wait();
-        } catch (InterruptedException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-      }
-    }
-
-    try {
-      Thread.sleep(5);
-    } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    
-    outofrange_x();
-    this.setx_front(this.getx_front()+this.gethorSpeed());
-
-    outofrange_y();
-    this.sety_front(this.gety_front()+this.getverSpeed()); 
-  }
-    
-  }
+            synchronized(this) {
+              try {
+                this.wait();
+                } catch (InterruptedException e) {
+                  e.printStackTrace();
+                 }
+               }
+            }
+					try 
+					{
+			            Thread.sleep((int)(10));
+			        } catch (InterruptedException e) {}
+				}
+				else
+				{
+					try {
+						distance_x = border_x/2 - x_front;
+						distance_y = border_y/2 - y_front;
+						if (Math.sqrt((distance_y * distance_y) + (distance_x * distance_x)) <= 5)
+						{
+							this.callback();
+						}
+						else
+						{
+							angle = (float) Math.atan2(distance_x, distance_y);
+							if (Math.abs(distance_x) != 0)
+							{
+								x_dir = (int) (distance_x/Math.abs(distance_x));
+							}
+							if (Math.abs(distance_y) != 0)
+							{
+								y_dir = (int) (distance_y/Math.abs(distance_y));
+							}
+							y_front += verSpeed * Math.cos(angle);
+							x_front += horSpeed * Math.sin(angle);
+							Thread.sleep((int)(10));
+							if (Barrier != null)
+								Barrier.await();
+						}
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} catch (BrokenBarrierException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
 }
 

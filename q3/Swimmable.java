@@ -15,8 +15,6 @@ public abstract class Swimmable implements Runnable {
     protected int verSpeed;
     protected boolean shutdown = false;
     protected CyclicBarrier Barrier=null;
-    protected int center_x;
-    protected int center_y;
     protected AquaPanel panel=null;
 
     /**
@@ -92,39 +90,6 @@ public abstract class Swimmable implements Runnable {
      */
     public void setBarrier(CyclicBarrier Barrier) {
         this.Barrier=Barrier;
-    }
-
-    
-    /** 
-     * set center of the panel
-     * @param x
-     * @param y
-     */
-    public void setCenter (int x,int y)
-    {
-        this.center_x=x;
-        this.center_y=y;
-    }
-
-    
-    
-    /** 
-     * get center x cordinate
-     * @return int
-     */
-    public int getCenter_x ()
-    {
-        return this.center_x;
-    }
-
-    
-    /** 
-     * get center y cordinate
-     * @return int
-     */
-    public int getCenter_y ()
-    {
-        return this.center_y;
     }
 
     public void setpanel(AquaPanel panel)
