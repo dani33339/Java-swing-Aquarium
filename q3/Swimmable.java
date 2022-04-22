@@ -2,6 +2,8 @@ package q3;
 
 import java.awt.Graphics;
 import java.util.concurrent.CyclicBarrier;
+
+import part2.AquaPanel;
 /**
  * class  Swimmable:
  * this calss is the bais of the all calsses we have is q3
@@ -15,7 +17,7 @@ public abstract class Swimmable implements Runnable {
     protected CyclicBarrier Barrier=null;
     protected int center_x;
     protected int center_y;
-
+    protected AquaPanel panel=null;
 
     /**
 	* this method is a default constructor method to build a new Swimmable .
@@ -123,6 +125,22 @@ public abstract class Swimmable implements Runnable {
     public int getCenter_y ()
     {
         return this.center_y;
+    }
+
+    public void setpanel(AquaPanel panel)
+    {
+        this.panel=panel;
+    }
+
+    public AquaPanel getpanel()
+    {
+        return this.panel;
+    }
+
+    public void callback ()
+    {
+        
+        panel.callback(this);
     }
 
     public abstract String getAnimalName();

@@ -48,6 +48,7 @@ public class AquaPanel extends JPanel implements ActionListener{
     private BufferedImage wormImage=null;
     private boolean BackgroundeImageStatus=false;
     public static ExecutorService executorService = Executors.newFixedThreadPool(5);
+    CyclicBarrier Barrier=null;
         
      
 	/**
@@ -135,6 +136,7 @@ public class AquaPanel extends JPanel implements ActionListener{
 
         for (Swimmable s : swimmables){
             s.drawAnimal(g);
+            s.setpanel(this);
         }
         if (this.wormImage!=null)
         {   
@@ -194,21 +196,20 @@ public class AquaPanel extends JPanel implements ActionListener{
      * feed the fish
      */
       public void food(){
-        try {
-            wormImage = ImageIO.read(new File("part2\\worm.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        if (Barrier==null && this.getswimmablessize()>0)
+        {
+            try {
+                wormImage = ImageIO.read(new File("part2\\worm.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        CyclicBarrier newBarrier = new CyclicBarrier(swimmables.size());
-        for (Swimmable swimmable : this.swimmables) {
-            swimmable.setBarrier(newBarrier);
+            Barrier=new CyclicBarrier(swimmables.size());
+            for (Swimmable swimmable : this.swimmables) {
+                swimmable.setBarrier(Barrier);
+            }
         }
-
-        for (Swimmable swimmable : this.swimmables) {
-            if (swimmable.getBarrier()==null)
-                callback();
-        }
+    }
 
         // for (Swimmable swimmable : this.swimmables) {
         //     if(swimmable.getFoodrace()==null)
@@ -221,19 +222,18 @@ public class AquaPanel extends JPanel implements ActionListener{
 
 
         // }
-        
 
-      }
+    public void callback (Swimmable s)
+    {
+        s.eatInc();
+        Barrier=null;
+        for (Swimmable i : swimmables) 
+        {
+            i.setBarrier(null);
+        }
+        wormImage=null;
+    } 
 
-    /** 
-     * reset the CyclicBarrier
-     */
-      public void callback ()
-      {
-        for (Swimmable swimmable : this.swimmables) {
-            swimmable.setBarrier(null);
-      }
-    }
  
      /** 
      * create and Show info table
@@ -308,6 +308,22 @@ public class AquaPanel extends JPanel implements ActionListener{
      else if(e.getSource() == b_num[6])  
         Exit();
     }
+
+    // public class callback {
+    //     callback(){}
+
+    //     public void RemoveBarrier(Swimmable s)
+    //     {
+    //         s.eatInc();
+    //         for (Swimmable i : swimmables) 
+    //         {
+    //             i.setBarrier(null);
+    //         }
+    //         wormImage=null;
+    //     }
+        
+    // }
  
-    
 }
+
+

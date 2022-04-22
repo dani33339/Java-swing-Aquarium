@@ -91,8 +91,7 @@ public class AquaFrame extends JFrame implements ActionListener{
         f.setResizable(true);
         
         f.pack();
-        } 
-    
+        }     
     
     /** 
      *Perform the action selected (help,Blue,image,none,exit)
