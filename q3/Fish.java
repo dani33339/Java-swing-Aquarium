@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Polygon;
 import java.util.concurrent.BrokenBarrierException;
 
-import javax.lang.model.util.ElementScanner14;
+
 import javax.swing.JPanel;
 
 import part2.AquaFrame;
@@ -108,17 +108,6 @@ public class Fish extends Swimmable {
         return color;
     }
 
-    public void setx_dir(int x){
-      this.x_dir = x;
-    }
-
-    public  void setx_front(int x){
-      this.x_front = x;
-    }
-
-    public  void sety_front(int y){
-      this.y_front = y;
-    }
 
 
     /**
@@ -298,33 +287,6 @@ public class Fish extends Swimmable {
    }
   }
 
-
-
-
-  /** 
-   * this method maekes the fish turn around if the fish got to the border in the X-axis
-   */
-  public void outofrange_x()
-  {
-    if(this.getx_front()>=AquaFrame.PANEL_WIDTH || this.getx_front()<0){
-      this.sethorSpeed(this.gethorSpeed()* -1);
-      if(this.getx_dir()==1)
-          this.setx_dir(-1);
-      else 
-          this.setx_dir(1);   
-    }
-  }
-
-  /** 
-   * this method maekes the fish turn around if the fish got to the border in the y-axis
-   */
-  public void outofrange_y()
-  {
-    if(this.gety_front()>= AquaFrame.PANEL_HEIGTH || this.gety_front() < 0){
-      this.setverSpeed(this.getverSpeed()*-1);
-    }
-  }
-
   /** 
    * this method run's the fish thread
    */
@@ -332,8 +294,8 @@ public class Fish extends Swimmable {
 	{
 		float angle;
 		int distance_x, distance_y;
-    int border_x = AquaFrame.PANEL_WIDTH-15;
-    int border_y= AquaFrame.PANEL_HEIGTH-85;
+    int border_x = AquaFrame.PANEL_WIDTH-size;
+    int border_y= AquaFrame.PANEL_HEIGTH-size;
 		synchronized(this)
 		{
 			int speed_x = horSpeed, speed_y = verSpeed;
@@ -345,9 +307,6 @@ public class Fish extends Swimmable {
 					y_front += speed_y;
 					if (x_front > border_x || x_front < 0)
 					{
-            System.out.println(border_x);
-            System.out.println(border_y);
-
 						if (x_front > border_x)
 						{
 							x_front -= (size + size/4);
@@ -376,7 +335,7 @@ public class Fish extends Swimmable {
             }
 					try 
 					{
-			            Thread.sleep((int)(10));
+			            Thread.sleep((int)(100));
 			        } catch (InterruptedException e) {}
 				}
 				else
@@ -401,7 +360,7 @@ public class Fish extends Swimmable {
 							}
 							y_front += verSpeed * Math.cos(angle);
 							x_front += horSpeed * Math.sin(angle);
-							Thread.sleep((int)(10));
+							Thread.sleep((int)(100));
 							if (Barrier != null)
 								Barrier.await();
 						}

@@ -128,19 +128,11 @@ public abstract class Swimmable implements Runnable {
 
     public abstract int gety_front();
 
-    public abstract void setx_front(int x);
-
-    public abstract void sety_front(int y);
-
-    public abstract void setx_dir(int x);
-
     public abstract int getx_dir();
 
     public abstract void run();
 
-    public abstract void outofrange_x();
-
-    public abstract void outofrange_y();
+    
 
 
 }

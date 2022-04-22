@@ -1,6 +1,7 @@
 package q3;
 import java.awt.Graphics;
 import java.text.DateFormat.Field;
+import java.util.concurrent.BrokenBarrierException;
 
 import part2.AquaFrame;
 
@@ -247,76 +248,91 @@ public class Jellyfish extends Swimmable {
     g.drawLine(x_front - size/2 + size/numLegs + size*i/(numLegs+1), y_front, x_front - size/2 + size/numLegs + size*i/(numLegs+1), y_front+size/3);
   }
 
-  /** 
-   * this method maekes the jellyfish turn around if the jellyfish got to the border in the X-axis
-   */
-  public void outofrange_x()
-  {
-    if(this.getx_front()>=AquaFrame.PANEL_WIDTH-this.getSize() || this.getx_front()<0){
-      this.sethorSpeed(this.gethorSpeed()* -1); 
-    }
-  }
-
-  /** 
-   * this method maekes the jellyfish turn around if the jellyfish got to the border in the y-axis
-   */
-  public void outofrange_y()
-  {
-    if(this.gety_front()>= AquaFrame.PANEL_HEIGTH || this.gety_front() < 0){
-      this.setverSpeed(this.getverSpeed()*-1);
-    }
-  }
-  
 
   /** 
    * this method run's the fish thread
    */
   public void run() {
-    while(!this.getshutdown()){
+		float angle;
+		int distance_x, distance_y;
+    int border_x = AquaFrame.PANEL_WIDTH-size;
+    int border_y= AquaFrame.PANEL_HEIGTH-size;
+		synchronized(this)
+		{
+			int speed_x = horSpeed, speed_y = verSpeed;
+			while(!this.getshutdown())
+			{
+				if (Barrier == null)
+				{
+					x_front += speed_x;
+					y_front += speed_y;
+					if (x_front > border_x || x_front < 0)
+					{
+						if (x_front > border_x)
+						{
+							x_front -= (size + size/4);
+						}
+						if (x_front < 0)
+						{
+							x_front += (size + size/4);
+						}
+						speed_x = -speed_x;
+					}
+					if (y_front - size/4 < 0 || y_front + size/4 > border_y)
+					{
+						speed_y = -speed_y;
+					}
+					x_dir = speed_x/Math.abs(speed_x);
+					y_dir = speed_y/Math.abs(speed_y);
+          if(AquaFrame.STATE == "sleeping"){
       
-      if(AquaFrame.STATE == "sleeping"){
-        
-        synchronized(this) {
-          try {
-            this.wait();
-          } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-          }
-        }
-      }
-
-      try {
-        Thread.sleep(500);
-      } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-      
-      outofrange_x();
-      this.setx_front(this.getx_front()+this.gethorSpeed());
-
-      outofrange_y();
-        
-      this.sety_front(this.gety_front()+this.getverSpeed()); 
-    }
-    
-  }
-
-  @Override
-  public void setx_front(int x) {
-    this.x_front = x;
-    
-  }
-
-  @Override
-  public void sety_front(int y) {
-    this.y_front = y;
-  }
-
-  @Override
-  public void setx_dir(int x) {
-    this.x_dir = x;
-  }
+            synchronized(this) {
+              try {
+                this.wait();
+                } catch (InterruptedException e) {
+                  e.printStackTrace();
+                 }
+               }
+            }
+					try 
+					{
+			            Thread.sleep((int)(100));
+			        } catch (InterruptedException e) {}
+				}
+				else
+				{
+					try {
+						distance_x = border_x/2 - x_front;
+						distance_y = border_y/2 - y_front;
+						if (Math.sqrt((distance_y * distance_y) + (distance_x * distance_x)) <= 5)
+						{
+							this.callback();
+						}
+						else
+						{
+							angle = (float) Math.atan2(distance_x, distance_y);
+							if (Math.abs(distance_x) != 0)
+							{
+								x_dir = (int) (distance_x/Math.abs(distance_x));
+							}
+							if (Math.abs(distance_y) != 0)
+							{
+								y_dir = (int) (distance_y/Math.abs(distance_y));
+							}
+							y_front += verSpeed * Math.cos(angle);
+							x_front += horSpeed * Math.sin(angle);
+							Thread.sleep((int)(100));
+							if (Barrier != null)
+								Barrier.await();
+						}
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} catch (BrokenBarrierException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
 
 }

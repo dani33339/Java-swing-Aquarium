@@ -123,7 +123,7 @@ public class AquaPanel extends JPanel implements ActionListener{
         if (BackgroundeImageStatus==true)
         {
         try {
-            img = ImageIO.read(new URL ("https://www.ubuy.com.tr/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvODFsbzVaTGJiOUwuX0FDX1NMMTUwMF8uanBn.jpg"));
+            img = ImageIO.read(new File ("part2//aquarium.jpg"));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
