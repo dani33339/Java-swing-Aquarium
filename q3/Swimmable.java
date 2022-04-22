@@ -12,7 +12,7 @@ public abstract class Swimmable implements Runnable {
     protected int horSpeed;
     protected int verSpeed;
     protected boolean shutdown = false;
-    protected CyclicBarrier Foodrace=null;
+    protected CyclicBarrier Barrier=null;
     protected int center_x;
     protected int center_y;
 
@@ -68,18 +68,36 @@ public abstract class Swimmable implements Runnable {
     */
     public int getverSpeed(){return this.verSpeed;}
 
+    /**
+    * return shutdown
+    * @return int
+    */
     public boolean getshutdown() {return this.shutdown;}
 
+    /**
+    * set shutdown to true
+    */
     public void shutdown() {
         this.shutdown = true;
     }
 
-    public CyclicBarrier getFoodrace() {return this.Foodrace;}
+    public CyclicBarrier getBarrier() {return this.Barrier;}
 
-    public void Foodrace(CyclicBarrier Foodrace) {
-        this.Foodrace=Foodrace;
+    
+    /** 
+     * set Barrier
+     * @param Barrier
+     */
+    public void setBarrier(CyclicBarrier Barrier) {
+        this.Barrier=Barrier;
     }
 
+    
+    /** 
+     * set center of the panel
+     * @param x
+     * @param y
+     */
     public void setCenter (int x,int y)
     {
         this.center_x=x;
@@ -87,11 +105,21 @@ public abstract class Swimmable implements Runnable {
     }
 
     
+    
+    /** 
+     * get center x cordinate
+     * @return int
+     */
     public int getCenter_x ()
     {
         return this.center_x;
     }
 
+    
+    /** 
+     * get center y cordinate
+     * @return int
+     */
     public int getCenter_y ()
     {
         return this.center_y;

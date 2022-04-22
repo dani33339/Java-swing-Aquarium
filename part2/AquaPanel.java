@@ -30,6 +30,12 @@ import java.awt.image.BufferedImage;
 
 import q3.*;
 
+/**
+ * class AquaPanel:
+ * JPanel of aquarium
+ * 
+ * @author Daniel Markov ,Anton Volkov 
+ */
 public class AquaPanel extends JPanel implements ActionListener{
     private AquaFrame frame;
     private JPanel p1;
@@ -44,7 +50,10 @@ public class AquaPanel extends JPanel implements ActionListener{
     public static ExecutorService executorService = Executors.newFixedThreadPool(5);
         
      
-
+	/**
+	* this method is a constructor method to build a new AquaPanel .
+    * @param AquaFrame -AquaFrame of the parent
+	*/
     public AquaPanel(AquaFrame f) {
          frame = f;
          setBackground(new Color(255,255,255));
@@ -65,25 +74,47 @@ public class AquaPanel extends JPanel implements ActionListener{
 
     }
 
+    /**
+    * return HashSet<Swimmable> of panel
+    * @return HashSet<Swimmable>
+    */
     public HashSet<Swimmable> getswimmables(){return swimmables;}
     
+    /**
+    * return size of swimmables
+    * @return int
+    */
     public int getswimmablessize(){return swimmables.size();}
 
+    
+    /** 
+     * add swimmable to the hashset
+     * @param s
+     */
     public void addswimmables(Swimmable s){
         
         s.setCenter(getWidth()/2 ,getHeight()/2);
         executorService.execute(s);
         this.swimmables.add(s);
         
-        }
+    }
 
-    public void changeimagestatus(){
+
+    /** 
+     * change image Background status
+     */
+    public void changeBackgroundimagestatus(){
 
         this.BackgroundeImageStatus= !this.BackgroundeImageStatus;
     }
 
     public boolean getimagestatus(){return this.BackgroundeImageStatus;};
 
+    
+    /** 
+     * paint the Component
+     * @param g
+     */
     public void paintComponent(Graphics g)
     {    
         super.paintComponent(g);
@@ -113,17 +144,25 @@ public class AquaPanel extends JPanel implements ActionListener{
         repaint();
     }
     
+        
+    /** 
+     * create a AddAnimalDialog
+     */
     public void AddAnimal(){
-        AnimalDialog dial = new AnimalDialog(frame,this,"Create post system");
+        AddAnimalDialog dial = new AddAnimalDialog(frame,this,"Create post system");
         dial.setVisible(true);
     }
 
+    /** 
+     * stop the threads
+     */
     public  void Sleep() {
         AquaFrame.STATE = "sleeping"; 
     }
     
-    
-
+     /** 
+     * wake up the threads
+     */
      public void Wakeup() {
         AquaFrame.STATE = "swiming";
         for (Swimmable swimmable : this.swimmables) {
@@ -133,6 +172,9 @@ public class AquaPanel extends JPanel implements ActionListener{
         }
     }
  
+     /** 
+     * reset the panel from swimibles
+     */
       public void Reset () {
           //stop all threads.
         for (Swimmable swimmable : this.swimmables) {
@@ -141,9 +183,16 @@ public class AquaPanel extends JPanel implements ActionListener{
         this.swimmables.clear();
     }
 
+     /** 
+     * shutdown the threads
+     */
       public void Close(){
         this.executorService.shutdown();
       }
+
+    /** 
+     * feed the fish
+     */
       public void food(){
         try {
             wormImage = ImageIO.read(new File("part2\\worm.png"));
@@ -153,28 +202,43 @@ public class AquaPanel extends JPanel implements ActionListener{
 
         CyclicBarrier newBarrier = new CyclicBarrier(swimmables.size());
         for (Swimmable swimmable : this.swimmables) {
-            swimmable.Foodrace(newBarrier);
+            swimmable.setBarrier(newBarrier);
         }
 
         for (Swimmable swimmable : this.swimmables) {
-            if(swimmable.getFoodrace()==null)
-            {
-                for (Swimmable s : this.swimmables) {
-                    s.Foodrace(null);
-                }
+            if (swimmable.getBarrier()==null)
+                callback();
         }
 
+        // for (Swimmable swimmable : this.swimmables) {
+        //     if(swimmable.getFoodrace()==null)
+        //     {
+        //         for (Swimmable s : this.swimmables) {
+        //             s.Foodrace(null);
+        //         }
+        // }
 
 
-        }
+
+        // }
         
 
       }
- 
-      
-     public void Info () {
-        
 
+    /** 
+     * reset the CyclicBarrier
+     */
+      public void callback ()
+      {
+        for (Swimmable swimmable : this.swimmables) {
+            swimmable.setBarrier(null);
+      }
+    }
+ 
+     /** 
+     * create and Show info table
+     */     
+     public void Info () {
         if(isTable2Visible == true) {
             this.Wakeup();
             scrollPane.setVisible(false);
@@ -213,7 +277,9 @@ public class AquaPanel extends JPanel implements ActionListener{
         
      }
      
-    
+    /** 
+     * close the threads and exit
+     */    
     public void Exit() {
         this.Close();
         System.exit(0);
@@ -221,6 +287,11 @@ public class AquaPanel extends JPanel implements ActionListener{
  
     
     
+    
+    /** 
+     * Perform the action selected (AddAnimal,Sleep,Wakeup,Reset,food,Info,Exit)
+     * @param e
+     */
     public void actionPerformed(ActionEvent e) {
      if(e.getSource() == b_num[0]) 
         AddAnimal();

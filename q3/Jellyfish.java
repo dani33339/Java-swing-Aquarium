@@ -247,7 +247,9 @@ public class Jellyfish extends Swimmable {
     g.drawLine(x_front - size/2 + size/numLegs + size*i/(numLegs+1), y_front, x_front - size/2 + size/numLegs + size*i/(numLegs+1), y_front+size/3);
   }
 
-
+  /** 
+   * this method maekes the jellyfish turn around if the jellyfish got to the border in the X-axis
+   */
   public void outofrange_x()
   {
     if(this.getx_front()>=AquaFrame.PANEL_WIDTH-this.getSize() || this.getx_front()<0){
@@ -255,6 +257,9 @@ public class Jellyfish extends Swimmable {
     }
   }
 
+  /** 
+   * this method maekes the jellyfish turn around if the jellyfish got to the border in the y-axis
+   */
   public void outofrange_y()
   {
     if(this.gety_front()>= AquaFrame.PANEL_HEIGTH || this.gety_front() < 0){
@@ -263,7 +268,9 @@ public class Jellyfish extends Swimmable {
   }
   
 
-  @Override
+  /** 
+   * this method run's the fish thread
+   */
   public void run() {
     while(!this.getshutdown()){
       

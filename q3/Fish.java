@@ -298,19 +298,23 @@ public class Fish extends Swimmable {
    }
   }
 
+  /** 
+   * this method maekes the fish swim to the center
+   * @param g
+   */
   public void swimtocenter()
   {
-    if (this.getFoodrace()!=null)
+    if (this.Barrier!=null)
     {
       try {
         // System.out.println(this.getColor()+" fish is waiting");
-        this.getFoodrace().await();
+        this.Barrier.await();
       } catch (InterruptedException e) {
         e.printStackTrace();
       } catch (BrokenBarrierException e) {
         e.printStackTrace();
       }
-    while(this.getCenter_x()-x_front!=0 && this.getCenter_y()-y_front!=0)
+    while(this.getCenter_x()-x_front!=0 && this.getCenter_y()-y_front!=0 )
     {
       try {
         Thread.sleep(500);
@@ -352,11 +356,13 @@ public class Fish extends Swimmable {
       }
     }
     this.eatInc();
-    this.Foodrace(null);
+    this.Barrier=null;
   }
 }
 
-
+  /** 
+   * this method maekes the fish turn around if the fish got to the border in the X-axis
+   */
   public void outofrange_x()
   {
     if(this.getx_front()>=AquaFrame.PANEL_WIDTH || this.getx_front()<0){
@@ -368,6 +374,9 @@ public class Fish extends Swimmable {
     }
   }
 
+  /** 
+   * this method maekes the fish turn around if the fish got to the border in the y-axis
+   */
   public void outofrange_y()
   {
     if(this.gety_front()>= AquaFrame.PANEL_HEIGTH || this.gety_front() < 0){
@@ -375,9 +384,9 @@ public class Fish extends Swimmable {
     }
   }
 
-
-
-  @Override
+  /** 
+   * this method run's the fish thread
+   */
   public void run() {
 
   while(!this.getshutdown()){

@@ -1,6 +1,5 @@
 package part2;
 import q3.*;
-import part2.AquaPanel;
 import java.awt.*;
 
 import javax.swing.JButton;
@@ -15,10 +14,14 @@ import javax.swing.JTextField;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
 
-
-public class AnimalDialog extends JDialog  implements ActionListener {
+/**
+ * class  AddAnimalDialog:
+ * JDialog that add's a fish
+ * 
+ * @author Daniel Markov ,Anton Volkov 
+ */
+public class AddAnimalDialog extends JDialog  implements ActionListener {
 	public JFrame f;  
 	private static final long serialVersionUID = 1L;
 	private JPanel p1,p2;
@@ -29,7 +32,13 @@ public class AnimalDialog extends JDialog  implements ActionListener {
     private JSlider sl_Horizontal, s2_Vertical;
     private AquaPanel panel;
  
-    public AnimalDialog(AquaFrame parent, AquaPanel pan, String title) {
+	/**
+	* this method is a constructor method to build a new AddAnimalDialog .
+    * @param AquaFrame -AquaFrame of the parent
+    * @param pan - AquaPanel parent
+	* @param title - title of the AddAnimalDialog
+	*/
+    public AddAnimalDialog(AquaFrame parent, AquaPanel pan, String title) {
     	super((AquaFrame)parent,title,true);
     	panel = pan;
 
@@ -95,6 +104,11 @@ public class AnimalDialog extends JDialog  implements ActionListener {
 		add("South" , p2);
     }
 
+	
+	/** 
+	 * convert color in colorbox to a color number 1-9
+	 * @return int
+	 */
 	public int getColorint()
     {
         int color = 1;
@@ -131,6 +145,7 @@ public class AnimalDialog extends JDialog  implements ActionListener {
     }
 	
 	/** 
+	 * Perform the action selected (add or cencel)
 	 * @param e
 	 */
 	public void actionPerformed(ActionEvent e) {

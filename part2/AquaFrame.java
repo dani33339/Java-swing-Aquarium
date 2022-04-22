@@ -19,7 +19,12 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 
 
-
+/**
+ * class AquaFrame:
+ * Jframe of aquarium
+ * 
+ * @author Daniel Markov ,Anton Volkov 
+ */
 public class AquaFrame extends JFrame implements ActionListener{
     private AquaPanel panel;
     public final static int PANEL_WIDTH = 800;
@@ -35,7 +40,9 @@ public class AquaFrame extends JFrame implements ActionListener{
     // Menu items
     JMenuItem Exit, Image, Blue, None, help;
   
-    // create a frame
+    /**
+	* this method is a constructor method to build a new AquaFrame
+	*/
     public AquaFrame(){   
 	    panel = new AquaPanel(this);
 
@@ -85,7 +92,12 @@ public class AquaFrame extends JFrame implements ActionListener{
         
         f.pack();
         } 
-    @Override
+    
+    
+    /** 
+     *Perform the action selected (help,Blue,image,none,exit)
+     * @param e
+     */
     public void actionPerformed(ActionEvent e) 
     {
         if(e.getSource()==help)
@@ -96,20 +108,20 @@ public class AquaFrame extends JFrame implements ActionListener{
             //remove image if it exit's
 
             if(panel.getimagestatus())
-                panel.changeimagestatus();
+                panel.changeBackgroundimagestatus();
             panel.setBackground(Color.blue);
         }
         
         if(e.getSource()==Image)
         {
             if(!panel.getimagestatus())
-                panel.changeimagestatus();
+                panel.changeBackgroundimagestatus();
         }
         if(e.getSource()==None)
         {
             //remove image if it exit's
             if(panel.getimagestatus())
-                panel.changeimagestatus();
+                panel.changeBackgroundimagestatus();
             panel.setBackground(Color.white);
         }
 
@@ -127,6 +139,12 @@ public class AquaFrame extends JFrame implements ActionListener{
 
     }
         
+    
+    /** 
+     * main function
+     * create AquaFrame frame
+     * @param args
+     */
     public static void main(String[] args) {  
 
         AquaFrame fr = new AquaFrame();
