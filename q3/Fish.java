@@ -3,13 +3,7 @@ import java.awt.Graphics;
 import java.awt.Color; 
 import java.awt.Polygon;
 import java.util.concurrent.BrokenBarrierException;
-
-
-import javax.swing.JPanel;
-
 import part2.AquaFrame;
-import part2.AquaPanel;
-
 import java.awt.Graphics2D;
 import  java.awt.BasicStroke;
 
@@ -107,8 +101,6 @@ public class Fish extends Swimmable {
         }
         return color;
     }
-
-
 
     /**
     * return name of fish
@@ -294,8 +286,8 @@ public class Fish extends Swimmable {
 	{
 		float angle;
 		int distance_x, distance_y;
-    int border_x = AquaFrame.PANEL_WIDTH-size;
-    int border_y= AquaFrame.PANEL_HEIGTH-size;
+    int border_x = AquaFrame.PANEL_WIDTH-15;
+    int border_y= AquaFrame.PANEL_HEIGTH-85;
 		synchronized(this)
 		{
 			int speed_x = horSpeed, speed_y = verSpeed;

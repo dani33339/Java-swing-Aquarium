@@ -92,19 +92,31 @@ public abstract class Swimmable implements Runnable {
         this.Barrier=Barrier;
     }
 
+    
+    /** 
+     * set the panel for the fish
+     * @param panel
+     */
     public void setpanel(AquaPanel panel)
     {
         this.panel=panel;
     }
 
+    
+    /** 
+     * get the panel of the fish
+     * @return AquaPanel
+     */
     public AquaPanel getpanel()
     {
         return this.panel;
     }
 
+    /** 
+     * call callback function of the panel in order to stop the barrier and feed the fish
+     */ 
     public void callback ()
-    {
-        
+    {  
         panel.callback(this);
     }
 

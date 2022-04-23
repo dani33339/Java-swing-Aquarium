@@ -1,28 +1,19 @@
 package part2;
-import part2.AquaFrame;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashSet;
 import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import java.awt.Graphics;
 
@@ -183,6 +174,8 @@ public class AquaPanel extends JPanel implements ActionListener{
             swimmable.shutdown();
         }
         this.swimmables.clear();
+        wormImage=null;
+        Barrier=null;
     }
 
      /** 
@@ -212,6 +205,11 @@ public class AquaPanel extends JPanel implements ActionListener{
     }
 
 
+    
+    /** 
+     * lift's the Barrier and gives the food to the fish
+     * @param s
+     */
     public void callback (Swimmable s)
     {
         s.eatInc();
@@ -272,10 +270,7 @@ public class AquaPanel extends JPanel implements ActionListener{
     public void Exit() {
         this.Close();
         System.exit(0);
-    }
- 
-    
-    
+    } 
     
     /** 
      * Perform the action selected (AddAnimal,Sleep,Wakeup,Reset,food,Info,Exit)
@@ -297,21 +292,6 @@ public class AquaPanel extends JPanel implements ActionListener{
      else if(e.getSource() == b_num[6])  
         Exit();
     }
-
-    // public class callback {
-    //     callback(){}
-
-    //     public void RemoveBarrier(Swimmable s)
-    //     {
-    //         s.eatInc();
-    //         for (Swimmable i : swimmables) 
-    //         {
-    //             i.setBarrier(null);
-    //         }
-    //         wormImage=null;
-    //     }
-        
-    // }
  
 }
 

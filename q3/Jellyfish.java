@@ -255,8 +255,8 @@ public class Jellyfish extends Swimmable {
   public void run() {
 		float angle;
 		int distance_x, distance_y;
-    int border_x = AquaFrame.PANEL_WIDTH-size;
-    int border_y= AquaFrame.PANEL_HEIGTH-size;
+    int border_x = AquaFrame.PANEL_WIDTH-30;
+    int border_y= AquaFrame.PANEL_HEIGTH-85;
 		synchronized(this)
 		{
 			int speed_x = horSpeed, speed_y = verSpeed;

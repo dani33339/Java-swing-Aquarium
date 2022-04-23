@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 /**
  * class  AddAnimalDialog:
@@ -151,26 +152,30 @@ public class AddAnimalDialog extends JDialog  implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == add){
 			if(panel.getswimmablessize()<5){
-				if (Integer.parseInt(txfsize.getText())>=20 && Integer.parseInt(txfsize.getText())<=320)
+				System.out.println(txfsize.getText().isBlank());
+				if (txfsize.getText().isBlank()|| Integer.parseInt(txfsize.getText())>320 || Integer.parseInt(txfsize.getText())<20)
+				{
+
+					f=new JFrame();  
+					JOptionPane.showMessageDialog(f,"The size have to be from 20 to 320");  
+				}
+				else{
+					Random rand = new Random();
+					int rand_x = rand.nextInt(100,600);
+					int rand_y = rand.nextInt(100,400);
+					Swimmable s;
 					if (typeComboBox.getSelectedItem().toString()=="Fish")
 					{
-						Fish fish=new Fish(Integer.parseInt(txfsize.getText()), 600, 400,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
-						panel.addswimmables(fish);
-						setVisible(false);
-						fish.setpanel(panel);
+						s=new Fish(Integer.parseInt(txfsize.getText()), rand_x, rand_y,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
 					}
 					else
 					{
 						
-						Jellyfish Jellyfish=new Jellyfish(Integer.parseInt(txfsize.getText()), 600, 400,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
-						panel.addswimmables(Jellyfish);
-						setVisible(false);
-						Jellyfish.setpanel(panel);
+						s=new Jellyfish(Integer.parseInt(txfsize.getText()), rand_x, rand_y,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
 					}
-				
-				else{
-					f=new JFrame();  
-					JOptionPane.showMessageDialog(f,"The size have to be from 20 to 320");  
+					panel.addswimmables(s);
+					setVisible(false);
+					s.setpanel(panel);
 				}
 			}
 			else
