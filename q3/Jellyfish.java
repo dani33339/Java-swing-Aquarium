@@ -255,7 +255,7 @@ public class Jellyfish extends Swimmable {
   public void run() {
 		float angle;
 		int distance_x, distance_y;
-    int border_x = AquaFrame.PANEL_WIDTH-30;
+    int border_x = AquaFrame.PANEL_WIDTH-40;
     int border_y= AquaFrame.PANEL_HEIGTH-85;
 		synchronized(this)
 		{
@@ -266,19 +266,19 @@ public class Jellyfish extends Swimmable {
 				{
 					x_front += speed_x;
 					y_front += speed_y;
-					if (x_front > border_x || x_front < 0)
+					if (x_front >= border_x || x_front < 0)
 					{
 						if (x_front > border_x)
 						{
-							x_front -= (size + size/4);
+							x_front -= (size + size/8);
 						}
 						if (x_front < 0)
 						{
-							x_front += (size + size/4);
+							x_front += (size + size/8);
 						}
 						speed_x = -speed_x;
 					}
-					if (y_front - size/4 < 0 || y_front + size/4 > border_y)
+					if (y_front - size/4 < 0 || y_front + size/2 > border_y)
 					{
 						speed_y = -speed_y;
 					}
