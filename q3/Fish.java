@@ -313,62 +313,64 @@ public class Fish extends Swimmable {
     int border_x = AquaFrame.PANEL_WIDTH - 15;
     int border_y = AquaFrame.PANEL_HEIGTH - 85;
     int speed_x = horSpeed, speed_y = verSpeed;
-    while (!this.getshutdown()) {
-      if (Barrier == null) {
-        x_front += speed_x;
-        y_front += speed_y;
-        if (x_front > border_x || x_front < 0) {
-          if (x_front > border_x) {
-            x_front -= (size + size / 4);
+    synchronized (this) {
+      while (!this.getshutdown()) {
+        if (Barrier == null) {
+          x_front += speed_x;
+          y_front += speed_y;
+          if (x_front > border_x || x_front < 0) {
+            if (x_front > border_x) {
+              x_front -= (size + size / 4);
+            }
+            if (x_front < 0) {
+              x_front += (size + size / 4);
+            }
+            speed_x = -speed_x;
           }
-          if (x_front < 0) {
-            x_front += (size + size / 4);
+          if (y_front - size / 4 < 0 || y_front + size / 4 > border_y) {
+            speed_y = -speed_y;
           }
-          speed_x = -speed_x;
-        }
-        if (y_front - size / 4 < 0 || y_front + size / 4 > border_y) {
-          speed_y = -speed_y;
-        }
-        x_dir = speed_x / Math.abs(speed_x);
-        y_dir = speed_y / Math.abs(speed_y);
-        if (AquaFrame.STATE == "sleeping") {
+          x_dir = speed_x / Math.abs(speed_x);
+          y_dir = speed_y / Math.abs(speed_y);
+          if (AquaFrame.STATE == "sleeping") {
 
-          synchronized (this) {
-            try {
-              this.wait();
-            } catch (InterruptedException e) {
-              e.printStackTrace();
+            synchronized (this) {
+              try {
+                this.wait();
+              } catch (InterruptedException e) {
+                e.printStackTrace();
+              }
             }
           }
-        }
-        try {
-          Thread.sleep((int) (100));
-        } catch (InterruptedException e) {
-        }
-      } else {
-        try {
-          distance_x = border_x / 2 - x_front;
-          distance_y = border_y / 2 - y_front;
-          if (Math.sqrt((distance_y * distance_y) + (distance_x * distance_x)) <= 5) {
-            this.callback();
-          } else {
-            angle = (float) Math.atan2(distance_x, distance_y);
-            if (Math.abs(distance_x) != 0) {
-              x_dir = (int) (distance_x / Math.abs(distance_x));
-            }
-            if (Math.abs(distance_y) != 0) {
-              y_dir = (int) (distance_y / Math.abs(distance_y));
-            }
-            y_front += verSpeed * Math.cos(angle);
-            x_front += horSpeed * Math.sin(angle);
+          try {
             Thread.sleep((int) (100));
-            if (Barrier != null)
-              Barrier.await();
+          } catch (InterruptedException e) {
           }
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        } catch (BrokenBarrierException e) {
-          e.printStackTrace();
+        } else {
+          try {
+            distance_x = border_x / 2 - x_front;
+            distance_y = border_y / 2 - y_front;
+            if (Math.sqrt((distance_y * distance_y) + (distance_x * distance_x)) <= 5) {
+              this.callback();
+            } else {
+              angle = (float) Math.atan2(distance_x, distance_y);
+              if (Math.abs(distance_x) != 0) {
+                x_dir = (int) (distance_x / Math.abs(distance_x));
+              }
+              if (Math.abs(distance_y) != 0) {
+                y_dir = (int) (distance_y / Math.abs(distance_y));
+              }
+              y_front += verSpeed * Math.cos(angle);
+              x_front += horSpeed * Math.sin(angle);
+              Thread.sleep((int) (100));
+              if (Barrier != null)
+                Barrier.await();
+            }
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          } catch (BrokenBarrierException e) {
+            e.printStackTrace();
+          }
         }
       }
     }
