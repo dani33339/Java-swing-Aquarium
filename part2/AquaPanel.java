@@ -157,10 +157,13 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
      * wake up the threads
      */
      public void Wakeup() {
-        AquaFrame.STATE = "swiming";
-        for (Swimmable swimmable : this.swimmables) {
-            synchronized(swimmable) {
-                swimmable.notify();
+        if (AquaFrame.STATE == "sleeping")
+        {
+            AquaFrame.STATE = "swiming";
+            for (Swimmable swimmable : this.swimmables) {
+                synchronized(swimmable) {
+                    swimmable.notify();
+                }
             }
         }
     }
