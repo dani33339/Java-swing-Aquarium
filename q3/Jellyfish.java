@@ -275,36 +275,46 @@ public class Jellyfish extends Swimmable {
    * this method run's the fish thread
    */
   public void run() {
-    float angle;
-    int distance_x, distance_y;
-    int border_x = AquaFrame.PANEL_WIDTH - 30;
-    int border_y = AquaFrame.PANEL_HEIGTH - 85;
-    int speed_x = horSpeed, speed_y = verSpeed;
-    while (!this.getshutdown()) {
-      if (Barrier == null) {
-        x_front += speed_x;
-        y_front += speed_y;
-        if (x_front > border_x || x_front < 0) {
-          if (x_front > border_x) {
-            x_front -= (size + size / 4);
-          }
-          if (x_front < 0) {
-            x_front += (size + size / 4);
-          }
-          speed_x = -speed_x;
-        }
-        if (y_front - size / 4 < 0 || y_front + size / 4 > border_y) {
-          speed_y = -speed_y;
-        }
-        x_dir = speed_x / Math.abs(speed_x);
-        y_dir = speed_y / Math.abs(speed_y);
-        if (AquaFrame.STATE == "sleeping") {
-
-          synchronized (this) {
-            try {
-              this.wait();
-            } catch (InterruptedException e) {
-              e.printStackTrace();
+		float angle;
+		int distance_x, distance_y;
+    int border_x = AquaFrame.PANEL_WIDTH-40;
+    int border_y= AquaFrame.PANEL_HEIGTH-85;
+		synchronized(this)
+		{
+			int speed_x = horSpeed, speed_y = verSpeed;
+			while(!this.getshutdown())
+			{
+				if (Barrier == null)
+				{
+					x_front += speed_x;
+					y_front += speed_y;
+					if (x_front >= border_x || x_front < 0)
+					{
+						if (x_front > border_x)
+						{
+							x_front -= (size + size/8);
+						}
+						if (x_front < 0)
+						{
+							x_front += (size + size/8);
+						}
+						speed_x = -speed_x;
+					}
+					if (y_front - size/4 < 0 || y_front + size/2 > border_y)
+					{
+						speed_y = -speed_y;
+					}
+					x_dir = speed_x/Math.abs(speed_x);
+					y_dir = speed_y/Math.abs(speed_y);
+          if(AquaFrame.STATE == "sleeping"){
+      
+            synchronized(this) {
+              try {
+                this.wait();
+                } catch (InterruptedException e) {
+                  e.printStackTrace();
+                 }
+               }
             }
           }
         }

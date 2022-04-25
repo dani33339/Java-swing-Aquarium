@@ -152,17 +152,15 @@ public class AddAnimalDialog extends JDialog  implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == add){
 			if(panel.getswimmablessize()<5){
-				System.out.println(txfsize.getText().isBlank());
 				if (txfsize.getText().isBlank()|| Integer.parseInt(txfsize.getText())>320 || Integer.parseInt(txfsize.getText())<20)
 				{
-
 					f=new JFrame();  
 					JOptionPane.showMessageDialog(f,"The size have to be from 20 to 320");  
 				}
 				else{
 					Random rand = new Random();
-					int rand_x = rand.nextInt(100,600);
-					int rand_y = rand.nextInt(100,400);
+					int rand_x = rand.nextInt(600) + 100;
+					int rand_y = rand.nextInt(400) + 100;
 					Swimmable s;
 					if (typeComboBox.getSelectedItem().toString()=="Fish")
 					{
