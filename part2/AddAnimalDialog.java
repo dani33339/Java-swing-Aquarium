@@ -24,7 +24,6 @@ import java.util.Random;
  */
 public class AddAnimalDialog extends JDialog  implements ActionListener {
 	public JFrame f;  
-	private static final long serialVersionUID = 1L;
 	private JPanel p1,p2;
     private JButton add, cancel;
     private JLabel lbl_type, lbl_size, lbl_Horizontal, lbl_Vertical, lbl_color;
@@ -164,12 +163,12 @@ public class AddAnimalDialog extends JDialog  implements ActionListener {
 					Swimmable s;
 					if (typeComboBox.getSelectedItem().toString()=="Fish")
 					{
-						s=new Fish(Integer.parseInt(txfsize.getText()), rand_x, rand_y,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
+						s=new Fish(Integer.parseInt(txfsize.getText()), rand_x, rand_y,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint(),panel);
 					}
 					else
 					{
 						
-						s=new Jellyfish(Integer.parseInt(txfsize.getText()), rand_x, rand_y,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint());
+						s=new Jellyfish(Integer.parseInt(txfsize.getText()), rand_x, rand_y,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint(),panel);
 					}
 					panel.addswimmables(s);
 					setVisible(false);

@@ -31,7 +31,7 @@ public class Jellyfish extends Swimmable {
    * @param other - other Jellyfish
    */
   public Jellyfish(Jellyfish other) {
-    super(other.gethorSpeed(), other.getverSpeed());
+    super(other.gethorSpeed(), other.getverSpeed(),other.callback);
     this.size = other.getSize();
     this.col = other.getcol();
     this.eatCount = other.getEatCount();
@@ -54,8 +54,8 @@ public class Jellyfish extends Swimmable {
    * @param horSpeed - horizantal speed
    * @param verSpeed - vertical speed
    */
-  public Jellyfish(int size, int x_front, int y_front, int horSpeed, int verSpeed, int col) {
-    super(horSpeed, verSpeed);
+  public Jellyfish(int size, int x_front, int y_front, int horSpeed, int verSpeed, int col,Callback callback) {
+    super(horSpeed, verSpeed,callback);
     this.size = size;
     this.col = col;
     this.x_front = x_front;
@@ -318,7 +318,7 @@ public class Jellyfish extends Swimmable {
             distance_x = border_x / 2 - x_front;
             distance_y = border_y / 2 - y_front;
             if (Math.sqrt((distance_y * distance_y) + (distance_x * distance_x)) <= 5) {
-              this.callback();
+              callback.DisableBarrire(this);
             } else {
               angle = (float) Math.atan2(distance_x, distance_y);
               if (Math.abs(distance_x) != 0) {

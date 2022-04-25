@@ -14,9 +14,15 @@ public abstract class Swimmable implements Runnable {
     protected int horSpeed;
     protected int verSpeed;
     protected boolean shutdown = false;
-    protected CyclicBarrier Barrier=null;
+    public CyclicBarrier Barrier=null;
     protected AquaPanel panel=null;
+    protected final Callback callback;
 
+    
+    public interface Callback {
+        void DisableBarrire(Swimmable s);
+    }
+    
     /**
 	* this method is a default constructor method to build a new Swimmable .
 	*/
@@ -24,6 +30,7 @@ public abstract class Swimmable implements Runnable {
     {
         this.horSpeed=0;
         this.verSpeed=0;
+        this.callback = null;
     }
 
     /**
@@ -31,8 +38,9 @@ public abstract class Swimmable implements Runnable {
     * @param horSpeed 
     * @param verSpeed
 	*/
-    public Swimmable(int horSpeed,int verSpeed)
+    public Swimmable(int horSpeed,int verSpeed, Callback callback)
     {
+        this.callback = callback;
         this.horSpeed=horSpeed;
         this.verSpeed=verSpeed;
     }
@@ -112,13 +120,7 @@ public abstract class Swimmable implements Runnable {
         return this.panel;
     }
 
-    /** 
-     * call callback function of the panel in order to stop the barrier and feed the fish
-     */ 
-    public void callback ()
-    {  
-        panel.callback(this);
-    }
+    
 
     public abstract String getAnimalName();
 

@@ -27,7 +27,7 @@ import q3.*;
  * 
  * @author Daniel Markov ,Anton Volkov 
  */
-public class AquaPanel extends JPanel implements ActionListener{
+public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callback{
     private AquaFrame frame;
     private JPanel p1;
     private JButton[] b_num;
@@ -39,7 +39,7 @@ public class AquaPanel extends JPanel implements ActionListener{
     private BufferedImage wormImage=null;
     private boolean BackgroundeImageStatus=false;
     public static ExecutorService executorService = Executors.newFixedThreadPool(5);
-    CyclicBarrier Barrier=null;
+    public CyclicBarrier Barrier=null;
         
      
 	/**
@@ -210,7 +210,7 @@ public class AquaPanel extends JPanel implements ActionListener{
      * lift's the Barrier and gives the food to the fish
      * @param s
      */
-    public void callback (Swimmable s)
+    public void DisableBarrire (Swimmable s)
     {
         s.eatInc();
         Barrier=null;

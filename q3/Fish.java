@@ -37,8 +37,8 @@ public class Fish extends Swimmable {
    * @param horSpeed - horizantal speed
    * @param verSpeed - vertical speed
    */
-  public Fish(int size, int x_front, int y_front, int horSpeed, int verSpeed, int col) {
-    super(horSpeed, verSpeed);
+  public Fish(int size, int x_front, int y_front, int horSpeed, int verSpeed, int col,Callback callback) {
+    super(horSpeed, verSpeed,callback);
     this.size = size;
     this.col = col;
     this.x_front = x_front;
@@ -54,7 +54,7 @@ public class Fish extends Swimmable {
    * @param other - other Fish
    */
   public Fish(Fish other) {
-    super(other.gethorSpeed(), other.getverSpeed());
+    super(other.gethorSpeed(), other.getverSpeed(),other.callback);
     this.size = other.getSize();
     this.col = other.getcol();
     this.eatCount = other.getEatCount();
@@ -304,6 +304,10 @@ public class Fish extends Swimmable {
     }
   }
 
+  
+
+
+
   /**
    * this method run's the fish thread
    */
@@ -332,8 +336,8 @@ public class Fish extends Swimmable {
           }
           x_dir = speed_x / Math.abs(speed_x);
           y_dir = speed_y / Math.abs(speed_y);
-          if (AquaFrame.STATE == "sleeping") {
 
+          if (AquaFrame.STATE == "sleeping") {
             synchronized (this) {
               try {
                 this.wait();
@@ -344,15 +348,17 @@ public class Fish extends Swimmable {
           }
           try {
             Thread.sleep((int) (100));
-          } catch (InterruptedException e) {
-          }
-        } else {
+          } 
+          catch (InterruptedException e) {}
+        } 
+        else {
           try {
             distance_x = border_x / 2 - x_front;
             distance_y = border_y / 2 - y_front;
             if (Math.sqrt((distance_y * distance_y) + (distance_x * distance_x)) <= 5) {
-              this.callback();
-            } else {
+              callback.DisableBarrire(this);
+            } 
+            else {
               angle = (float) Math.atan2(distance_x, distance_y);
               if (Math.abs(distance_x) != 0) {
                 x_dir = (int) (distance_x / Math.abs(distance_x));
