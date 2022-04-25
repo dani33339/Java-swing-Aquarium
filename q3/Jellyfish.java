@@ -281,7 +281,7 @@ public class Jellyfish extends Swimmable {
     int border_y = AquaFrame.PANEL_HEIGTH - 85;
     synchronized (this) {
       int speed_x = horSpeed, speed_y = verSpeed;
-      while (!this.getshutdown()) {
+      while (!Thread.interrupted()) {
         if (Barrier == null) {
           x_front += speed_x;
           y_front += speed_y;

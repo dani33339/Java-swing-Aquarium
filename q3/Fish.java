@@ -318,7 +318,7 @@ public class Fish extends Swimmable {
     int border_y = AquaFrame.PANEL_HEIGTH - 85;
     int speed_x = horSpeed, speed_y = verSpeed;
     synchronized (this) {
-      while (!this.getshutdown()) {
+      while (!Thread.interrupted()) {
         if (Barrier == null) {
           x_front += speed_x;
           y_front += speed_y;

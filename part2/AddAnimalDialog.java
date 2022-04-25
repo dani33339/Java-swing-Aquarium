@@ -158,8 +158,8 @@ public class AddAnimalDialog extends JDialog  implements ActionListener {
 				}
 				else{
 					Random rand = new Random();
-					int rand_x = rand.nextInt(600) + 100;
-					int rand_y = rand.nextInt(400) + 100;
+					int rand_x = rand.nextInt(100,600);
+					int rand_y = rand.nextInt(100,400);
 					Swimmable s;
 					if (typeComboBox.getSelectedItem().toString()=="Fish")
 					{
@@ -172,7 +172,6 @@ public class AddAnimalDialog extends JDialog  implements ActionListener {
 					}
 					panel.addswimmables(s);
 					setVisible(false);
-					s.setpanel(panel);
 				}
 			}
 			else

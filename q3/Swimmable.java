@@ -15,7 +15,6 @@ public abstract class Swimmable implements Runnable {
     protected int verSpeed;
     protected boolean shutdown = false;
     public CyclicBarrier Barrier=null;
-    protected AquaPanel panel=null;
     protected final Callback callback;
 
     
@@ -98,29 +97,7 @@ public abstract class Swimmable implements Runnable {
      */
     public void setBarrier(CyclicBarrier Barrier) {
         this.Barrier=Barrier;
-    }
-
-    
-    /** 
-     * set the panel for the fish
-     * @param panel
-     */
-    public void setpanel(AquaPanel panel)
-    {
-        this.panel=panel;
-    }
-
-    
-    /** 
-     * get the panel of the fish
-     * @return AquaPanel
-     */
-    public AquaPanel getpanel()
-    {
-        return this.panel;
-    }
-
-    
+    } 
 
     public abstract String getAnimalName();
 
