@@ -146,7 +146,7 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
     /** 
      * stop the threads
      */
-    public  void Sleep() {
+    public void Sleep() {
         AquaFrame.STATE = "sleeping"; 
     }
     

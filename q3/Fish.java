@@ -365,12 +365,8 @@ public class Fish extends Swimmable {
               y_front += verSpeed * Math.cos(angle);
               x_front += horSpeed * Math.sin(angle);
               Thread.sleep((int) (100));
-              if (Barrier != null)
-                Barrier.await();
             }
           } catch (InterruptedException e) {
-            e.printStackTrace();
-          } catch (BrokenBarrierException e) {
             e.printStackTrace();
           }
         }
