@@ -3,7 +3,6 @@ package q3;
 import java.awt.Graphics;
 import java.util.concurrent.CyclicBarrier;
 
-import part2.AquaPanel;
 /**
  * class  Swimmable:
  * this calss is the bais of the all calsses we have is q3
@@ -13,7 +12,6 @@ import part2.AquaPanel;
 public abstract class Swimmable implements Runnable {
     protected int horSpeed;
     protected int verSpeed;
-    protected boolean shutdown = false;
     public CyclicBarrier Barrier=null;
     protected final Callback callback;
 
@@ -75,21 +73,10 @@ public abstract class Swimmable implements Runnable {
     */
     public int getverSpeed(){return this.verSpeed;}
 
-    /**
-    * return shutdown
-    * @return int
-    */
-    public boolean getshutdown() {return this.shutdown;}
-
-    /**
-    * set shutdown to true
-    */
-    public void shutdown() {
-        this.shutdown = true;
-    }
-
+    /** 
+     * get Barrier
+     */
     public CyclicBarrier getBarrier() {return this.Barrier;}
-
     
     /** 
      * set Barrier

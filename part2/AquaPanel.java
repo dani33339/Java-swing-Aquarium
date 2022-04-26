@@ -14,11 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-
 import java.awt.Graphics;
-
 import java.awt.image.BufferedImage;
-
 import q3.*;
 
 /**
@@ -38,7 +35,7 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
     private HashSet<Swimmable> swimmables = new HashSet<Swimmable>();
     private BufferedImage wormImage=null;
     private boolean BackgroundeImageStatus=false;
-    public static ExecutorService executorService = Executors.newFixedThreadPool(5);
+    public ExecutorService executorService = Executors.newFixedThreadPool(5);
     public CyclicBarrier Barrier=null;
         
      
@@ -172,11 +169,10 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
      * reset the panel from swimibles
      */
       public void Reset () {
-          //stop all threads.
-        for (Swimmable swimmable : this.swimmables) {
-            swimmable.shutdown();
-        }
-        this.swimmables.clear();
+        //stop all threads.
+        this.swimmables.clear(); //delete the swimmables
+        executorService.shutdown();
+        executorService = Executors.newFixedThreadPool(5);
         wormImage=null;
         Barrier=null;
     }

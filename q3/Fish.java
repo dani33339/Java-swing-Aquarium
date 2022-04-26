@@ -1,5 +1,4 @@
 package q3;
-
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Polygon;
@@ -303,9 +302,6 @@ public class Fish extends Swimmable {
       g2.setStroke(new BasicStroke(1));
     }
   }
-
-  
-
 
 
   /**
