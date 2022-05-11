@@ -2,7 +2,6 @@ package q3;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Polygon;
-import java.util.concurrent.BrokenBarrierException;
 import part2.AquaFrame;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;

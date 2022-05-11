@@ -1,7 +1,6 @@
 package q3;
 
 import java.awt.Graphics;
-import java.util.concurrent.BrokenBarrierException;
 import part2.AquaFrame;
 import java.awt.Color;
 
