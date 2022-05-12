@@ -9,7 +9,7 @@ import java.util.concurrent.CyclicBarrier;
  *
  * @author Daniel Markov ,Anton Volkov 
  */
-public abstract class Swimmable implements Runnable {
+public abstract class Swimmable implements Runnable  {
     protected int horSpeed;
     protected int verSpeed;
     public CyclicBarrier Barrier=null;

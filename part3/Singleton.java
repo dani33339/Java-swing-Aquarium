@@ -18,8 +18,4 @@ public class Singleton {
 		}
 	}
 
-    // public static Singleton get()
-	// {
-	// 	return Singleton.instance;
-	// }
 }

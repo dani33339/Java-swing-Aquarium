@@ -17,6 +17,7 @@ import javax.swing.JTable;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import q3.*;
+import part3.*;
 
 /**
  * class AquaPanel:
@@ -28,16 +29,18 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
     private AquaFrame frame;
     private JPanel p1;
     private JButton[] b_num;
-    private String[] names = {"Add Animal","Sleep","Wake up","reset","Food","Info","Exit"};
+    private String[] names = {"Add Animal","Add Plant","Sleep","Wake up","reset","Food","Info","Exit"};
     private JScrollPane scrollPane;
     private boolean isTableVisible = false;
     private boolean isTable2Visible = false;
     private HashSet<Swimmable> swimmables = new HashSet<Swimmable>();
-    private BufferedImage wormImage=null;
+    private HashSet<Immobile> immobiles = new HashSet<Immobile>();
+    private BufferedImage wormImage;
     private boolean BackgroundeImageStatus=false;
     public ExecutorService executorService = Executors.newFixedThreadPool(5);
     public CyclicBarrier Barrier=null;
-        
+    private Singleton worm=null;
+
      
 	/**
 	* this method is a constructor method to build a new AquaPanel .
@@ -61,6 +64,13 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
          setLayout(new BorderLayout());
          add("South", p1);
 
+         try {
+            wormImage = ImageIO.read(new File("part2\\worm.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     /**
@@ -75,6 +85,14 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
     */
     public int getswimmablessize(){return swimmables.size();}
 
+
+    /**
+    * return size of Immobiles
+    * @return int
+    */
+    public int getImmobilesize(){return immobiles.size();}
+
+
     
     /** 
      * add swimmable to the hashset
@@ -84,6 +102,16 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
         
         executorService.execute(s);
         this.swimmables.add(s);
+        
+    }
+
+    /** 
+     * add Immobile to the hashset
+     * @param plant
+     */
+    public void addswimmables(Immobile plant ){
+        
+        this.immobiles.add(plant);
         
     }
 
@@ -124,7 +152,10 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
         for (Swimmable s : swimmables){
             s.drawAnimal(g);
         }
-        if (this.wormImage!=null)
+        for (Immobile plant : immobiles){
+            plant.drawCreature(g);
+        }
+        if (this.worm!=null)
         {   
             int border_x = AquaFrame.PANEL_WIDTH-15;
             int border_y= AquaFrame.PANEL_HEIGTH-85;
@@ -139,7 +170,12 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
      * create a AddAnimalDialog
      */
     public void AddAnimal(){
-        AddAnimalDialog dial = new AddAnimalDialog(frame,this,"Create post system");
+        AddAnimalDialog dial = new AddAnimalDialog(frame,this,"Add Animal");
+        dial.setVisible(true);
+    }
+
+    public void AddPlant(){
+        AddPlanetDialog dial = new AddPlanetDialog(frame,this,"Add Plant");
         dial.setVisible(true);
     }
 
@@ -173,7 +209,6 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
         this.swimmables.clear(); //delete the swimmables
         executorService.shutdown();
         executorService = Executors.newFixedThreadPool(5);
-        wormImage=null;
         Barrier=null;
     }
 
@@ -190,12 +225,7 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
       public void food(){
         if (Barrier==null && this.getswimmablessize()>0)
         {
-            try {
-                wormImage = ImageIO.read(new File("part2\\worm.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            worm=Singleton.getInstance();
             Barrier=new CyclicBarrier(swimmables.size());
             for (Swimmable swimmable : this.swimmables) {
                 swimmable.setBarrier(Barrier);
@@ -217,7 +247,8 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
         {
             i.setBarrier(null);
         }
-        wormImage=null;
+        Singleton.set();
+        worm=null;
     } 
 
  
@@ -278,17 +309,19 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
     public void actionPerformed(ActionEvent e) {
      if(e.getSource() == b_num[0]) 
         AddAnimal();
-     else if(e.getSource() == b_num[1]) 
+    else if(e.getSource() == b_num[1]) 
+        AddPlant();
+     else if(e.getSource() == b_num[2]) 
         Sleep();
-     else if(e.getSource() == b_num[2])  
-        Wakeup();
      else if(e.getSource() == b_num[3])  
+        Wakeup();
+     else if(e.getSource() == b_num[4])  
         Reset(); 
-     else if(e.getSource() == b_num[4])
+     else if(e.getSource() == b_num[5])
         food();
-     else if(e.getSource() == b_num[5])  
-        Info();
      else if(e.getSource() == b_num[6])  
+        Info();
+     else if(e.getSource() == b_num[7])  
         Exit();
     }
  
