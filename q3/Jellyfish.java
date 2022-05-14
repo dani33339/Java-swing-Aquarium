@@ -246,7 +246,7 @@ public class Jellyfish extends Swimmable {
    * 
    * @param g
    */
-  public void drawAnimal(Graphics g) {
+  public void drawCreature(Graphics g) {
     Color[] colors = new Color[] { Color.black, Color.red, Color.blue, Color.green, Color.cyan, Color.orange,
         Color.yellow, Color.magenta, Color.pink };
     Color color = colors[col - 1];

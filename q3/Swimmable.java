@@ -3,16 +3,18 @@ package q3;
 import java.awt.Graphics;
 import java.util.concurrent.CyclicBarrier;
 
+import part3.SeaCreature;
+
 /**
  * class  Swimmable:
  * this calss is the bais of the all calsses we have is q3
  *
  * @author Daniel Markov ,Anton Volkov 
  */
-public abstract class Swimmable implements Runnable  {
+public abstract class Swimmable implements Runnable,SeaCreature  {
     protected int horSpeed;
     protected int verSpeed;
-    public CyclicBarrier Barrier=null;
+    protected CyclicBarrier Barrier=null;
     protected final Callback callback;
 
     
@@ -100,7 +102,7 @@ public abstract class Swimmable implements Runnable  {
     
     public abstract boolean equals(Object other);
     
-    public abstract void drawAnimal(Graphics g);
+    public abstract void drawCreature(Graphics g);
 
     public abstract int getx_front();
 

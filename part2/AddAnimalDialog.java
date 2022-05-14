@@ -10,6 +10,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+
+import part3.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
@@ -25,11 +28,14 @@ public class AddAnimalDialog extends JDialog  implements ActionListener {
 	private JPanel p1,p2;
     private JButton add, cancel;
     private JLabel lbl_type, lbl_size, lbl_Horizontal, lbl_Vertical, lbl_color;
-	private JComboBox typeComboBox,colorComboBox;
+	private JComboBox <String> typeComboBox,colorComboBox;
 	private JTextField txfsize;
     private JSlider sl_Horizontal, s2_Vertical;
     private AquaPanel panel;
- 
+	private AbstractSeaFactory abstractSeaFactory;
+	private SeaCreature seaCreature;
+
+
 	/**
 	* this method is a constructor method to build a new AddAnimalDialog .
     * @param AquaFrame -AquaFrame of the parent
@@ -56,7 +62,7 @@ public class AddAnimalDialog extends JDialog  implements ActionListener {
 		/*JComboBox for animal type */
 		p1.add(lbl_type);
 		String s1[] = { "Fish", "Jellyfish" };
-		typeComboBox = new JComboBox(s1);
+		typeComboBox = new JComboBox<String> (s1);
 		p1.add(typeComboBox);
 
 		/*JTextField for animal size */
@@ -84,7 +90,7 @@ public class AddAnimalDialog extends JDialog  implements ActionListener {
 
 		p1.add(lbl_color);
 		String s2[] = { "Black", "Red", "Blue", "Green", "Cyan", "Orange", "Yellow" ,"Magenta", "Pink"};
-		colorComboBox = new JComboBox(s2);
+		colorComboBox = new JComboBox<String> (s2);
 		p1.add(colorComboBox);
 		
 		p2.setLayout(new GridLayout(1,2,5,5));
@@ -158,17 +164,17 @@ public class AddAnimalDialog extends JDialog  implements ActionListener {
 					Random rand = new Random();
 					int rand_x = rand.nextInt(100,600);
 					int rand_y = rand.nextInt(100,400);
-					Swimmable s;
+					abstractSeaFactory=new AnimalFactory(Integer.parseInt(txfsize.getText()), rand_x, rand_y,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint(),panel);
 					if (typeComboBox.getSelectedItem().toString()=="Fish")
 					{
-						s=new Fish(Integer.parseInt(txfsize.getText()), rand_x, rand_y,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint(),panel);
+						seaCreature=abstractSeaFactory.produceSeaCreature("Fish");
 					}
 					else
 					{
 						
-						s=new Jellyfish(Integer.parseInt(txfsize.getText()), rand_x, rand_y,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint(),panel);
+						seaCreature=abstractSeaFactory.produceSeaCreature("Jellyfish");
 					}
-					panel.addswimmables(s);
+					panel.addswimmables((Swimmable)this.seaCreature);
 					setVisible(false);
 				}
 			}

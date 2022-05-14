@@ -1,23 +1,28 @@
 package part3;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.*;
 
 
 public class Laminaria extends Immobile{
     private int size;
     private int x;
     private int y;
-    private Color colorr;
+    private Color colorr = Color.green;
 
     public Laminaria(int size,int x,int y){
         //default Ctor
         super("Laminaria");
-        this.colorr = Color.green; //#197546 Color Hex
         this.size = size;
         this.x = x;
         this.y = y;
     }
+
+    public Laminaria(Laminaria other) {
+        super(other.name);
+        this.size = other.getSize();
+        this.x = other.getX();
+        this.y = other.getY();
+      }
 
     public void drawCreature(Graphics g) {
 		g.setColor(colorr);

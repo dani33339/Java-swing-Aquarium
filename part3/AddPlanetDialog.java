@@ -26,9 +26,11 @@ public class AddPlanetDialog extends JDialog  implements ActionListener {
 	private JPanel p1,p2;
     private JButton add, cancel;
     private JLabel lbl_type,lbl_size;
-	private JComboBox typeComboBox;
+	private JComboBox <String>  typeComboBox;
 	private JTextField txfsize;
     private AquaPanel panel;
+	private AbstractSeaFactory abstractSeaFactory;
+	private SeaCreature seaCreature;
  
 	/**
 	* this method is a constructor method to build a new AddAnimalDialog .
@@ -53,7 +55,7 @@ public class AddPlanetDialog extends JDialog  implements ActionListener {
 		/*JComboBox for animal type */
 		p1.add(lbl_type);
 		String s1[] = { "Laminaria", "Zostera" };
-		typeComboBox = new JComboBox(s1);
+		typeComboBox = new JComboBox <String> (s1);
 		p1.add(typeComboBox);
 
 		/*JTextField for animal size */
@@ -93,17 +95,16 @@ public class AddPlanetDialog extends JDialog  implements ActionListener {
 					Random rand = new Random();
 					int rand_x = rand.nextInt(100,600);
 					int rand_y = rand.nextInt(100,400);
-					Immobile plant;
+					abstractSeaFactory=new PlantFactory(Integer.parseInt(txfsize.getText()), rand_x, rand_y);
 					if (typeComboBox.getSelectedItem().toString()=="Laminaria")
 					{
-						plant=new Laminaria(Integer.parseInt(txfsize.getText()), rand_x, rand_y);
+						seaCreature=abstractSeaFactory.produceSeaCreature("Laminaria");
 					}
 					else
 					{
-						
-						plant=new Zostera(Integer.parseInt(txfsize.getText()), rand_x, rand_y);
+						seaCreature=abstractSeaFactory.produceSeaCreature("Zostera");
 					}
-					panel.addswimmables(plant);
+					panel.addimmobiles((Immobile)seaCreature);
 					setVisible(false);
 				}
 			}

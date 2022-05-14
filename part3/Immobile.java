@@ -1,7 +1,7 @@
 package part3;
 
 public abstract class Immobile implements SeaCreature {
-    private String name;
+    protected String name;
 
 
     public Immobile(String name){

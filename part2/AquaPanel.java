@@ -109,7 +109,7 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
      * add Immobile to the hashset
      * @param plant
      */
-    public void addswimmables(Immobile plant ){
+    public void addimmobiles(Immobile plant ){
         
         this.immobiles.add(plant);
         
@@ -150,7 +150,7 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
         }
 
         for (Swimmable s : swimmables){
-            s.drawAnimal(g);
+            s.drawCreature(g);
         }
         for (Immobile plant : immobiles){
             plant.drawCreature(g);
