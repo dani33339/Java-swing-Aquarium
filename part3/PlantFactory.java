@@ -1,26 +1,27 @@
-// package part3;
-// import javax.swing.*;
-// import java.awt.*;
-// import java.awt.event.ActionEvent;
-// import java.awt.event.ActionListener;
+package part3;
 
-// public class PlantFactory implements AbstractSeaFactory{
+public class PlantFactory implements AbstractSeaFactory{
 
-//     public SeaCreature produceSeaCreature(String type) {
-//         Immobile obj = null;
+	private int size;
+    private int x;
+	private int y;
 
-//         if("Laminaria".equalsIgnoreCase(type)){
-//             /*
-//              *  Return new Laminaria
-//              */
-//             obj = new Laminaria();
-//         }
-//         if("Zostera".equalsIgnoreCase(type)){
-//             /*
-//              *  Return new Jelly Zostera
-//              */
-//             obj = new Zostera();
-//         }
-//         return obj;
-//     }
-// }
+	public PlantFactory(int size,int x,int y)
+    {
+		this.size=size;
+		this.x=x;
+		this.y=x;
+	}
+
+	public SeaCreature produceSeaCreature(String type)
+    {
+		if(type.equalsIgnoreCase("Laminaria"))
+			return new Laminaria(size,x,y);
+		
+		else if(type.equalsIgnoreCase("Zostera")){
+			return new Zostera(size,x,y); 
+		}
+		return null;
+
+	}
+}

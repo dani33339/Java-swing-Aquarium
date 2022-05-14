@@ -1,25 +1,31 @@
-// package part3;
-// import q3.*;
+package part3;
+import q3.*;
 
-// public class AnimalFactory extends Thread implements AbstractSeaFactory{
+public class AnimalFactory extends Thread implements AbstractSeaFactory{
 
 
-//     public SeaCreature produceSeaCreature(String type) {
-//         Swimmable obj = null;
+	private int size;
+    private int x;
+	private int y;
 
-//         if("Fish".equalsIgnoreCase(type)){
-//             /*
-//              *  Return new Fish
-//              */
-//             obj = new Fish();
-//         }
-//         if("JellyFish".equalsIgnoreCase(type)){
-//             /*
-//              *  Return new Jelly Fish
-//              */
-//             obj =  new Jellyfish();
-//         }
-//         return obj;
-//     }
+	public AnimalFactory(int size,int x,int y)
+    {
+		this.size=size;
+		this.x=x;
+		this.y=x;
+	}
 
-// }
+	public SeaCreature produceSeaCreature(String type)
+    {
+		if(type.equalsIgnoreCase("Laminaria"))
+			return new Laminaria(size,x,y);
+		
+		else if(type.equalsIgnoreCase("Zostera")){
+			return new Zostera(size,x,y); 
+		}
+		return null;
+
+	}  return obj;
+    }
+
+}
