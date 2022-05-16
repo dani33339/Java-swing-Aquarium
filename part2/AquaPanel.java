@@ -35,11 +35,9 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
     private boolean isTable2Visible = false;
     private HashSet<Swimmable> swimmables = new HashSet<Swimmable>();
     private HashSet<Immobile> immobiles = new HashSet<Immobile>();
-    private BufferedImage wormImage;
     private boolean BackgroundeImageStatus=false;
     public ExecutorService executorService = Executors.newFixedThreadPool(5);
     public CyclicBarrier Barrier=null;
-    private Singleton worm=null;
 
      
 	/**
@@ -63,13 +61,6 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
  
          setLayout(new BorderLayout());
          add("South", p1);
-
-         try {
-            wormImage = ImageIO.read(new File("part2\\worm.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
 
     }
 
@@ -155,13 +146,7 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
         for (Immobile plant : immobiles){
             plant.drawCreature(g);
         }
-        if (this.worm!=null)
-        {   
-            int border_x = AquaFrame.PANEL_WIDTH-15;
-            int border_y= AquaFrame.PANEL_HEIGTH-85;
-            g.drawImage(wormImage,border_x /2 ,border_y/2 ,50, 50, null); 
-        }
-
+        Singleton.getInstance().draw(g);
         repaint();
     }
     
@@ -225,7 +210,7 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
       public void food(){
         if (Barrier==null && this.getswimmablessize()>0)
         {
-            worm=Singleton.getInstance();
+            Singleton.getInstance().setVisible(true);//set worm to be unvisible
             Barrier=new CyclicBarrier(swimmables.size());
             for (Swimmable swimmable : this.swimmables) {
                 swimmable.setBarrier(Barrier);
@@ -247,8 +232,7 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
         {
             i.setBarrier(null);
         }
-        Singleton.set();
-        worm=null;
+        Singleton.getInstance().setVisible(false);//set worm to be unvisible
     } 
 
  

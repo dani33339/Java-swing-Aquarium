@@ -22,6 +22,5 @@ public class PlantFactory implements AbstractSeaFactory{
 			return new Zostera(size,x,y); 
 		}
 		return null;
-
 	}
 }
