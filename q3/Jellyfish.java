@@ -1,6 +1,8 @@
 package q3;
 
 import java.awt.Graphics;
+import java.util.Random;
+
 import part2.AquaFrame;
 import java.awt.Color;
 
@@ -20,6 +22,7 @@ public class Jellyfish extends Swimmable {
   private int y_front;
   private int x_dir;
   private int y_dir;
+  private int id=0;
 
   /**
    * this method is a copy constructor method to build a new Jellyfish.
@@ -108,6 +111,23 @@ public class Jellyfish extends Swimmable {
    */
   public String getAnimalName() {
     return "Jellyfish";
+  }
+
+    /**
+    * set new id to animal 
+    * @param num
+    */
+    public void setAnimalid(int id) {
+      this.id=id;
+  }
+
+  /**
+   * return name and id of jellfish
+   * 
+   * @return String
+   */
+  public String getAnimalNameAndId() {
+    return "Jellyfish"+id;
   }
 
   /**
@@ -240,6 +260,15 @@ public class Jellyfish extends Swimmable {
     } else
       return false;
   }
+
+  public Jellyfish clone(){
+    Random rand = new Random();
+    int rand_x = rand.nextInt(100,600);
+    int rand_y = rand.nextInt(100,400);
+    Jellyfish obj = new Jellyfish(this.size, rand_x, rand_y, this.horSpeed, this.verSpeed, this.col,this.callback);
+    return obj;
+  }
+
 
   /**
    * this method draw the animal

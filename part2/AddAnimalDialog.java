@@ -23,7 +23,7 @@ import java.util.Random;
  * 
  * @author Daniel Markov ,Anton Volkov 
  */
-public class AddAnimalDialog extends JDialog  implements ActionListener {
+public class AddAnimalDialog extends JDialog implements ActionListener {
 	public JFrame f;  
 	private JPanel p1,p2;
     private JButton add, cancel;
@@ -171,7 +171,6 @@ public class AddAnimalDialog extends JDialog  implements ActionListener {
 					}
 					else
 					{
-						
 						seaCreature=abstractSeaFactory.produceSeaCreature("Jellyfish");
 					}
 					panel.addswimmables((Swimmable)this.seaCreature);

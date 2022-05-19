@@ -11,6 +11,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -29,7 +31,7 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
     private AquaFrame frame;
     private JPanel p1;
     private JButton[] b_num;
-    private String[] names = {"Add Animal","Add Plant","Sleep","Wake up","reset","Food","Info","Exit"};
+    private String[] names = {"Add Animal","Add Plant","Animal Duplicate","Sleep","Wake up","reset","Food","Info","Exit"};
     private JScrollPane scrollPane;
     private boolean isTableVisible = false;
     private boolean isTable2Visible = false;
@@ -38,7 +40,6 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
     private boolean BackgroundeImageStatus=false;
     public ExecutorService executorService = Executors.newFixedThreadPool(5);
     public CyclicBarrier Barrier=null;
-
      
 	/**
 	* this method is a constructor method to build a new AquaPanel .
@@ -83,17 +84,15 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
     */
     public int getImmobilesize(){return immobiles.size();}
 
-
     
     /** 
      * add swimmable to the hashset
      * @param s
      */
     public void addswimmables(Swimmable s){
-        
         executorService.execute(s);
         this.swimmables.add(s);
-        
+        s.setAnimalid(swimmables.size());  
     }
 
     /** 
@@ -161,6 +160,12 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
 
     public void AddPlant(){
         AddPlanetDialog dial = new AddPlanetDialog(frame,this,"Add Plant");
+        dial.setVisible(true);
+    }
+
+
+    public void DuplicateAnimal(){
+        AddDuplicateAnimal dial = new AddDuplicateAnimal(frame,this,"Duplicate Animal",scrollPane);
         dial.setVisible(true);
     }
 
@@ -235,6 +240,25 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
         Singleton.getInstance().setVisible(false);//set worm to be unvisible
     } 
 
+
+    public JTable animmaltable()
+    {
+        int i=0;
+        String[] columnNames = {"Animal", "Color", "Size", "Hor. speed", "Ver. speed","Eat counter"};
+        Object [][] data = new String[5][columnNames.length];
+        for (Swimmable s : swimmables) {
+             data[i][0] = "" + s.getAnimalNameAndId();
+             data[i][1] = "" + s.getColor();
+             data[i][2] = "" + s.getSize();
+             data[i][3] = "" + s.gethorSpeed();
+             data[i][4] = "" + s.getverSpeed();
+             data[i][5] = "" + s.getEatCount();
+             i++;                  
+             }
+        JTable table = new JTable(data, columnNames);
+        return table;
+    }
+
  
      /** 
      * create and Show info table
@@ -249,23 +273,24 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
         if(isTableVisible == false) {
                this.Sleep();
                
-               int i=0;
-               String[] columnNames = {"Animal", "Color", "Size", "Hor. speed", "Ver. speed","Eat counter"};
-               Object [][] data = new String[5][columnNames.length];
-               for (Swimmable s : swimmables) {
-                    data[i][0] = "" + s.getAnimalName();
-                    data[i][1] = "" + s.getColor();
-                    data[i][2] = "" + s.getSize();
-                    data[i][3] = "" + s.gethorSpeed();
-                    data[i][4] = "" + s.getverSpeed();
-                    data[i][5] = "" + s.getEatCount();
-                    i++;                  
-                    }
-               JTable table = new JTable(data, columnNames);
-               scrollPane = new JScrollPane(table);
-               scrollPane.setSize(450,table.getRowHeight()*(5)+24);
-               add( scrollPane, BorderLayout.CENTER );
-               isTableVisible = true;
+            //    int i=0;
+            //    String[] columnNames = {"Animal", "Color", "Size", "Hor. speed", "Ver. speed","Eat counter"};
+            //    Object [][] data = new String[5][columnNames.length];
+            //    for (Swimmable s : swimmables) {
+            //         data[i][0] = "" + s.getAnimalName();
+            //         data[i][1] = "" + s.getColor();
+            //         data[i][2] = "" + s.getSize();
+            //         data[i][3] = "" + s.gethorSpeed();
+            //         data[i][4] = "" + s.getverSpeed();
+            //         data[i][5] = "" + s.getEatCount();
+            //         i++;                  
+            //         }
+            //    JTable table = new JTable(data, columnNames);
+            JTable table=animmaltable();
+            scrollPane = new JScrollPane(table);
+            scrollPane.setSize(450,table.getRowHeight()*(5)+24);
+            add( scrollPane, BorderLayout.CENTER );
+            isTableVisible = true;
                
         }
         else{
@@ -275,8 +300,78 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
         
         scrollPane.setVisible(isTableVisible);
         repaint();
-        
      }
+
+
+    /**
+    * duplicateanimal make panel and display all the animal in the aquaframe
+    *select an animal (select row) and the animal will clone
+    */
+    public void duplicateanimal(){
+
+        if(this.getswimmablessize()<5) 
+        {
+            JFrame frame = new JFrame("Which Animal To Duplicate?");
+            JTable info = animmaltable();
+
+            JPanel panel = new JPanel();
+            panel.setLayout(new BorderLayout());
+
+            JPanel apply_panel = new JPanel();
+            JButton clone_select = new JButton("Select");
+            clone_select.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if(e.getSource() == clone_select){
+                        frame.dispose();
+                        String name = info.getModel().getValueAt(info.getSelectedRow(),0).toString(); //get the name of animal from selected row
+                        for(Swimmable s : swimmables){ //run over swimmables hashset
+                            if(((Swimmable)s).getAnimalNameAndId().equalsIgnoreCase(name)){ //Comparison with name
+                                if(s instanceof Fish){// check for fish object
+                                    Swimmable clone = ((Fish)s).clone(); //clone
+                                    addswimmables(clone); 
+                                    break;
+                                }
+                        if(s instanceof Jellyfish){ 
+                                Swimmable clone = ((Jellyfish)s).clone(); //clone
+                                addswimmables(clone); 
+                                break;
+                            }
+
+                            }
+                        }
+                        
+                    }
+                }
+            });
+            JButton clone_cancel = new JButton("Cancel");
+            clone_cancel.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if(e.getSource() == clone_cancel){
+                        frame.dispose();
+                    }
+                }
+            });
+            apply_panel.setLayout(new GridLayout());
+
+            apply_panel.add(clone_cancel);
+            apply_panel.add(clone_select);
+
+            panel.add(info,BorderLayout.NORTH);
+            panel.add(apply_panel, BorderLayout.SOUTH);
+            frame.add(panel);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null,
+                    "You have got the maximum amount of animals!",
+                    "Error!",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
      
     /** 
      * close the threads and exit
@@ -295,15 +390,17 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
         AddAnimal();
     else if(e.getSource() == b_num[1]) 
         AddPlant();
-     else if(e.getSource() == b_num[2]) 
+    else if(e.getSource() == b_num[2]) 
+        duplicateanimal();
+     else if(e.getSource() == b_num[3]) 
         Sleep();
-     else if(e.getSource() == b_num[3])  
-        Wakeup();
      else if(e.getSource() == b_num[4])  
+        Wakeup();
+     else if(e.getSource() == b_num[5])  
         Reset(); 
-     else if(e.getSource() == b_num[5])
+     else if(e.getSource() == b_num[6])
         food();
-     else if(e.getSource() == b_num[6])  
+     else if(e.getSource() == b_num[7])  
         Info();
      else if(e.getSource() == b_num[7])  
         Exit();

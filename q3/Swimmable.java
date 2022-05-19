@@ -11,7 +11,7 @@ import part3.SeaCreature;
  *
  * @author Daniel Markov ,Anton Volkov 
  */
-public abstract class Swimmable implements Runnable,SeaCreature  {
+public abstract class Swimmable implements Runnable,SeaCreature,Cloneable  {
     protected int horSpeed;
     protected int verSpeed;
     protected CyclicBarrier Barrier=null;
@@ -89,6 +89,11 @@ public abstract class Swimmable implements Runnable,SeaCreature  {
     } 
 
     public abstract String getAnimalName();
+
+
+    public abstract void setAnimalid(int id) ;
+
+    public abstract String getAnimalNameAndId();
 
     public abstract int getEatCount();
 

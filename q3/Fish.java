@@ -2,6 +2,8 @@ package q3;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Polygon;
+import java.util.Random;
+
 import part2.AquaFrame;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
@@ -21,6 +23,7 @@ public class Fish extends Swimmable {
     private int y_front;
     private int x_dir;
     private int y_dir;
+    private int id=0;
 
 
     /**
@@ -112,6 +115,23 @@ public class Fish extends Swimmable {
     }
 
     /**
+     * set new id to animal
+     * @param num
+     */
+    public void setAnimalid(int id) {
+        this.id=id;
+    }
+
+     /**
+     * return name and id
+     * 
+     * @return String
+     */
+    public String getAnimalNameAndId() {
+      return "Fish"+id;
+    }
+
+    /**
      * return eatCount of fish
      * 
      * @return int
@@ -200,6 +220,18 @@ public class Fish extends Swimmable {
       if (this.col > 9)
         this.col = 1;
     }
+
+      /**
+     * make clone to object
+     * @return clone object
+     */
+    public Fish clone(){
+      Random rand = new Random();
+      int rand_x = rand.nextInt(100,600);
+      int rand_y = rand.nextInt(100,400);
+      Fish obj = new Fish(this.size, rand_x, rand_y, this.horSpeed, this.verSpeed, this.col,this.callback);
+      return obj;
+  }
 
     /**
      * return a string representation of a Fish format:
