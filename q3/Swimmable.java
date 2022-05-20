@@ -117,7 +117,9 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable  {
 
     public abstract void run();
 
-    
+    public abstract Swimmable clone();
+
+    public abstract void update(int size,int horSpeed, int verSpeed, int col);
 
 
 }

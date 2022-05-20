@@ -221,10 +221,11 @@ public class Fish extends Swimmable {
         this.col = 1;
     }
 
-      /**
-     * make clone to object
-     * @return clone object
-     */
+  /**
+   * clone method reutrns acopy Fish
+   * 
+   * @return Fish
+   */
     public Fish clone(){
       Random rand = new Random();
       int rand_x = rand.nextInt(100,600);
@@ -232,6 +233,24 @@ public class Fish extends Swimmable {
       Fish obj = new Fish(this.size, rand_x, rand_y, this.horSpeed, this.verSpeed, this.col,this.callback);
       return obj;
   }
+
+
+    /**
+   * update method updates the fish
+   * @param size
+   * @param horSpeed
+   * @param verSpeed
+   * @param col
+   * 
+   */
+  public void update(int size,int horSpeed, int verSpeed, int col)
+  {
+    this.size=size;
+    this.horSpeed=horSpeed;
+    this.verSpeed=verSpeed;
+    this.col=col;
+  }
+
 
     /**
      * return a string representation of a Fish format:

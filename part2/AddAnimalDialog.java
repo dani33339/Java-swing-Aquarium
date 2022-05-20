@@ -19,7 +19,7 @@ import java.util.Random;
 
 /**
  * class  AddAnimalDialog:
- * JDialog that add's a fish
+ * JDialog that add's an animal
  * 
  * @author Daniel Markov ,Anton Volkov 
  */
@@ -154,37 +154,32 @@ public class AddAnimalDialog extends JDialog implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == add){
-			if(panel.getswimmablessize()<5){
-				if (txfsize.getText().isBlank()|| Integer.parseInt(txfsize.getText())>320 || Integer.parseInt(txfsize.getText())<20)
-				{
-					f=new JFrame();  
-					JOptionPane.showMessageDialog(f,"The size have to be from 20 to 320");  
-				}
-				else{
-					Random rand = new Random();
-					int rand_x = rand.nextInt(100,600);
-					int rand_y = rand.nextInt(100,400);
-					abstractSeaFactory=new AnimalFactory(Integer.parseInt(txfsize.getText()), rand_x, rand_y,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint(),panel);
-					if (typeComboBox.getSelectedItem().toString()=="Fish")
-					{
-						seaCreature=abstractSeaFactory.produceSeaCreature("Fish");
-					}
-					else
-					{
-						seaCreature=abstractSeaFactory.produceSeaCreature("Jellyfish");
-					}
-					panel.addswimmables((Swimmable)this.seaCreature);
-					setVisible(false);
-				}
-			}
-			else
+			if (txfsize.getText().isBlank()|| Integer.parseInt(txfsize.getText())>320 || Integer.parseInt(txfsize.getText())<20)
 			{
 				f=new JFrame();  
-				JOptionPane.showMessageDialog(f,"There are maximum 5 animal in the aquarium");  
+				JOptionPane.showMessageDialog(f,"The size have to be from 20 to 320");  
+			}
+			else{
+				Random rand = new Random();
+				int rand_x = rand.nextInt(100,600);
+				int rand_y = rand.nextInt(100,400);
+				abstractSeaFactory=new AnimalFactory(Integer.parseInt(txfsize.getText()), rand_x, rand_y,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint(),panel);
+				if (typeComboBox.getSelectedItem().toString()=="Fish")
+				{
+					seaCreature=abstractSeaFactory.produceSeaCreature("Fish");
+				}
+				else
+				{
+					seaCreature=abstractSeaFactory.produceSeaCreature("Jellyfish");
+				}
+				panel.addswimmables((Swimmable)this.seaCreature);
+				setVisible(false);
+				this.dispose();
 			}
 		}
 		if(e.getSource() == cancel){
 			setVisible(false);
+			this.dispose();
 		}
 	}
 }

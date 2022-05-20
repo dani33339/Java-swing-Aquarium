@@ -85,33 +85,26 @@ public class AddPlanetDialog extends JDialog  implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == add){
-			if(panel.getImmobilesize()<5){
-				if (txfsize.getText().isBlank()|| Integer.parseInt(txfsize.getText())>320 || Integer.parseInt(txfsize.getText())<20)
-				{
-					f=new JFrame();  
-					JOptionPane.showMessageDialog(f,"The size have to be from 20 to 320");  
-				}
-				else{
-					Random rand = new Random();
-					int rand_x = rand.nextInt(100,600);
-					int rand_y = rand.nextInt(100,400);
-					abstractSeaFactory=new PlantFactory(Integer.parseInt(txfsize.getText()), rand_x, rand_y);
-					if (typeComboBox.getSelectedItem().toString()=="Laminaria")
-					{
-						seaCreature=abstractSeaFactory.produceSeaCreature("Laminaria");
-					}
-					else
-					{
-						seaCreature=abstractSeaFactory.produceSeaCreature("Zostera");
-					}
-					panel.addimmobiles((Immobile)seaCreature);
-					setVisible(false);
-				}
-			}
-			else
+			if (txfsize.getText().isBlank()|| Integer.parseInt(txfsize.getText())>320 || Integer.parseInt(txfsize.getText())<20)
 			{
 				f=new JFrame();  
-				JOptionPane.showMessageDialog(f,"There are maximum 5 plants in the aquarium");  
+				JOptionPane.showMessageDialog(f,"The size have to be from 20 to 320");  
+			}
+			else{
+				Random rand = new Random();
+				int rand_x = rand.nextInt(100,600);
+				int rand_y = rand.nextInt(100,400);
+				abstractSeaFactory=new PlantFactory(Integer.parseInt(txfsize.getText()), rand_x, rand_y);
+				if (typeComboBox.getSelectedItem().toString()=="Laminaria")
+				{
+					seaCreature=abstractSeaFactory.produceSeaCreature("Laminaria");
+				}
+				else
+				{
+					seaCreature=abstractSeaFactory.produceSeaCreature("Zostera");
+				}
+				panel.addimmobiles((Immobile)seaCreature);
+				setVisible(false);
 			}
 		}
 		if(e.getSource() == cancel){

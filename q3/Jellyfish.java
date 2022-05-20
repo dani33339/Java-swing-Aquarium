@@ -261,12 +261,34 @@ public class Jellyfish extends Swimmable {
       return false;
   }
 
+  /**
+   * clone method reutrns acopy jellyfish
+   * 
+   * @return Jellyfish
+   */
   public Jellyfish clone(){
     Random rand = new Random();
     int rand_x = rand.nextInt(100,600);
     int rand_y = rand.nextInt(100,400);
     Jellyfish obj = new Jellyfish(this.size, rand_x, rand_y, this.horSpeed, this.verSpeed, this.col,this.callback);
     return obj;
+  }
+
+
+  /**
+   * update method updates jellyfish
+   * @param size
+   * @param horSpeed
+   * @param verSpeed
+   * @param col
+   * 
+   */
+  public void update(int size,int horSpeed, int verSpeed, int col)
+  {
+    this.size=size;
+    this.horSpeed=horSpeed;
+    this.verSpeed=verSpeed;
+    this.col=col;
   }
 
 
