@@ -5,6 +5,9 @@ import java.awt.Polygon;
 import java.util.Random;
 
 import part2.AquaFrame;
+import part3.HungerState;
+import part3.Hungry;
+
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 
@@ -23,7 +26,6 @@ public class Fish extends Swimmable {
     private int y_front;
     private int x_dir;
     private int y_dir;
-    private int id=0;
 
 
     /**
@@ -39,8 +41,8 @@ public class Fish extends Swimmable {
      * @param horSpeed - horizantal speed
      * @param verSpeed - vertical speed
      */
-    public Fish(int size, int x_front, int y_front, int horSpeed, int verSpeed, int col,Callback callback) {
-      super(horSpeed, verSpeed,callback);
+    public Fish(int size, int x_front, int y_front, int horSpeed, int verSpeed, int col,Callback callback ,int foodFrequency) {
+      super(horSpeed, verSpeed,callback,foodFrequency);
       this.size = size;
       this.col = col;
       this.x_front = x_front;
@@ -56,7 +58,7 @@ public class Fish extends Swimmable {
      * @param other - other Fish
      */
     public Fish(Fish other) {
-      super(other.gethorSpeed(), other.getverSpeed(),other.callback);
+      super(other.horSpeed, other.verSpeed,other.callback, other.foodFrequency);
       this.size = other.getSize();
       this.col = other.getcol();
       this.eatCount = other.getEatCount();
@@ -112,23 +114,6 @@ public class Fish extends Swimmable {
      */
     public String getAnimalName() {
       return "Fish";
-    }
-
-    /**
-     * set new id to animal
-     * @param num
-     */
-    public void setAnimalid(int id) {
-        this.id=id;
-    }
-
-     /**
-     * return name and id
-     * 
-     * @return String
-     */
-    public String getAnimalNameAndId() {
-      return "Fish"+id;
     }
 
     /**
@@ -221,6 +206,16 @@ public class Fish extends Swimmable {
         this.col = 1;
     }
 
+
+    /**
+    * set new id to animal
+    * @param num
+    */
+    public void setid(String idnumber) {
+      this.id=this.id+idnumber;
+    };
+
+
   /**
    * clone method reutrns acopy Fish
    * 
@@ -230,9 +225,11 @@ public class Fish extends Swimmable {
       Random rand = new Random();
       int rand_x = rand.nextInt(100,600);
       int rand_y = rand.nextInt(100,400);
-      Fish obj = new Fish(this.size, rand_x, rand_y, this.horSpeed, this.verSpeed, this.col,this.callback);
+      Fish obj = new Fish(this.size, rand_x, rand_y, this.horSpeed, this.verSpeed, this.col,this.callback,this.foodFrequency);
       return obj;
   }
+
+
 
 
     /**
@@ -243,7 +240,7 @@ public class Fish extends Swimmable {
    * @param col
    * 
    */
-  public void update(int size,int horSpeed, int verSpeed, int col)
+  public void edit(int size,int horSpeed, int verSpeed, int col)
   {
     this.size=size;
     this.horSpeed=horSpeed;
@@ -421,7 +418,23 @@ public class Fish extends Swimmable {
               e.printStackTrace();
             }
           }
+          if (frequencyCounter==foodFrequency)
+          {
+            hungrstatus=new Hungry();
+            hungrstatus.doAction(this);
+            setChanged();
+            notifyObservers(id);
+            frequencyCounter=0;
+          }
+            frequencyCounter++;
         }
       }
     }
+
+    public void setHungery(HungerState state)
+    {
+      this.hungrstatus=state;
+    }
+
+
 }

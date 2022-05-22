@@ -4,6 +4,9 @@ import java.awt.Graphics;
 import java.util.Random;
 
 import part2.AquaFrame;
+import part3.HungerState;
+import part3.Hungry;
+
 import java.awt.Color;
 
 /**
@@ -22,23 +25,6 @@ public class Jellyfish extends Swimmable {
   private int y_front;
   private int x_dir;
   private int y_dir;
-  private int id=0;
-
-  /**
-   * this method is a copy constructor method to build a new Jellyfish.
-   * 
-   * @param other - other Jellyfish
-   */
-  public Jellyfish(Jellyfish other) {
-    super(other.gethorSpeed(), other.getverSpeed(),other.callback);
-    this.size = other.getSize();
-    this.col = other.getcol();
-    this.eatCount = other.getEatCount();
-    this.x_dir = other.getx_dir();
-    this.x_front = other.getx_front();
-    this.y_dir = other.gety_dir();
-    this.y_front = other.gety_front();
-  }
 
   /**
    * this method is a constructor method to build a new MultiColorFish .
@@ -53,8 +39,8 @@ public class Jellyfish extends Swimmable {
    * @param horSpeed - horizantal speed
    * @param verSpeed - vertical speed
    */
-  public Jellyfish(int size, int x_front, int y_front, int horSpeed, int verSpeed, int col,Callback callback) {
-    super(horSpeed, verSpeed,callback);
+  public Jellyfish(int size, int x_front, int y_front, int horSpeed, int verSpeed, int col,Callback callback,int foodFrequency) {
+    super(horSpeed, verSpeed,callback,foodFrequency);
     this.size = size;
     this.col = col;
     this.x_front = x_front;
@@ -64,6 +50,22 @@ public class Jellyfish extends Swimmable {
     this.y_dir = 1;
 
   }
+  /**
+   * this method is a copy constructor method to build a new Jellyfish.
+   * 
+   * @param other - other Jellyfish
+   */
+  public Jellyfish(Jellyfish other) {
+    super(other.gethorSpeed(), other.getverSpeed(),other.callback,other.foodFrequency);
+    this.size = other.getSize();
+    this.col = other.getcol();
+    this.eatCount = other.getEatCount();
+    this.x_dir = other.getx_dir();
+    this.x_front = other.getx_front();
+    this.y_dir = other.gety_dir();
+    this.y_front = other.gety_front();
+  }
+
 
   /**
    * return a string representation of the color:
@@ -113,22 +115,6 @@ public class Jellyfish extends Swimmable {
     return "Jellyfish";
   }
 
-    /**
-    * set new id to animal 
-    * @param num
-    */
-    public void setAnimalid(int id) {
-      this.id=id;
-  }
-
-  /**
-   * return name and id of jellfish
-   * 
-   * @return String
-   */
-  public String getAnimalNameAndId() {
-    return "Jellyfish"+id;
-  }
 
   /**
    * return eatCount of fish
@@ -261,6 +247,14 @@ public class Jellyfish extends Swimmable {
       return false;
   }
 
+    /**
+    * set new id to animal
+    * @param num
+    */
+    public void setid(String idnumber) {
+      this.id=this.id+idnumber;
+    };
+
   /**
    * clone method reutrns acopy jellyfish
    * 
@@ -270,7 +264,7 @@ public class Jellyfish extends Swimmable {
     Random rand = new Random();
     int rand_x = rand.nextInt(100,600);
     int rand_y = rand.nextInt(100,400);
-    Jellyfish obj = new Jellyfish(this.size, rand_x, rand_y, this.horSpeed, this.verSpeed, this.col,this.callback);
+    Jellyfish obj = new Jellyfish(this.size, rand_x, rand_y, this.horSpeed, this.verSpeed, this.col,this.callback,this.foodFrequency);
     return obj;
   }
 
@@ -283,7 +277,7 @@ public class Jellyfish extends Swimmable {
    * @param col
    * 
    */
-  public void update(int size,int horSpeed, int verSpeed, int col)
+  public void edit(int size,int horSpeed, int verSpeed, int col)
   {
     this.size=size;
     this.horSpeed=horSpeed;
@@ -381,9 +375,23 @@ public class Jellyfish extends Swimmable {
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
+        } 
+        if (frequencyCounter==foodFrequency)
+        {
+          hungrstatus=new Hungry();
+          hungrstatus.doAction(this);
+          setChanged();
+          notifyObservers(id);
+          frequencyCounter=0;
         }
+          frequencyCounter++;
+      
       }
     }
+  }
+  @Override
+  public void setHungery(HungerState state) {
+    this.hungrstatus=state;    
   }
 
 }

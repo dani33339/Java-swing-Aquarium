@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashSet;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,7 +29,7 @@ import part3.*;
  * 
  * @author Daniel Markov ,Anton Volkov 
  */
-public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callback{
+public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callback,Observer{
     private AquaFrame frame;
     private JPanel p1;
     private JButton[] b_num;
@@ -90,9 +92,10 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
      * @param s
      */
     public void addswimmables(Swimmable s){
+        s.addObserver(this);
         executorService.execute(s);
         this.swimmables.add(s);
-        s.setAnimalid(swimmables.size());  
+        s.setid(Integer.toString(swimmables.size()));  
     }
 
     /** 
@@ -288,7 +291,7 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
         String[] columnNames = {"Animal", "Color", "Size", "Hor. speed", "Ver. speed","Eat counter"};
         Object [][] data = new String[5][columnNames.length];
         for (Swimmable s : swimmables) {
-             data[i][0] = "" + s.getAnimalNameAndId();
+             data[i][0] = "" + s.getId();
              data[i][1] = "" + s.getColor();
              data[i][2] = "" + s.getSize();
              data[i][3] = "" + s.gethorSpeed();
@@ -361,6 +364,16 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
         Info();
      else if(e.getSource() == b_num[8])  
         Exit();
+    }
+
+
+    // public void update(java.util.Observable arg0, Object arg1) {
+	// 	JOptionPane.showMessageDialog(null,arg1 +" wants to eat! ","Hungry animal",JOptionPane.PLAIN_MESSAGE);	
+	// }
+
+
+    public void update(java.util.Observable arg, Object animalid) {
+        JOptionPane.showMessageDialog(null,animalid +" Is hungry ","Hungry animal",JOptionPane.PLAIN_MESSAGE);
     }
  
 }

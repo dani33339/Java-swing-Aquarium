@@ -37,12 +37,10 @@ public class Zostera extends Immobile{
     }
 
     public void setMemento() {
-        // TODO Auto-generated method stub
         
     }
 
     public void getMemento() {
-        // TODO Auto-generated method stub
         
     }
 

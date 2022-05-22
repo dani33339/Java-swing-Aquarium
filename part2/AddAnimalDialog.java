@@ -27,10 +27,10 @@ public class AddAnimalDialog extends JDialog implements ActionListener {
 	public JFrame f;  
 	private JPanel p1,p2;
     private JButton add, cancel;
-    private JLabel lbl_type, lbl_size, lbl_Horizontal, lbl_Vertical, lbl_color;
+    private JLabel lbl_type, lbl_size, lbl_Horizontal, lbl_Vertical, lbl_color,lbl_foodFreq;
 	private JComboBox <String> typeComboBox,colorComboBox;
 	private JTextField txfsize;
-    private JSlider sl_Horizontal, s2_Vertical;
+    private JSlider sl_Horizontal, s2_Vertical,s3_foodFreq;
     private AquaPanel panel;
 	private AbstractSeaFactory abstractSeaFactory;
 	private SeaCreature seaCreature;
@@ -58,6 +58,8 @@ public class AddAnimalDialog extends JDialog implements ActionListener {
 		lbl_Horizontal = new JLabel("Horizontal speed:",JLabel.CENTER);
 		lbl_Vertical = new JLabel("Vertical speed:",JLabel.CENTER);
 		lbl_color = new JLabel("Color of the animal:",JLabel.CENTER);
+		lbl_foodFreq = new JLabel("Animal food frequency:",JLabel.CENTER);
+
 
 		/*JComboBox for animal type */
 		p1.add(lbl_type);
@@ -92,6 +94,16 @@ public class AddAnimalDialog extends JDialog implements ActionListener {
 		String s2[] = { "Black", "Red", "Blue", "Green", "Cyan", "Orange", "Yellow" ,"Magenta", "Pink"};
 		colorComboBox = new JComboBox<String> (s2);
 		p1.add(colorComboBox);
+
+
+		/*slider for Vertical speed  */
+		p1.add(lbl_foodFreq);
+		s3_foodFreq = new JSlider(100,200);
+		s3_foodFreq.setMajorTickSpacing(10);
+		s3_foodFreq.setMinorTickSpacing(10);
+		s3_foodFreq.setPaintTicks(true);
+		s3_foodFreq.setPaintLabels(true);
+		p1.add(s3_foodFreq);
 		
 		p2.setLayout(new GridLayout(1,2,5,5));
 		add=new JButton("Add");
@@ -163,7 +175,7 @@ public class AddAnimalDialog extends JDialog implements ActionListener {
 				Random rand = new Random();
 				int rand_x = rand.nextInt(100,600);
 				int rand_y = rand.nextInt(100,400);
-				abstractSeaFactory=new AnimalFactory(Integer.parseInt(txfsize.getText()), rand_x, rand_y,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint(),panel);
+				abstractSeaFactory=new AnimalFactory(Integer.parseInt(txfsize.getText()), rand_x, rand_y,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint(),this.panel,s3_foodFreq.getValue());
 				if (typeComboBox.getSelectedItem().toString()=="Fish")
 				{
 					seaCreature=abstractSeaFactory.produceSeaCreature("Fish");

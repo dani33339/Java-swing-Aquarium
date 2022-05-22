@@ -75,10 +75,10 @@ public class AddDuplicateAnimal extends JDialog implements ActionListener{
 		if(e.getSource() == select){
 				String name = info.getModel().getValueAt(info.getSelectedRow(),0).toString(); //get the name of animal from selected row
 				for(Swimmable s : panel.getswimmables()){ //run over swimmables hashset
-					if(s.getAnimalNameAndId().equalsIgnoreCase(name)){ //Comparison with name
+					if(s.getId().equalsIgnoreCase(name)){ //Comparison with name
 						Swimmable clone = s.clone(); //clone
 						panel.addswimmables(clone); 
-						if (JOptionPane.showConfirmDialog(null, s.getAnimalNameAndId()+ "duplicated,do you want to edit the animal?", "Edit Message",
+						if (JOptionPane.showConfirmDialog(null, s.getId()+ "duplicated,do you want to edit the animal?", "Edit Message",
 						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) { //if user want's to edit
 							p1.setVisible(false);
 							p2.setVisible(false);
@@ -204,7 +204,7 @@ public class AddDuplicateAnimal extends JDialog implements ActionListener{
 							color = 9;
 							break;
 						}
-						s.update(Integer.parseInt(txfsize.getText()),sl_Horizontal.getValue(), s2_Vertical.getValue(),color);
+						s.edit(Integer.parseInt(txfsize.getText()),sl_Horizontal.getValue(), s2_Vertical.getValue(),color);
 						setVisible(false);
 					}
 				}

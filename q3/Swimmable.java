@@ -2,8 +2,10 @@ package q3;
 
 import java.awt.Graphics;
 import java.util.concurrent.CyclicBarrier;
-
 import part3.SeaCreature;
+import part3.*;
+import java.util.Observable;
+
 
 /**
  * class  Swimmable:
@@ -11,11 +13,16 @@ import part3.SeaCreature;
  *
  * @author Daniel Markov ,Anton Volkov 
  */
-public abstract class Swimmable implements Runnable,SeaCreature,Cloneable  {
+public abstract class Swimmable extends Observable implements Runnable,SeaCreature,Cloneable  {
     protected int horSpeed;
     protected int verSpeed;
+    protected int foodFrequency;
     protected CyclicBarrier Barrier=null;
     protected final Callback callback;
+    protected String id=this.getClass().getSimpleName();
+    protected int frequencyCounter=0;
+    protected HungerState hungrstatus;
+    protected boolean counterflag=false;
 
     
     public interface Callback {
@@ -29,6 +36,7 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable  {
     {
         this.horSpeed=0;
         this.verSpeed=0;
+        this.foodFrequency=0;
         this.callback = null;
     }
 
@@ -37,11 +45,12 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable  {
     * @param horSpeed 
     * @param verSpeed
 	*/
-    public Swimmable(int horSpeed,int verSpeed, Callback callback)
+    public Swimmable(int horSpeed,int verSpeed, Callback callback, int foodFreq)
     {
         this.callback = callback;
         this.horSpeed=horSpeed;
         this.verSpeed=verSpeed;
+        this.foodFrequency=foodFreq;
     }
     
     /** 
@@ -90,10 +99,13 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable  {
 
     public abstract String getAnimalName();
 
+    public abstract void setid(String id) ;
 
-    public abstract void setAnimalid(int id) ;
-
-    public abstract String getAnimalNameAndId();
+    /**
+     * get id from animal
+     * @param num
+     */
+    public String getId(){return id;};
 
     public abstract int getEatCount();
 
@@ -119,7 +131,8 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable  {
 
     public abstract Swimmable clone();
 
-    public abstract void update(int size,int horSpeed, int verSpeed, int col);
+    public abstract void edit(int size,int horSpeed, int verSpeed, int col);
 
+    public abstract void setHungery(HungerState state);
 
 }
