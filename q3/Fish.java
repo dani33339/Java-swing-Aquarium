@@ -3,11 +3,7 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Polygon;
 import java.util.Random;
-
 import part2.AquaFrame;
-import part3.HungerState;
-import part3.Hungry;
-
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 
@@ -420,21 +416,12 @@ public class Fish extends Swimmable {
           }
           if (frequencyCounter==foodFrequency)
           {
-            hungrstatus=new Hungry();
-            hungrstatus.doAction(this);
-            setChanged();
-            notifyObservers(id);
+            this.update();
             frequencyCounter=0;
           }
             frequencyCounter++;
         }
       }
     }
-
-    public void setHungery(HungerState state)
-    {
-      this.hungrstatus=state;
-    }
-
 
 }

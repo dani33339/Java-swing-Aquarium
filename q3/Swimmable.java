@@ -2,9 +2,9 @@ package q3;
 
 import java.awt.Graphics;
 import java.util.concurrent.CyclicBarrier;
+import javax.swing.JOptionPane;
 import part3.SeaCreature;
 import part3.*;
-import java.util.Observable;
 
 
 /**
@@ -13,7 +13,7 @@ import java.util.Observable;
  *
  * @author Daniel Markov ,Anton Volkov 
  */
-public abstract class Swimmable extends Observable implements Runnable,SeaCreature,Cloneable  {
+public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Observer  {
     protected int horSpeed;
     protected int verSpeed;
     protected int foodFrequency;
@@ -21,7 +21,6 @@ public abstract class Swimmable extends Observable implements Runnable,SeaCreatu
     protected final Callback callback;
     protected String id=this.getClass().getSimpleName();
     protected int frequencyCounter=0;
-    protected HungerState hungrstatus;
     protected boolean counterflag=false;
 
     
@@ -133,6 +132,9 @@ public abstract class Swimmable extends Observable implements Runnable,SeaCreatu
 
     public abstract void edit(int size,int horSpeed, int verSpeed, int col);
 
-    public abstract void setHungery(HungerState state);
+    public void update() {
+        JOptionPane.showMessageDialog(null,this.getId() +" wants to eat! ","Hungry animal",JOptionPane.PLAIN_MESSAGE);	; 
+     }
+  
 
 }

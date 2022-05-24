@@ -1,12 +1,7 @@
 package q3;
-
 import java.awt.Graphics;
 import java.util.Random;
-
 import part2.AquaFrame;
-import part3.HungerState;
-import part3.Hungry;
-
 import java.awt.Color;
 
 /**
@@ -378,10 +373,7 @@ public class Jellyfish extends Swimmable {
         } 
         if (frequencyCounter==foodFrequency)
         {
-          hungrstatus=new Hungry();
-          hungrstatus.doAction(this);
-          setChanged();
-          notifyObservers(id);
+          this.update();
           frequencyCounter=0;
         }
           frequencyCounter++;
@@ -389,9 +381,4 @@ public class Jellyfish extends Swimmable {
       }
     }
   }
-  @Override
-  public void setHungery(HungerState state) {
-    this.hungrstatus=state;    
-  }
-
 }

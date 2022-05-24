@@ -7,12 +7,12 @@ public class AnimalFactory implements AbstractSeaFactory{
 
     protected int horSpeed;
     protected int verSpeed;
-    protected int foodFreq;
     protected int size;
     protected int col;
     protected int x_front;
     protected int y_front;
     protected final Callback callback;
+    protected int foodFreq;
 
 
 	public AnimalFactory(int size, int x_front, int y_front, int horSpeed, int verSpeed, int col,Callback callback,int foodFreq)

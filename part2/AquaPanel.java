@@ -6,20 +6,18 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashSet;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
 import q3.*;
 import part3.*;
 
@@ -29,7 +27,7 @@ import part3.*;
  * 
  * @author Daniel Markov ,Anton Volkov 
  */
-public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callback,Observer{
+public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callback{
     private AquaFrame frame;
     private JPanel p1;
     private JButton[] b_num;
@@ -42,7 +40,8 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
     private boolean BackgroundeImageStatus=false;
     public ExecutorService executorService = Executors.newFixedThreadPool(5);
     public CyclicBarrier Barrier=null;
-     
+ 
+
 	/**
 	* this method is a constructor method to build a new AquaPanel .
     * @param AquaFrame -AquaFrame of the parent
@@ -85,14 +84,14 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
     * @return int
     */
     public int getImmobilesize(){return immobiles.size();}
-
     
+
     /** 
      * add swimmable to the hashset
      * @param s
      */
     public void addswimmables(Swimmable s){
-        s.addObserver(this);
+        // s.addObserver(this);
         executorService.execute(s);
         this.swimmables.add(s);
         s.setid(Integer.toString(swimmables.size()));  
@@ -366,16 +365,10 @@ public class AquaPanel extends JPanel implements ActionListener, Swimmable.Callb
         Exit();
     }
 
-
-    // public void update(java.util.Observable arg0, Object arg1) {
-	// 	JOptionPane.showMessageDialog(null,arg1 +" wants to eat! ","Hungry animal",JOptionPane.PLAIN_MESSAGE);	
-	// }
-
-
-    public void update(java.util.Observable arg, Object animalid) {
-        JOptionPane.showMessageDialog(null,animalid +" Is hungry ","Hungry animal",JOptionPane.PLAIN_MESSAGE);
+    public void notifyAllObservers(){
+        for (Swimmable s : swimmables)
+           s.update();
     }
- 
 }
 
 
