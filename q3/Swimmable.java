@@ -1,10 +1,11 @@
 package q3;
 
-import java.awt.Graphics;
 import java.util.concurrent.CyclicBarrier;
 import javax.swing.JOptionPane;
 import part3.SeaCreature;
 import part3.*;
+import java.awt.*;
+
 
 
 /**
@@ -13,7 +14,7 @@ import part3.*;
  *
  * @author Daniel Markov ,Anton Volkov 
  */
-public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Observer  {
+public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Observer,MarineAnimal {
     protected int horSpeed;
     protected int verSpeed;
     protected int foodFrequency;
@@ -95,16 +96,21 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Observ
     public void setBarrier(CyclicBarrier Barrier) {
         this.Barrier=Barrier;
     } 
+   /**
+    * return foodFrequency of Swimmable
+    * @return int
+    */
+    public int getfoodFrequency(){return this.foodFrequency;};
+
+   /**
+    * return id of Swimmable
+    * @return int
+    */
+    public String getId(){return id;};
 
     public abstract String getAnimalName();
 
     public abstract void setid(String id) ;
-
-    /**
-     * get id from animal
-     * @param num
-     */
-    public String getId(){return id;};
 
     public abstract int getEatCount();
 
@@ -130,11 +136,9 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Observ
 
     public abstract Swimmable clone();
 
-    public abstract void edit(int size,int horSpeed, int verSpeed, int col);
+    public abstract void edit(int size,int horSpeed, int verSpeed, Color col);
 
     public void update() {
         JOptionPane.showMessageDialog(null,this.getId() +" wants to eat! ","Hungry animal",JOptionPane.PLAIN_MESSAGE);	; 
      }
-  
-
 }

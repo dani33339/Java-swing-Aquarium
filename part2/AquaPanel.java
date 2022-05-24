@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -31,7 +33,7 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
     private AquaFrame frame;
     private JPanel p1;
     private JButton[] b_num;
-    private String[] names = {"Add Animal","Add Plant","Animal Duplicate","Sleep","Wake up","reset","Food","Info","Exit"};
+    private String[] names = {"Add Animal","Add Plant","Animal Duplicate","Decorator","Sleep","Wake up","reset","Food","Info","Exit"};
     private JScrollPane scrollPane;
     private boolean isTableVisible = false;
     private boolean isTable2Visible = false;
@@ -167,8 +169,8 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
             }
             
         }
-        catch(Exception e1){
-             JOptionPane.showMessageDialog(null,e1.getMessage());
+        catch(Exception e){
+             JOptionPane.showMessageDialog(null,e.getMessage());
         }
     }
 
@@ -183,8 +185,8 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
             }
             
         }
-        catch(Exception e1){
-             JOptionPane.showMessageDialog(null,e1.getMessage());
+        catch(Exception e){
+             JOptionPane.showMessageDialog(null,e.getMessage());
         }
     }
 
@@ -205,6 +207,11 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
         catch(Exception e1){
              JOptionPane.showMessageDialog(null,e1.getMessage());
         }
+    }
+
+    public void Decorator()
+    {
+        JPanelDecorator panel = new JPanelDecorator(this);
     }
 
     /** 
@@ -307,6 +314,7 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
      * create and Show info table
      */     
      public void Info () {
+
         if(isTable2Visible == true) {
             this.Wakeup();
             scrollPane.setVisible(false);
@@ -314,7 +322,7 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
             
         }
         if(isTableVisible == false) {
-               this.Sleep();
+            this.Sleep();
             JTable table=getanimmaltable();
             scrollPane = new JScrollPane(table);
             scrollPane.setSize(450,table.getRowHeight()*(5)+24);
@@ -351,17 +359,19 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
         AddPlant();
     else if(e.getSource() == b_num[2]) 
         DuplicateAnimal();
-     else if(e.getSource() == b_num[3]) 
+    else if(e.getSource() == b_num[3]) 
+        Decorator();
+     else if(e.getSource() == b_num[4]) 
         Sleep();
-     else if(e.getSource() == b_num[4])  
-        Wakeup();
      else if(e.getSource() == b_num[5])  
+        Wakeup();
+     else if(e.getSource() == b_num[6])  
         Reset(); 
-     else if(e.getSource() == b_num[6])
+     else if(e.getSource() == b_num[7])
         food();
-     else if(e.getSource() == b_num[7])  
-        Info();
      else if(e.getSource() == b_num[8])  
+        Info();
+     else if(e.getSource() == b_num[9])  
         Exit();
     }
 

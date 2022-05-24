@@ -125,36 +125,37 @@ public class AddAnimalDialog extends JDialog implements ActionListener {
 	 * convert color in colorbox to a color number 1-9
 	 * @return int
 	 */
-	public int getColorint()
+	public Color getColor()
     {
-        int color = 1;
+
+        Color color=Color.black;
         switch (colorComboBox.getSelectedItem().toString()) {
           case "Black":
-            color = 1;
+            color = Color.black;
             break;
           case "Red":
-            color = 2;
+            color = Color.red;
             break;
           case "Blue":
-            color = 3;
+            color = Color.blue;
             break;
           case "Green":
-            color = 4;
+            color = Color.green;
             break;
           case "Cyan":
-            color = 5;
+            color = Color.cyan;
             break;
           case "Orange":
-            color = 6;
+            color = Color.orange;
             break;
           case "Yellow":
-            color = 7;
+            color = Color.yellow;
             break;
           case "Magenta":
-            color = 8;
+            color = Color.magenta;
             break;
           case "Pink":
-            color = 9;
+            color = Color.pink;
             break;
         }
         return color;
@@ -175,7 +176,7 @@ public class AddAnimalDialog extends JDialog implements ActionListener {
 				Random rand = new Random();
 				int rand_x = rand.nextInt(100,600);
 				int rand_y = rand.nextInt(100,400);
-				abstractSeaFactory=new AnimalFactory(Integer.parseInt(txfsize.getText()), rand_x, rand_y,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColorint(),this.panel,s3_foodFreq.getValue());
+				abstractSeaFactory=new AnimalFactory(Integer.parseInt(txfsize.getText()), rand_x, rand_y,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColor(),this.panel,s3_foodFreq.getValue());
 				if (typeComboBox.getSelectedItem().toString()=="Fish")
 				{
 					seaCreature=abstractSeaFactory.produceSeaCreature("Fish");

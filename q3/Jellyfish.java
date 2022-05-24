@@ -1,8 +1,7 @@
 package q3;
-import java.awt.Graphics;
 import java.util.Random;
 import part2.AquaFrame;
-import java.awt.Color;
+import java.awt.*;
 
 /**
  * class Jellyfish:
@@ -14,7 +13,7 @@ import java.awt.Color;
 public class Jellyfish extends Swimmable {
   private int EAT_DISTANCE = 4;
   private int size;
-  private int col;
+  private Color col;
   private int eatCount;
   private int x_front;
   private int y_front;
@@ -34,7 +33,7 @@ public class Jellyfish extends Swimmable {
    * @param horSpeed - horizantal speed
    * @param verSpeed - vertical speed
    */
-  public Jellyfish(int size, int x_front, int y_front, int horSpeed, int verSpeed, int col,Callback callback,int foodFrequency) {
+  public Jellyfish(int size, int x_front, int y_front, int horSpeed, int verSpeed, Color col,Callback callback,int foodFrequency) {
     super(horSpeed, verSpeed,callback,foodFrequency);
     this.size = size;
     this.col = col;
@@ -67,39 +66,27 @@ public class Jellyfish extends Swimmable {
    * 
    * @return String
    */
-  public String getColor() {
-    String color = "";
-    switch (this.col) {
-      case 1:
-        color = "Black";
-        break;
-      case 2:
-        color = "Red";
-        break;
-      case 3:
-        color = "Blue";
-        break;
-      case 4:
-        color = "Green";
-        break;
-      case 5:
-        color = "Cyan";
-        break;
-      case 6:
-        color = "Orange";
-        break;
-      case 7:
-        color = "Yellow";
-        break;
-      case 8:
-        color = "Magenta";
-        break;
-      case 9:
-        color = "Pink";
-        break;
-    }
-    return color;
-  }
+    public String getColor() { 
+      if(col==Color.black)
+        return "Black";
+      if(col==Color.red)
+        return "Red";
+      if(col==Color.blue)
+        return "Blue";
+      if(col==Color.green)
+        return "Green";
+      if(col==Color.cyan)
+        return "Cyan";
+      if(col==Color.orange)
+        return "Orange";
+      if(col==Color.yellow)
+        return "Yellow";
+      if(col==Color.magenta)
+        return "Magenta";
+      if(col==Color.pink)
+        return "Pink";
+      return String.format("#%06x", col.getRGB() & 0x00FFFFFF);
+      }
 
   /**
    * return name Jellyfish
@@ -190,18 +177,18 @@ public class Jellyfish extends Swimmable {
    * 
    * @return int
    */
-  public int getcol() {
+  public Color getcol() {
     return this.col;
   }
 
-  /**
-   * change the color of the Fish
-   */
-  public void changeColor() {
-    this.col++;
-    if (this.col > 9)
-      this.col = 1;
+    /**
+     * set color to object
+     * @param col
+     */
+    public void setColor(Color col) {
+      this.col = col;
   }
+
 
   /**
    * return a string representation of a Jellyfish format:
@@ -272,7 +259,7 @@ public class Jellyfish extends Swimmable {
    * @param col
    * 
    */
-  public void edit(int size,int horSpeed, int verSpeed, int col)
+  public void edit(int size,int horSpeed, int verSpeed, Color col)
   {
     this.size=size;
     this.horSpeed=horSpeed;
@@ -281,30 +268,28 @@ public class Jellyfish extends Swimmable {
   }
 
 
+  public void PaintFish(Color col) {
+    this.setColor(col);
+}
+
+
   /**
    * this method draw the animal
    * 
    * @param g
    */
   public void drawCreature(Graphics g) {
-    Color[] colors = new Color[] { Color.black, Color.red, Color.blue, Color.green, Color.cyan, Color.orange,
-        Color.yellow, Color.magenta, Color.pink };
-    Color color = colors[col - 1];
-
     int numLegs;
-    if (size < 40)
+    if(size<40)
       numLegs = 5;
-    else if (size < 80)
+    else if(size<80)
       numLegs = 9;
     else
       numLegs = 12;
-
-    g.setColor(color);
-    g.fillArc(x_front - size / 2, y_front - size / 4, size, size / 2, 0, 180);
-
-    for (int i = 0; i < numLegs; i++)
-      g.drawLine(x_front - size / 2 + size / numLegs + size * i / (numLegs + 1), y_front,
-          x_front - size / 2 + size / numLegs + size * i / (numLegs + 1), y_front + size / 3);
+    g.setColor(col);
+    g.fillArc(x_front - size/2, y_front - size/4, size, size/2, 0, 180);
+    for(int i=0; i<numLegs; i++)
+    g.drawLine(x_front - size/2 + size/numLegs + size*i/(numLegs+1), y_front, x_front - size/2 + size/numLegs + size*i/(numLegs+1), y_front+size/3);
   }
 
   /**

@@ -73,6 +73,7 @@ public class AddDuplicateAnimal extends JDialog implements ActionListener{
 	 */
     public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == select){
+			try{
 				String name = info.getModel().getValueAt(info.getSelectedRow(),0).toString(); //get the name of animal from selected row
 				for(Swimmable s : panel.getswimmables()){ //run over swimmables hashset
 					if(s.getId().equalsIgnoreCase(name)){ //Comparison with name
@@ -91,6 +92,11 @@ public class AddDuplicateAnimal extends JDialog implements ActionListener{
 					break;
 					}
 				}
+			}
+			catch(Exception exception)
+			{
+				JOptionPane.showMessageDialog(f,"There is no fish in this row please choose a row with a fish");  
+			}
 		}
 		if(e.getSource() == cancel){
 			setVisible(false);
@@ -174,35 +180,44 @@ public class AddDuplicateAnimal extends JDialog implements ActionListener{
 					else
 					{
 						// convert color in colorbox to a color number 1-9
-						int color = 1;
+						Color color = Color.black;
 						switch (colorComboBox.getSelectedItem().toString()) {
 							case "Black":
-							color = 1;
-							break;
+								color =Color.black;
+								break;
 							case "Red":
-							color = 2;
-							break;
+								color= Color.red;
+								break;
+
 							case "Blue":
-							color = 3;
-							break;
+								color= Color.blue;
+								break;
+
 							case "Green":
-							color = 4;
-							break;
+								color= Color.green;
+								break;
+
 							case "Cyan":
-							color = 5;
-							break;
+								color= Color.cyan;
+								break;
+
 							case "Orange":
-							color = 6;
-							break;
+								color= Color.orange;
+								break;
+
 							case "Yellow":
-							color = 7;
-							break;
+								color= Color.yellow;
+								break;
+
 							case "Magenta":
-							color = 8;
-							break;
+								color= Color.magenta;
+								break;
+
 							case "Pink":
-							color = 9;
-							break;
+								color=	Color.pink;
+								break;
+
+
 						}
 						s.edit(Integer.parseInt(txfsize.getText()),sl_Horizontal.getValue(), s2_Vertical.getValue(),color);
 						setVisible(false);
