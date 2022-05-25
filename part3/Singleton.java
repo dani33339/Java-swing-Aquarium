@@ -51,10 +51,4 @@ public class Singleton {
         return Visible;
     }
 
-    // public static void set(){
-	// 	if(instance!=null){
-	// 		instance=null;
-	// 	}
-	// }
-
 }

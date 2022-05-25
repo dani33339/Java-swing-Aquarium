@@ -8,12 +8,12 @@ public class Zostera extends Immobile{
     private int size;
     private int x;
     private int y;
-    private Color colorr;
+    private Color color;
 
     public Zostera(int size,int x,int y){
         //default Ctor
         super("Zostera");
-        this.colorr = Color.green; //#197546 Color Hex
+        this.color = Color.green; //#197546 Color Hex
         this.size = size;
         this.x = x;
         this.y = y;
@@ -22,7 +22,7 @@ public class Zostera extends Immobile{
     public void drawCreature(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
         g2.setStroke(new BasicStroke(3));
-        g2.setColor(colorr);
+        g2.setColor(color);
         g.drawLine(x, y, x, y - size);
         g.drawLine(x-2, y, x-10, y-size*9/10);
         g.drawLine(x+2, y, x+10, y-size*9/10);
@@ -59,5 +59,21 @@ public class Zostera extends Immobile{
     public String getColorString() {
         return "green";
     }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setid(String idnumber) {
+        this.id=this.id+idnumber;
+      };
+
+      public void setState(Color color,int size,int x,int y)
+      {
+          this.color=color;
+          this.size=size;
+          this.x=x;
+          this.y=y;
+      } 
     
 }

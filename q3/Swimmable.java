@@ -118,6 +118,8 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Observ
 
     public abstract String getColor();
 
+    public abstract Color getcol() ;
+
     public abstract void eatInc();
     
     public abstract String toString();
@@ -132,6 +134,8 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Observ
 
     public abstract int getx_dir();
 
+    public abstract int gety_dir();
+
     public abstract void run();
 
     public abstract Swimmable clone();
@@ -141,4 +145,7 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Observ
     public void update() {
         JOptionPane.showMessageDialog(null,this.getId() +" wants to eat! ","Hungry animal",JOptionPane.PLAIN_MESSAGE);	; 
      }
+    abstract public void setState(Color col,int size,int x_front,int y_front,int horSpeed,int verSpeed,int x_dir,int y_dir);
+
+
 }

@@ -23,10 +23,10 @@ public class AquaFrame extends JFrame implements ActionListener{
     JMenuBar mb;
   
     // JMenu
-    JMenu File,Background,Help;
+    JMenu File,Background,Memento,Help;
   
     // Menu items
-    JMenuItem Exit, Image, Blue, None, help;
+    JMenuItem Exit, Image, Blue, None, help,Animal,Plant;
   
     /**
 	* this method is a constructor method to build a new AquaFrame
@@ -43,6 +43,7 @@ public class AquaFrame extends JFrame implements ActionListener{
         // create a menu
         File = new JMenu("File");
         Background = new JMenu("Background");
+        Memento = new JMenu("Memento");
         Help = new JMenu("Help");
         
         // create menuitems
@@ -51,6 +52,9 @@ public class AquaFrame extends JFrame implements ActionListener{
         Blue = new JMenuItem("Blue");
         None = new JMenuItem("None");
         help = new JMenuItem("Help");
+        Animal = new JMenuItem("Animal");
+        Plant = new JMenuItem("Plant");
+
         
         // add menu items to menu
         File.add(Exit);
@@ -58,16 +62,21 @@ public class AquaFrame extends JFrame implements ActionListener{
         Background.add(Blue);
         Background.add(None);
         Help.add(help);
-        
+        Memento.add(Animal);
+        Memento.add(Plant);
+
         // add menu to menu bar
         mb.add(File);
         mb.add(Background);
+        mb.add(Memento);
         mb.add(Help);
 
         help.addActionListener(this);
         Blue.addActionListener(this);
         Image.addActionListener(this);
         None.addActionListener(this);
+        Animal.addActionListener(this);
+        Plant.addActionListener(this);
         Exit.addActionListener(this);
 
         // add menubar to frame
@@ -106,17 +115,22 @@ public class AquaFrame extends JFrame implements ActionListener{
         }
         if(e.getSource()==None)
         {
-            //remove image if it exit's
+            //remove image if it exsist's
             if(panel.getimagestatus())
                 panel.changeBackgroundimagestatus();
             panel.setBackground(Color.white);
         }
 
 
-        if(e.getSource()==Exit)
+        if(e.getSource()==Animal)
         {
-            this.panel.Close();
-            System.exit(0);  
+            panel.selectAnimalMemento();
+        }  
+
+        
+        if(e.getSource()==Plant)
+        {
+            panel.selectPlantsMemento();
         }  
 
         if(e.getSource()==Exit){

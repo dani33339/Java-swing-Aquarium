@@ -26,7 +26,7 @@ public class AddDuplicateAnimal extends JDialog implements ActionListener{
 	public JFrame f;  
 	private JPanel p1,p2; 
     private JButton select, cancel;
-    private AquaPanel  panel;
+    private AquaPanel panel;
     JTable info;
 
 
@@ -48,7 +48,7 @@ public class AddDuplicateAnimal extends JDialog implements ActionListener{
 		p2 = new JPanel(); //add and cencel
 	
 		p1.setLayout(new BorderLayout());
-		info=panel.getanimmaltable();
+		info=panel.getSwimibletable();
 		p1.add(info);
 		
 		p2.setLayout(new GridLayout(1,2,5,5));
@@ -75,6 +75,8 @@ public class AddDuplicateAnimal extends JDialog implements ActionListener{
 		if(e.getSource() == select){
 			try{
 				String name = info.getModel().getValueAt(info.getSelectedRow(),0).toString(); //get the name of animal from selected row
+				if (name.equalsIgnoreCase("Name"))
+					throw new Exception();
 				for(Swimmable s : panel.getswimmables()){ //run over swimmables hashset
 					if(s.getId().equalsIgnoreCase(name)){ //Comparison with name
 						Swimmable clone = s.clone(); //clone
@@ -95,7 +97,7 @@ public class AddDuplicateAnimal extends JDialog implements ActionListener{
 			}
 			catch(Exception exception)
 			{
-				JOptionPane.showMessageDialog(f,"There is no fish in this row please choose a row with a fish");  
+				JOptionPane.showMessageDialog(f,"There is no object in this row please choose a row with an object");  
 			}
 		}
 		if(e.getSource() == cancel){

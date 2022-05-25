@@ -10,11 +10,7 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.Graphics;
@@ -33,7 +29,7 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
     private AquaFrame frame;
     private JPanel p1;
     private JButton[] b_num;
-    private String[] names = {"Add Animal","Add Plant","Animal Duplicate","Decorator","Sleep","Wake up","reset","Food","Info","Exit"};
+    private String[] names = {"Add Animal","Add Plant","Animal Duplicate","Decorator","Sleep","Wake up","Reset","Food","Info","Exit"};
     private JScrollPane scrollPane;
     private boolean isTableVisible = false;
     private boolean isTable2Visible = false;
@@ -42,6 +38,8 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
     private boolean BackgroundeImageStatus=false;
     public ExecutorService executorService = Executors.newFixedThreadPool(5);
     public CyclicBarrier Barrier=null;
+    CareTaker cartaker= new CareTaker();
+    JTable swimibleInfo,immobileInfo;
  
 
 	/**
@@ -86,6 +84,12 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
     * @return int
     */
     public int getImmobilesize(){return immobiles.size();}
+
+    /**
+    * return HashSet<Swimmable> of panel
+    * @return HashSet<Swimmable>
+    */
+    public HashSet<Immobile> getImmobile(){return immobiles;}
     
 
     /** 
@@ -93,7 +97,6 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
      * @param s
      */
     public void addswimmables(Swimmable s){
-        // s.addObserver(this);
         executorService.execute(s);
         this.swimmables.add(s);
         s.setid(Integer.toString(swimmables.size()));  
@@ -106,7 +109,8 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
     public void addimmobiles(Immobile plant ){
         
         this.immobiles.add(plant);
-        
+        plant.setid(Integer.toString(swimmables.size()));  
+
     }
 
 
@@ -211,7 +215,7 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
 
     public void Decorator()
     {
-        JPanelDecorator panel = new JPanelDecorator(this);
+        new JPanelDecorator(this);
     }
 
     /** 
@@ -268,8 +272,6 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
             }
         }
     }
-
-
     
     /** 
      * lift's the Barrier and gives the food to the fish
@@ -288,28 +290,145 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
 
 
     /** 
+     * fils and returns the swimible table with the swimbel's data
+    * @return JTable
+     */
+    public JTable getSwimibletable()
+    {
+        DefaultTableModel tbl = new DefaultTableModel();
+        tbl.addColumn("Animal Name");
+        tbl.addColumn("Color");
+        tbl.addColumn("Size");
+        tbl.addColumn("Hor.Speed");
+        tbl.addColumn("Var.Speed");
+        tbl.addColumn("Eat Count");
+        tbl.addColumn("Eat Frequency (steps)");
+        tbl.addColumn("State");
+
+        
+        Object[] columns = {"Name", "Color", "Size", "Hor.Speed", "Var.Speed",
+                "Eat Count", "Frequency", "State"};
+        tbl.addRow(columns);
+
+        for (Swimmable s : this.swimmables) {
+                Object[] row = {s.getId(), s.getColor(), s.getSize(),
+                        s.gethorSpeed(), s.getverSpeed(), s.getEatCount()
+                        , s.getfoodFrequency()};
+                tbl.addRow(row);
+        }
+        swimibleInfo= new JTable(tbl);
+        return swimibleInfo;
+    }
+
+    /** 
+     * fils and returns the swimible that are saved
+    * @return JTable
+     */
+    public JTable getSavedSwimibelsTable()
+    {
+        DefaultTableModel tbl = new DefaultTableModel();
+        tbl.addColumn("Animal Name");
+        tbl.addColumn("Color");
+        tbl.addColumn("Size");
+        tbl.addColumn("Hor.Speed");
+        tbl.addColumn("Var.Speed");
+        tbl.addColumn("Eat Count");
+        tbl.addColumn("Eat Frequency (steps)");
+        tbl.addColumn("State");
+
+
+        Object[] columns = {"Name", "Color", "Size", "Hor.Speed", "Var.Speed",
+                "Eat Count", "Frequency", "State"};
+        tbl.addRow(columns);
+
+        for (Memento m : this.cartaker.getSmemento()) {
+                Object[] row = {m.getId(), m.getColor(), m.getSize(),
+                        m.getHorSpeed(), m.getVerSpeed(), m.geteatCount()
+                        , m.getfoodFrequency()};
+                tbl.addRow(row);
+        }
+        JTable info = new JTable(tbl);
+        return info;
+    }
+
+
+    /** 
+     * fils and returns the plants table with the plant's data
+    * @return JTable
+     */
+    public JTable getImmobiletable()
+    {
+        DefaultTableModel tbl = new DefaultTableModel();
+        tbl.addColumn("Plant Name");
+        tbl.addColumn("Color");
+        tbl.addColumn("Size");
+        tbl.addColumn("X Position");
+        tbl.addColumn("Y Position");
+
+        Object[] columns = {"Name", "Color", "Size", "X Position", "Y Position"};
+        tbl.addRow(columns);
+
+        for (Immobile i : this.immobiles) {
+                Object[] row = {i.getId(), i.getColorString(), i.getSize(),
+                        i.getX(), i.getY()};
+                tbl.addRow(row);
+        }
+        immobileInfo= new JTable(tbl);
+        return immobileInfo;
+    }
+
+
+    /** 
      * fils and returns the animal table with the swimmbles
     * @return JTable
      */
-    public JTable getanimmaltable()
+    public JTable getSavedImmobiletable()
     {
-        int i=0;
-        String[] columnNames = {"Animal", "Color", "Size", "Hor. speed", "Ver. speed","Eat counter"};
-        Object [][] data = new String[5][columnNames.length];
-        for (Swimmable s : swimmables) {
-             data[i][0] = "" + s.getId();
-             data[i][1] = "" + s.getColor();
-             data[i][2] = "" + s.getSize();
-             data[i][3] = "" + s.gethorSpeed();
-             data[i][4] = "" + s.getverSpeed();
-             data[i][5] = "" + s.getEatCount();
-             i++;                  
-             }
-        JTable table = new JTable(data, columnNames);
-        return table;
+        DefaultTableModel tbl = new DefaultTableModel();
+        tbl.addColumn("Plant Name");
+        tbl.addColumn("Color");
+        tbl.addColumn("Size");
+        tbl.addColumn("X Position");
+        tbl.addColumn("Y Position");
+
+        Object[] columns = {"Name", "Color", "Size", "X Position", "Y Position"};
+        tbl.addRow(columns);
+
+        for (Memento m : this.cartaker.getPmemento()) {
+                Object[] row = {m.getId(), m.getColor(), m.getSize(),
+                        m.getXfront(), m.getYfront()};
+                tbl.addRow(row);
+        }
+        immobileInfo= new JTable(tbl);
+        return immobileInfo;
     }
 
- 
+     /** 
+     * fils and returns the swimible table with the swimbel's data for the info button
+    * @return JTable
+     */
+    public JTable getSwimibletableForInfo()
+    {
+        DefaultTableModel tbl = new DefaultTableModel();
+        tbl.addColumn("Animal Name");
+        tbl.addColumn("Color");
+        tbl.addColumn("Size");
+        tbl.addColumn("Hor.Speed");
+        tbl.addColumn("Var.Speed");
+        tbl.addColumn("Eat Count");
+        tbl.addColumn("Eat Frequency (steps)");
+        tbl.addColumn("State");
+
+        for (Swimmable s : this.swimmables) {
+                Object[] row = {s.getId(), s.getColor(), s.getSize(),
+                        s.gethorSpeed(), s.getverSpeed(), s.getEatCount()
+                        , s.getfoodFrequency()};
+                tbl.addRow(row);
+        }
+        swimibleInfo= new JTable(tbl);
+        return swimibleInfo;
+    }
+
      /** 
      * create and Show info table
      */     
@@ -323,10 +442,10 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
         }
         if(isTableVisible == false) {
             this.Sleep();
-            JTable table=getanimmaltable();
-            scrollPane = new JScrollPane(table);
-            scrollPane.setSize(450,table.getRowHeight()*(5)+24);
-            add( scrollPane, BorderLayout.CENTER );
+            swimibleInfo=getSwimibletableForInfo();
+            scrollPane = new JScrollPane(swimibleInfo);
+            scrollPane.setSize(450,swimibleInfo.getRowHeight()*(5)+24);
+            add(scrollPane, BorderLayout.CENTER );
             isTableVisible = true;
                
         }
@@ -378,6 +497,298 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
     public void notifyAllObservers(){
         for (Swimmable s : swimmables)
            s.update();
+    }
+
+
+        /**
+     * saveMemento menu
+     */
+    public void saveMemento() {
+        JFrame newframe = new JFrame("Which Animal To Save?");
+        swimibleInfo = getSwimibletable();
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        JPanel apply_panel = new JPanel();
+        JButton memento_save = new JButton("Save");
+        memento_save.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == memento_save){
+                    newframe.dispose();
+                    try {
+                        String name = swimibleInfo.getModel().getValueAt(swimibleInfo.getSelectedRow(), 0).toString(); 
+                        if (name.equalsIgnoreCase("Name"))
+                            throw new Exception();
+                        Memento memento=null;
+                        for (Swimmable s : swimmables) { 
+                            if (s.getId().equalsIgnoreCase(name)) { 
+                                memento=new Memento(s);
+                                cartaker.addSmemento( memento);
+                                JOptionPane.showMessageDialog(null,s.getId() + "State Saved!");
+                            }
+                        }
+                    }
+                    catch(Exception exception)
+                    {
+                        JOptionPane.showMessageDialog(frame,"There is no object in this row please choose a row with an object");  
+                    }
+                }
+            }
+        });
+        JButton memento_cancel = new JButton("Cancel");
+        memento_cancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == memento_cancel){
+                    newframe.dispose();
+                }
+            }
+        });
+        apply_panel.setLayout(new GridLayout());
+
+        apply_panel.add(memento_cancel);
+        apply_panel.add(memento_save);
+
+        panel.add(swimibleInfo,BorderLayout.NORTH);
+        panel.add(apply_panel, BorderLayout.SOUTH);
+        newframe.add(panel);
+        newframe.pack();
+        newframe.setLocationRelativeTo(null);
+        newframe.setVisible(true);
+    }
+
+    public void savePlantsMemento(){
+        JFrame newframe = new JFrame("Which plant to save?");
+        immobileInfo = getImmobiletable();
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        JPanel apply_panel = new JPanel();
+        JButton memento_save = new JButton("Save");
+        memento_save.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == memento_save) {
+                    newframe.dispose();
+                    try {
+                        Memento memento=null;
+                        String name = immobileInfo.getModel().getValueAt(immobileInfo.getSelectedRow(), 0).toString(); //get the name
+                        if (name.equalsIgnoreCase("Name"))
+                            throw new Exception();
+                        for (Immobile i : immobiles) { 
+                            if (i.getId().equalsIgnoreCase(name) ) {
+                                memento=new Memento(i);
+                                cartaker.addPmemento(memento);
+                                JOptionPane.showMessageDialog(null,i.getId() + "State Saved!");
+                            }
+                        }
+                    }
+                    catch(Exception exception)
+                    {
+                        JOptionPane.showMessageDialog(frame,"There is no object in this row please choose a row with an object");  
+                    }
+                }
+            }
+        });
+
+        JButton memento_cancel = new JButton("Cancel");
+        memento_cancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == memento_cancel){
+                    newframe.dispose();
+                }
+            }
+        });
+        apply_panel.setLayout(new GridLayout());
+
+        apply_panel.add(memento_cancel);
+        apply_panel.add(memento_save);
+
+        panel.add(immobileInfo,BorderLayout.NORTH);
+        panel.add(apply_panel, BorderLayout.SOUTH);
+        newframe.add(panel);
+        newframe.pack();
+        newframe.setLocationRelativeTo(null);
+        newframe.setVisible(true);
+    }
+    /**
+     * restoreMemento menu
+     */
+    public void restoreMemento() {
+        JFrame newframe = new JFrame("Which animal to restore?");
+        JTable SavedSwimibels = getSavedSwimibelsTable();
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        JPanel apply_panel = new JPanel();
+        JButton restore_select = new JButton("Restore");
+        restore_select.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == restore_select){
+                    newframe.dispose();
+                    try {
+                        String name = SavedSwimibels.getModel().getValueAt(SavedSwimibels.getSelectedRow(), 0).toString();
+                        if (name.equalsIgnoreCase("Name"))
+                            throw new Exception(); 
+                        for (Memento m : cartaker.getSmemento()) { 
+                            if (m.getId().equalsIgnoreCase(name)) { 
+                                for (Swimmable s : swimmables)
+                                {
+                                    if (s.getId().equalsIgnoreCase(name))
+                                        s.setState(m.getCol(), m.getSize(),m.getXfront(), m.getYfront(),m.getHorSpeed(),m.getVerSpeed(),m.getX_dir(),m.getY_dir());
+                                }
+                            }
+                        }
+                    }
+                    catch(Exception exception)
+                    {
+                        JOptionPane.showMessageDialog(frame,"There is no object in this row please choose a row with an object");  
+                    }
+                }
+            }
+        });
+        JButton memento_cancel = new JButton("Cancel");
+        memento_cancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == memento_cancel){
+                    newframe.dispose();
+                }
+            }
+        });
+        apply_panel.setLayout(new GridLayout());
+
+        apply_panel.add(memento_cancel);
+        apply_panel.add(restore_select);
+
+        panel.add(SavedSwimibels,BorderLayout.NORTH);
+        panel.add(apply_panel, BorderLayout.SOUTH);
+        newframe.add(panel);
+        newframe.pack();
+        newframe.setLocationRelativeTo(null);
+        newframe.setVisible(true);
+    }
+
+
+    public void restorePlantsMemento(){
+        JFrame newframe = new JFrame("Which plant to restore?");
+        JTable SavedImmobiles = getSavedImmobiletable();
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        JPanel apply_panel = new JPanel();
+        JButton memento_select = new JButton("Restore");
+        memento_select.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == memento_select) {
+                    newframe.dispose();
+                    try{
+                        String name = SavedImmobiles.getModel().getValueAt(SavedImmobiles.getSelectedRow(), 0).toString(); 
+                        if (name.equalsIgnoreCase("Name"))
+                            throw new Exception();
+                        for (Memento m : cartaker.getSmemento()) { 
+                            if (m.getId().equalsIgnoreCase(name)) { 
+                                for (Immobile i : immobiles)
+                                {
+                                    if (i.getId().equalsIgnoreCase(name))
+                                        i.setState(m.getCol(), m.getSize(),m.getXfront(), m.getYfront());
+                                }
+                            }
+                        
+                        }
+                    }
+                    catch(Exception exception)
+                    {
+                        JOptionPane.showMessageDialog(frame,"There is no object in this row please choose a row with an object");  
+                    }
+                }
+            }
+        });
+
+        JButton memento_cancel = new JButton("Cancel");
+        memento_cancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == memento_cancel){
+                    newframe.dispose();
+                }
+            }
+        });
+        apply_panel.setLayout(new GridLayout());
+
+        apply_panel.add(memento_cancel);
+        apply_panel.add(memento_select);
+
+        panel.add(SavedImmobiles,BorderLayout.NORTH);
+        panel.add(apply_panel, BorderLayout.SOUTH);
+        newframe.add(panel);
+        newframe.pack();
+        newframe.setLocationRelativeTo(null);
+        newframe.setVisible(true);
+    }
+
+    public void selectAnimalMemento(){
+        JFrame newframe = new JFrame("Select Action:");
+        JPanel newpanel = new JPanel();
+        JButton btn_memento_restore = new JButton("Restore State");
+        JButton btn_memento_save = new JButton("Save State");;
+        newpanel.add(btn_memento_restore);
+        btn_memento_restore.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == btn_memento_restore){
+                    newframe.dispose();
+                    restoreMemento();
+                }
+            }
+        });
+        newpanel.add(btn_memento_save);
+        btn_memento_save.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == btn_memento_save){
+                    newframe.dispose();
+                    saveMemento();
+                }
+            }
+        });
+
+        newframe.add(newpanel);
+        newframe.pack();
+        newframe.setLocationRelativeTo(null);
+        newframe.setVisible(true);
+    }
+
+    public void selectPlantsMemento(){
+        JFrame newframe = new JFrame("Select action:");
+        JPanel newpanel = new JPanel();
+        JButton btn_plants_memento_save = new JButton("Save state");
+        JButton btn_plants_memento_restore = new JButton("Restore State");
+
+        btn_plants_memento_restore.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == btn_plants_memento_restore){
+                    newframe.dispose();
+                    restorePlantsMemento();
+                }
+            }
+        });
+        newpanel.add(btn_plants_memento_restore);
+
+        btn_plants_memento_save.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == btn_plants_memento_save){
+                    newframe.dispose();
+                    savePlantsMemento();
+                }
+            }
+        });
+        newpanel.add(btn_plants_memento_save);
+
+        newframe.add(newpanel);
+        newframe.pack();
+        newframe.setLocationRelativeTo(null);
+        newframe.setVisible(true);
     }
 }
 

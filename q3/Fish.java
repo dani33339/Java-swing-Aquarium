@@ -232,6 +232,28 @@ public class Fish extends Swimmable {
     this.col=col;
   }
 
+    /**
+   * set state method set's the state to the fish
+   * @param size
+   * @param horSpeed
+   * @param verSpeed
+   * @param x_front
+   * @param y_front
+   * @param x_dir  
+   * @param y_dir
+   * 
+   */
+  public void setState(Color col, int size, int x_front, int y_front, int horSpeed, int verSpeed,int x_dir,int y_dir) {
+		this.col=col;
+		this.size=size;
+		this.x_front=x_front;
+		this.y_front=y_front;
+		this.horSpeed=horSpeed;
+		this.verSpeed=verSpeed;
+		this.x_dir=x_dir;
+		this.y_dir=y_dir;
+	}
+
 
     /**
      * return a string representation of a Fish format:

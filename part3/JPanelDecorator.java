@@ -33,7 +33,7 @@ public class JPanelDecorator extends JPanel{
         this.btn_cancel = new JButton("Cancel");
         this.btn_apply = new JButton("Change Color");
 
-        this.info = aquaPanel.getanimmaltable();
+        this.info = aquaPanel.getSwimibletable();
 
         this.btn_cancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -49,11 +49,13 @@ public class JPanelDecorator extends JPanel{
                     frame.dispose();
                     try{
                         animalName = info.getModel().getValueAt(info.getSelectedRow(),0).toString(); //get the name of animal from selected row
+                        if (animalName.equalsIgnoreCase("Name"))
+                            throw new Exception();
                         selection();
                     }
                     catch(Exception exception)
                     {
-                        JOptionPane.showMessageDialog(frame,"There is no fish in this row please choose a row with a fish");  
+                        JOptionPane.showMessageDialog(frame,"There is no object in this row please choose a row with an object");  
                     }
                 }
             }

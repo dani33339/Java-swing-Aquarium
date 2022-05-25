@@ -7,7 +7,7 @@ public class Laminaria extends Immobile{
     private int size;
     private int x;
     private int y;
-    private Color colorr = Color.green;
+    private Color color = Color.green;
 
     public Laminaria(int size,int x,int y){
         //default Ctor
@@ -25,7 +25,7 @@ public class Laminaria extends Immobile{
       }
 
     public void drawCreature(Graphics g) {
-		g.setColor(colorr);
+		g.setColor(color);
 		g.fillArc(x-size/20, y-size, size/10, size*4/5,0, 360);
 		g.fillArc(x-size*3/20, y-size*13/15, size/10, size*2/3,0, 360);
 		g.fillArc(x+size/20,y-size*13/15,size/10, size*2/3, 0, 360);
@@ -58,5 +58,20 @@ public class Laminaria extends Immobile{
     public String getColorString() {
         return "green";
     }
-    
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setid(String idnumber) {
+        this.id=this.id+idnumber;
+      };
+
+      public void setState(Color color,int size,int x,int y)
+      {
+          this.color=color;
+          this.size=size;
+          this.x=x;
+          this.y=y;
+      } 
 }
