@@ -391,7 +391,6 @@ public class Jellyfish extends Swimmable {
               Thread.sleep((int) (100));
             }
           } catch (InterruptedException e) {
-            // e.printStackTrace();
           }
         }   
       }
