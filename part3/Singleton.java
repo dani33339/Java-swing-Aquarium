@@ -6,6 +6,14 @@ import java.awt.*;
 import javax.imageio.ImageIO;
 import part2.AquaFrame;
 
+
+/**
+ * class Singleton:
+ * design pattern of Singleton for the worm
+ * 
+ * @author Daniel Markov ,Anton Volkov
+ */
+
 public class Singleton {
     BufferedImage wormImage=null;
     boolean Visible=false;
@@ -14,13 +22,22 @@ public class Singleton {
     /* A private Constructor prevents any other
     * class from instantiating.*/
     private Singleton(){ }
-    /* Static 'instance' method */
+    
+    /** 
+     * @return Singleton
+    *
+    * Static 'instance' method */
     public static Singleton getInstance( ){
     if(instance == null)
         instance = new Singleton();
     return instance;
     }
 
+    
+    /** 
+     * draw's the worm
+     * @param g
+     */
     public void draw(Graphics g)
     {
         if (Visible)
@@ -36,16 +53,29 @@ public class Singleton {
         }
     }
 
+    /** 
+     * set's the visible to false
+     */
     public void undraw()
     {
         Visible=false;
     }
 
+    
+    /** 
+     * set's the visiblty
+     * @param visible
+     */
     public void setVisible (Boolean visible)
     {
         Visible=visible;
     }
 
+    
+    /** 
+     * get's the Visible
+     * @return Boolean
+     */
     public Boolean getStatus ()
     {
         return Visible;

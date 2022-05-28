@@ -2,15 +2,16 @@ package q3;
 
 import java.util.concurrent.CyclicBarrier;
 import javax.swing.JOptionPane;
-import part3.SeaCreature;
+
+import part2.AquaPanel;
 import part3.*;
 import java.awt.*;
 
 
 
 /**
- * class  Swimmable:
- * this calss is the bais of the all calsses we have is q3
+ * class Swimmable:
+ * abstract class of the all swimmables in the program
  *
  * @author Daniel Markov ,Anton Volkov 
  */
@@ -19,11 +20,11 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Observ
     protected int verSpeed;
     protected int foodFrequency;
     protected CyclicBarrier Barrier=null;
-    protected final Callback callback;
+    protected final AquaPanel callback;
     protected String id=this.getClass().getSimpleName();
     protected int frequencyCounter=0;
     protected boolean counterflag=false;
-
+    protected HungerState hungerstate= new Satiated();
     
     public interface Callback {
         void DisableBarrire(Swimmable s);
@@ -45,7 +46,7 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Observ
     * @param horSpeed 
     * @param verSpeed
 	*/
-    public Swimmable(int horSpeed,int verSpeed, Callback callback, int foodFreq)
+    public Swimmable(int horSpeed,int verSpeed, AquaPanel callback, int foodFreq)
     {
         this.callback = callback;
         this.horSpeed=horSpeed;
@@ -142,10 +143,29 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Observ
 
     public abstract void edit(int size,int horSpeed, int verSpeed, Color col);
 
+    /**
+    * show's a message that the fish is hungry
+    */
     public void update() {
-        JOptionPane.showMessageDialog(null,this.getId() +" wants to eat! ","Hungry animal",JOptionPane.PLAIN_MESSAGE);	; 
+        if (hungerstate instanceof Hungry)
+            JOptionPane.showMessageDialog(null,this.getId() +" wants to eat! ","Hungry animal",JOptionPane.PLAIN_MESSAGE);	; 
      }
-    abstract public void setState(Color col,int size,int x_front,int y_front,int horSpeed,int verSpeed,int x_dir,int y_dir);
+    abstract public void saveState(Color col,int size,int x_front,int y_front,int horSpeed,int verSpeed,int x_dir,int y_dir);
 
+    /**
+     * set's the hunger state
+    * @param hungerstate 
+    */
+    public void setHungeryState(HungerState hungerstate){
+        this.hungerstate = hungerstate;		
+     }
+      /**
+     * return the hunger state of swimmable
+     * 
+     * @return HungerState
+     */
+     public HungerState getState(){
+        return hungerstate;
+     }
 
 }

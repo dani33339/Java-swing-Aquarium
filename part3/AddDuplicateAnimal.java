@@ -219,7 +219,6 @@ public class AddDuplicateAnimal extends JDialog implements ActionListener{
 								color=	Color.pink;
 								break;
 
-
 						}
 						s.edit(Integer.parseInt(txfsize.getText()),sl_Horizontal.getValue(), s2_Vertical.getValue(),color);
 						setVisible(false);

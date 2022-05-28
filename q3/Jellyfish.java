@@ -1,6 +1,7 @@
 package q3;
 import java.util.Random;
-import part2.AquaFrame;
+import part2.*;
+import part3.*;
 import java.awt.*;
 
 /**
@@ -33,7 +34,7 @@ public class Jellyfish extends Swimmable {
    * @param horSpeed - horizantal speed
    * @param verSpeed - vertical speed
    */
-  public Jellyfish(int size, int x_front, int y_front, int horSpeed, int verSpeed, Color col,Callback callback,int foodFrequency) {
+  public Jellyfish(int size, int x_front, int y_front, int horSpeed, int verSpeed, Color col,AquaPanel callback,int foodFrequency) {
     super(horSpeed, verSpeed,callback,foodFrequency);
     this.size = size;
     this.col = col;
@@ -269,6 +270,7 @@ public class Jellyfish extends Swimmable {
 
     /**
    * set state method set's the state to the fish
+   * @param col
    * @param size
    * @param horSpeed
    * @param verSpeed
@@ -277,7 +279,7 @@ public class Jellyfish extends Swimmable {
    * @param x_dir  
    * @param y_dir
    */
-  public void setState(Color col, int size, int x_front, int y_front, int horSpeed, int verSpeed,int x_dir,int y_dir) {
+  public void saveState(Color col, int size, int x_front, int y_front, int horSpeed, int verSpeed,int x_dir,int y_dir) {
 		this.col=col;
 		this.size=size;
 		this.x_front=x_front;
@@ -296,7 +298,6 @@ public class Jellyfish extends Swimmable {
   public void PaintFish(Color col) {
     this.setColor(col);
 }
-
 
   /**
    * this method draw the animal
@@ -325,10 +326,10 @@ public class Jellyfish extends Swimmable {
     int distance_x, distance_y;
     int border_x = AquaFrame.PANEL_WIDTH - 30;
     int border_y = AquaFrame.PANEL_HEIGTH - 85;
+    int speed_x = horSpeed, speed_y = verSpeed;
     synchronized (this) {
-      int speed_x = horSpeed, speed_y = verSpeed;
       while (!Thread.interrupted()) {
-        if (Barrier == null) {
+        if (Barrier == null || (Barrier!=null && hungerstate instanceof Satiated)) { //if worm doesn't exit's or hunger state is not hungry just swim normaly
           x_front += speed_x;
           y_front += speed_y;
           if (x_front > border_x || x_front < 0) {
@@ -345,8 +346,17 @@ public class Jellyfish extends Swimmable {
           }
           x_dir = speed_x / Math.abs(speed_x);
           y_dir = speed_y / Math.abs(speed_y);
-          if (AquaFrame.STATE == "sleeping") {
 
+          if (frequencyCounter==foodFrequency)
+          {
+            hungerstate=new Hungry();
+            hungerstate.doAction(this);
+            callback.notifyAllObservers();
+            frequencyCounter=0;
+          }
+            frequencyCounter++;
+
+          if (AquaFrame.STATE == "sleeping") {
             synchronized (this) {
               try {
                 this.wait();
@@ -359,12 +369,15 @@ public class Jellyfish extends Swimmable {
             Thread.sleep((int) (100));
           } catch (InterruptedException e) {
           }
-        } else {
+        }
+        if(Barrier != null && hungerstate instanceof Hungry) {//if worm exit's and the animal is hungry then go and eat
           try {
             distance_x = border_x / 2 - x_front;
             distance_y = border_y / 2 - y_front;
             if (Math.sqrt((distance_y * distance_y) + (distance_x * distance_x)) <= 5) {
               callback.DisableBarrire(this);
+              hungerstate=new Satiated();
+              hungerstate.doAction(this);
             } else {
               angle = (float) Math.atan2(distance_x, distance_y);
               if (Math.abs(distance_x) != 0) {
@@ -380,14 +393,7 @@ public class Jellyfish extends Swimmable {
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
-        } 
-        if (frequencyCounter==foodFrequency)
-        {
-          this.update();
-          frequencyCounter=0;
-        }
-          frequencyCounter++;
-      
+        }   
       }
     }
   }

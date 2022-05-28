@@ -3,13 +3,14 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Polygon;
 import java.util.Random;
-import part2.AquaFrame;
+import part2.*;
+import part3.*;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 
 /**
  * class Fish:
- * its a basic class of the fish
+ * basic class of the fish
  * 
  * @author Daniel Markov ,Anton Volkov
  */
@@ -37,7 +38,7 @@ public class Fish extends Swimmable {
      * @param horSpeed - horizantal speed
      * @param verSpeed - vertical speed
      */
-    public Fish(int size, int x_front, int y_front, int horSpeed, int verSpeed, Color col,Callback callback ,int foodFrequency) {
+    public Fish(int size, int x_front, int y_front, int horSpeed, int verSpeed, Color col,AquaPanel callback ,int foodFrequency) {
       super(horSpeed, verSpeed,callback,foodFrequency);
       this.size = size;
       this.col = col;
@@ -213,9 +214,6 @@ public class Fish extends Swimmable {
       return obj;
   }
 
-
-
-
     /**
    * update method updates the fish
    * @param size
@@ -243,7 +241,7 @@ public class Fish extends Swimmable {
    * @param y_dir
    * 
    */
-  public void setState(Color col, int size, int x_front, int y_front, int horSpeed, int verSpeed,int x_dir,int y_dir) {
+  public void saveState(Color col, int size, int x_front, int y_front, int horSpeed, int verSpeed,int x_dir,int y_dir) {
 		this.col=col;
 		this.size=size;
 		this.x_front=x_front;
@@ -356,6 +354,10 @@ public class Fish extends Swimmable {
       
     }
 
+    /**
+     *this method calls setcolor of the fish and sets the new color
+     * @Color col
+     */
     public void PaintFish(Color col) {
       this.setColor(col);
   }
@@ -372,7 +374,7 @@ public class Fish extends Swimmable {
       int speed_x = horSpeed, speed_y = verSpeed;
       synchronized (this) {
         while (!Thread.interrupted()) {
-          if (Barrier == null) {
+          if (Barrier == null || (Barrier!=null && hungerstate instanceof Satiated)) { //if worm doesn't exit's or hunger state is not hungry just swim normaly
             x_front += speed_x;
             y_front += speed_y;
             if (x_front > border_x || x_front < 0) {
@@ -390,6 +392,16 @@ public class Fish extends Swimmable {
             x_dir = speed_x / Math.abs(speed_x);
             y_dir = speed_y / Math.abs(speed_y);
 
+            
+            if (frequencyCounter==foodFrequency)
+            {
+              hungerstate=new Hungry();
+              hungerstate.doAction(this);
+              callback.notifyAllObservers();
+              frequencyCounter=0;
+            }
+              frequencyCounter++;
+
             if (AquaFrame.STATE == "sleeping") {
               synchronized (this) {
                 try {
@@ -404,13 +416,15 @@ public class Fish extends Swimmable {
             } 
             catch (InterruptedException e) {}
           } 
-          else {
+          if(Barrier != null && hungerstate instanceof Hungry) {//if worm exit's and the animal is hungry then go and eat
             try {
               distance_x = border_x / 2 - x_front;
               distance_y = border_y / 2 - y_front;
               if (Math.sqrt((distance_y * distance_y) + (distance_x * distance_x)) <= 5) {
                 callback.DisableBarrire(this);
-              } 
+                hungerstate=new Satiated();
+                hungerstate.doAction(this); 
+                } 
               else {
                 angle = (float) Math.atan2(distance_x, distance_y);
                 if (Math.abs(distance_x) != 0) {
@@ -427,12 +441,6 @@ public class Fish extends Swimmable {
               e.printStackTrace();
             }
           }
-          if (frequencyCounter==foodFrequency)
-          {
-            this.update();
-            frequencyCounter=0;
-          }
-            frequencyCounter++;
         }
       }
     }

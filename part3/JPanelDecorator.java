@@ -6,6 +6,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * class  JPanelDecorator:
+ * JDialog that chnage's the fish color
+ * 
+ * @author Daniel Markov ,Anton Volkov 
+ */
 
 public class JPanelDecorator extends JPanel{
 
@@ -13,7 +19,7 @@ public class JPanelDecorator extends JPanel{
     private Color col;
     private JFrame frame;   
     private JPanel panel; 
-    private JPanel apply_panel; //apply panel
+    private JPanel apply_panel; 
     private JButton btn_cancel;
     private JButton btn_apply;
     private JTable info;

@@ -2,6 +2,13 @@ package part3;
 import java.awt.Color;
 import q3.Swimmable;
 
+/**
+ * class Memento:
+ * class Memento design pattern
+ * 
+ * @author Daniel Markov ,Anton Volkov
+ */
+
 public class Memento {
 	private int size,x_front,y_front,horSpeed,verSpeed,eatCount, x_dir,y_dir,foodFrequency;
 	private Color col;

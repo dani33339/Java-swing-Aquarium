@@ -13,15 +13,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
-
-public class AddPlanetDialog extends JDialog  implements ActionListener {    
-
 /**
- * class  AddAnimalDialog:
- * JDialog that add's a fish
+ * class AddPlanetDialog:
+ * JDialog that add's a plant
  * 
  * @author Daniel Markov ,Anton Volkov 
  */
+
+public class AddPlanetDialog extends JDialog  implements ActionListener {    
+
 	public JFrame f;  
 	private JPanel p1,p2;
     private JButton add, cancel;

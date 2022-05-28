@@ -15,8 +15,8 @@ import java.awt.event.*;
  */
 public class AquaFrame extends JFrame implements ActionListener{
     private AquaPanel panel;
-    public final static int PANEL_WIDTH = 800;
-    public final static int PANEL_HEIGTH = 600;
+    public final static int PANEL_WIDTH = 1200;
+    public final static int PANEL_HEIGTH = 800;
     public static String STATE = "swiming";
     JFrame f;
     // menubar

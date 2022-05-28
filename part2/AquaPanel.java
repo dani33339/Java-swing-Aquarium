@@ -178,6 +178,9 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
         }
     }
 
+    /** 
+     * create a AddPlanetDialog
+     */
     public void AddPlant(){
         try{
             if(immobiles.size()>=5)
@@ -194,7 +197,9 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
         }
     }
 
-
+    /** 
+     * Duplicate an animmal, call AddDuplicateAnimal
+     */
     public void DuplicateAnimal(){
 
         try{
@@ -213,9 +218,21 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
         }
     }
 
+    
+    /** 
+     * Duplicate an animmal, call AddDuplicateAnimal
+     */
     public void Decorator()
     {
-        new JPanelDecorator(this);
+        try{
+            if (swimmables.size()==0)
+                throw new Exception("There are no animals in aquarium to Decorator");
+            else
+                new JPanelDecorator(this);
+        }
+        catch(Exception e1){
+            JOptionPane.showMessageDialog(null,e1.getMessage());
+       }
     }
 
     /** 
@@ -247,9 +264,10 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
         //stop all threads.
         this.swimmables.clear(); //delete the swimmables
         this.immobiles.clear();//delete all the plates
-        executorService.shutdown();
+        executorService.shutdownNow();
         executorService = Executors.newFixedThreadPool(5);
         Barrier=null;
+        repaint();
     }
 
      /** 
@@ -494,13 +512,17 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
         Exit();
     }
 
+    
+    /**
+     * notifyAllObservers Listener to the hunger status of the animal's, if they hungry shows the massege
+     */
     public void notifyAllObservers(){
         for (Swimmable s : swimmables)
            s.update();
     }
 
 
-        /**
+    /**
      * saveMemento menu
      */
     public void saveMemento() {
@@ -518,13 +540,12 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
                     newframe.dispose();
                     try {
                         String name = swimibleInfo.getModel().getValueAt(swimibleInfo.getSelectedRow(), 0).toString(); 
-                        if (name.equalsIgnoreCase("Name"))
+                        if (name.equalsIgnoreCase("Name")) //if equals to the first row 
                             throw new Exception();
-                        Memento memento=null;
                         for (Swimmable s : swimmables) { 
                             if (s.getId().equalsIgnoreCase(name)) { 
-                                memento=new Memento(s);
-                                cartaker.addSmemento( memento);
+                                Memento memento=new Memento(s);
+                                cartaker.addSmemento(memento);
                                 JOptionPane.showMessageDialog(null,s.getId() + "State Saved!");
                             }
                         }
@@ -558,6 +579,9 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
         newframe.setVisible(true);
     }
 
+    /**
+     * save Plants menu
+     */
     public void savePlantsMemento(){
         JFrame newframe = new JFrame("Which plant to save?");
         immobileInfo = getImmobiletable();
@@ -572,13 +596,12 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
                 if (e.getSource() == memento_save) {
                     newframe.dispose();
                     try {
-                        Memento memento=null;
                         String name = immobileInfo.getModel().getValueAt(immobileInfo.getSelectedRow(), 0).toString(); //get the name
                         if (name.equalsIgnoreCase("Name"))
                             throw new Exception();
                         for (Immobile i : immobiles) { 
                             if (i.getId().equalsIgnoreCase(name) ) {
-                                memento=new Memento(i);
+                                Memento memento=new Memento(i);
                                 cartaker.addPmemento(memento);
                                 JOptionPane.showMessageDialog(null,i.getId() + "State Saved!");
                             }
@@ -594,7 +617,6 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
 
         JButton memento_cancel = new JButton("Cancel");
         memento_cancel.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 if(e.getSource() == memento_cancel){
                     newframe.dispose();
@@ -638,7 +660,7 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
                                 for (Swimmable s : swimmables)
                                 {
                                     if (s.getId().equalsIgnoreCase(name))
-                                        s.setState(m.getCol(), m.getSize(),m.getXfront(), m.getYfront(),m.getHorSpeed(),m.getVerSpeed(),m.getX_dir(),m.getY_dir());
+                                        s.saveState(m.getCol(), m.getSize(),m.getXfront(), m.getYfront(),m.getHorSpeed(),m.getVerSpeed(),m.getX_dir(),m.getY_dir());
                                 }
                             }
                         }
@@ -671,7 +693,9 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
         newframe.setVisible(true);
     }
 
-
+    /**
+     * restore Plant's menu
+     */
     public void restorePlantsMemento(){
         JFrame newframe = new JFrame("Which plant to restore?");
         JTable SavedImmobiles = getSavedImmobiletable();
@@ -694,7 +718,7 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
                                 for (Immobile i : immobiles)
                                 {
                                     if (i.getId().equalsIgnoreCase(name))
-                                        i.setState(m.getCol(), m.getSize(),m.getXfront(), m.getYfront());
+                                        i.saveState(m.getCol(), m.getSize(),m.getXfront(), m.getYfront());
                                 }
                             }
                         
@@ -729,6 +753,9 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
         newframe.setVisible(true);
     }
 
+    /**
+     * Select Action for animal Restore or Save menu
+     */
     public void selectAnimalMemento(){
         JFrame newframe = new JFrame("Select Action:");
         JPanel newpanel = new JPanel();
@@ -759,6 +786,9 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
         newframe.setVisible(true);
     }
 
+    /**
+     * Select Action for plant's Restore or Save menu
+     */
     public void selectPlantsMemento(){
         JFrame newframe = new JFrame("Select action:");
         JPanel newpanel = new JPanel();
