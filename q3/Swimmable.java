@@ -23,7 +23,6 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Observ
     protected final AquaPanel callback;
     protected String id=this.getClass().getSimpleName();
     protected int frequencyCounter=0;
-    protected boolean counterflag=false;
     protected HungerState hungerstate= new Satiated();
     
     public interface Callback {
@@ -147,7 +146,7 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Observ
     * show's a message that the fish is hungry
     */
     public void update() {
-        if (hungerstate instanceof Hungry)
+        if (hungerstate instanceof Hungry && frequencyCounter==foodFrequency)
             JOptionPane.showMessageDialog(null,this.getId() +" wants to eat! ","Hungry animal",JOptionPane.PLAIN_MESSAGE);	; 
      }
     abstract public void saveState(Color col,int size,int x_front,int y_front,int horSpeed,int verSpeed,int x_dir,int y_dir);

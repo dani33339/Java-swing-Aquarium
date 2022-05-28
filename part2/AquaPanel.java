@@ -143,7 +143,7 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Image dimg = img.getScaledInstance(800, 600, Image.SCALE_DEFAULT);
+        Image dimg = img.getScaledInstance(1200, 800, Image.SCALE_DEFAULT);
         g.drawImage(dimg, 0, 0, null);
         }
 
@@ -261,11 +261,18 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
      * reset the panel from swimibles
      */
       public void Reset () {
-        //stop all threads.
+        Barrier=null;
+        for (Swimmable swimmable : this.swimmables) { //set barrier to null to all the animal's (stop the food race)
+            swimmable.setBarrier(Barrier);
+        }
         this.swimmables.clear(); //delete the swimmables
         this.immobiles.clear();//delete all the plates
+        //stop all threads.
         executorService.shutdownNow();
         executorService = Executors.newFixedThreadPool(5);
+        Singleton.getInstance().setVisible(false);//undraw the worm
+        cartaker.getPmemento().clear(); //clear all saves
+        cartaker.getSmemento().clear();
         Barrier=null;
         repaint();
     }

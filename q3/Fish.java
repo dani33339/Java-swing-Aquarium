@@ -438,7 +438,7 @@ public class Fish extends Swimmable {
                 Thread.sleep((int) (100));
               }
             } catch (InterruptedException e) {
-              e.printStackTrace();
+              // e.printStackTrace();
             }
           }
         }

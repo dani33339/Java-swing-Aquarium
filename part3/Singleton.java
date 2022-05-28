@@ -53,15 +53,7 @@ public class Singleton {
         }
     }
 
-    /** 
-     * set's the visible to false
-     */
-    public void undraw()
-    {
-        Visible=false;
-    }
-
-    
+  
     /** 
      * set's the visiblty
      * @param visible
