@@ -18,4 +18,13 @@ public class Hungry implements HungerState{
         s.setHungeryState(this);
     }
 
+    
+    /** 
+     * return name of the state
+     * @return String
+     */
+    public String toString(){
+		return "Hungry";
+	}
+
 }

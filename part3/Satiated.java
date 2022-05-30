@@ -18,4 +18,12 @@ public class Satiated implements HungerState {
     public void doAction(Swimmable s) {
         s.setHungeryState(this);     
     }
+
+    /** 
+     * return name of the state
+     * @return String
+     */
+    public String toString(){
+		return "Satiated";
+	}
 }
