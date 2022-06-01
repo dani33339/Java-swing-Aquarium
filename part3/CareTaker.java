@@ -10,24 +10,25 @@ import java.util.List;
  */
 
 public class CareTaker {
-	private List<Memento> Smemento=new ArrayList<Memento>();
-	private List<Memento> Pmemento= new ArrayList<Memento>();; 
+	private List<Memento> Smemento=new ArrayList<Memento>(); //swimmable list
+	private List<Memento> Pmemento= new ArrayList<Memento>(); //plat's list
 
 	
 	/** 
-	 * @param state
+	 * add 
+	 * @param state Memento
 	 */
-	public void addSmemento(Memento state)
+	public void addSmemento(Memento swimmable)
 	{
-		Smemento.add(state);
+		Smemento.add(swimmable);
 	}
 	
 	/** 
 	 * @param state
 	 */
-	public void addPmemento(Memento state)
+	public void addPmemento(Memento immobile)
 	{
-		Pmemento.add(state);
+		Pmemento.add(immobile);
 	}
 	
 	
@@ -47,6 +48,7 @@ public class CareTaker {
 	public Memento getPmemento(int i){
 		return Pmemento.get(i);
     }
+	
 
 	public List<Memento> getSmemento(){return Smemento;}
 	public List<Memento>getPmemento(){return Pmemento;}

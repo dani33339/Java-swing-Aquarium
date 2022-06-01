@@ -14,8 +14,11 @@ public class Memento {
 	private Color col;
     private String colorstring;
 	private String id,creatureType;
+	private Swimmable s;
+	private Immobile i;
 	public Memento(Swimmable s)
 	{	
+		this.s=s;
         this.creatureType=s.getAnimalName();
 		this.id=s.getId();
 		this.col=s.getcol();
@@ -32,6 +35,7 @@ public class Memento {
 
 	}
 	public Memento(Immobile i){
+		this.i=i;
 		this.id=i.getId();
 		this.col=i.getColor();
 		this.size=i.getSize();
@@ -40,6 +44,14 @@ public class Memento {
 		this.creatureType=i.getName();
         this.colorstring=i.getColorString();
 	}
+
+	public Swimmable getSwimmable(){
+		return s;
+	 }	
+
+	 public Immobile getImmobile(){
+		return i;
+	 }	
 
     public Color getCol(){return col;}
     public String getColor(){return colorstring;}

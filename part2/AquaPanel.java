@@ -40,7 +40,7 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
     public CyclicBarrier Barrier=null;
     CareTaker cartaker= new CareTaker();
     JTable swimibleInfo,immobileInfo;
- 
+    Originator originator = new Originator();
 
 	/**
 	* this method is a constructor method to build a new AquaPanel .
@@ -447,7 +447,7 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
         for (Swimmable s : this.swimmables) {
                 Object[] row = {s.getId(), s.getColor(), s.getSize(),
                         s.gethorSpeed(), s.getverSpeed(), s.getEatCount()
-                        , s.getfoodFrequency()};
+                        , s.getfoodFrequency(),s.getState()};
                 tbl.addRow(row);
         }
         swimibleInfo= new JTable(tbl);
@@ -530,7 +530,7 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
 
 
     /**
-     * saveMemento menu
+     * save Memento menu
      */
     public void saveMemento() {
         JFrame newframe = new JFrame("Which Animal To Save?");
@@ -551,8 +551,8 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
                             throw new Exception();
                         for (Swimmable s : swimmables) { 
                             if (s.getId().equalsIgnoreCase(name)) { 
-                                Memento memento=new Memento(s);
-                                cartaker.addSmemento(memento);
+                                originator.setSwimmable(s);
+                                cartaker.addSmemento(originator.saveSwimmableToMemento());
                                 JOptionPane.showMessageDialog(null,s.getId() + "State Saved!");
                             }
                         }
@@ -608,8 +608,8 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
                             throw new Exception();
                         for (Immobile i : immobiles) { 
                             if (i.getId().equalsIgnoreCase(name) ) {
-                                Memento memento=new Memento(i);
-                                cartaker.addPmemento(memento);
+                                originator.setImmobile(i);
+                                cartaker.addPmemento(originator.saveImmobileToMemento());
                                 JOptionPane.showMessageDialog(null,i.getId() + "State Saved!");
                             }
                         }
@@ -664,11 +664,8 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
                             throw new Exception(); 
                         for (Memento m : cartaker.getSmemento()) { 
                             if (m.getId().equalsIgnoreCase(name)) { 
-                                for (Swimmable s : swimmables)
-                                {
-                                    if (s.getId().equalsIgnoreCase(name))
-                                        s.saveState(m.getCol(), m.getSize(),m.getXfront(), m.getYfront(),m.getHorSpeed(),m.getVerSpeed(),m.getX_dir(),m.getY_dir());
-                                }
+                                Swimmable s= m.getSwimmable();
+                                s.saveState(m.getCol(), m.getSize(),m.getXfront(), m.getYfront(),m.getHorSpeed(),m.getVerSpeed(),m.getX_dir(),m.getY_dir());
                             }
                         }
                     }
@@ -722,11 +719,8 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
                             throw new Exception();
                         for (Memento m : cartaker.getSmemento()) { 
                             if (m.getId().equalsIgnoreCase(name)) { 
-                                for (Immobile i : immobiles)
-                                {
-                                    if (i.getId().equalsIgnoreCase(name))
-                                        i.saveState(m.getCol(), m.getSize(),m.getXfront(), m.getYfront());
-                                }
+                                Immobile i= m.getImmobile();
+                                i.saveState(m.getCol(), m.getSize(),m.getXfront(), m.getYfront());
                             }
                         
                         }
