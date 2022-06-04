@@ -150,7 +150,7 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Marine
     */
     public void notifyAllObservers(Swimmable s) {
         	for (Observer observer : list) {
-                observer.update(this);
+                observer.update(s);
             }
     }
 
