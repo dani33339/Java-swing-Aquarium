@@ -1,5 +1,6 @@
 package q3;
 
+import java.util.Vector;
 import java.util.concurrent.CyclicBarrier;
 import javax.swing.JOptionPane;
 
@@ -15,7 +16,7 @@ import java.awt.*;
  *
  * @author Daniel Markov ,Anton Volkov 
  */
-public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Observer,MarineAnimal {
+public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,MarineAnimal {
     protected int horSpeed;
     protected int verSpeed;
     protected int foodFrequency;
@@ -24,7 +25,7 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Observ
     protected String id=this.getClass().getSimpleName();
     protected int frequencyCounter=0;
     protected HungerState hungerstate= new Satiated();
-    
+    protected Vector<Observer> list = new Vector<Observer>();
     public interface Callback {
         void DisableBarrire(Swimmable s);
     }
@@ -89,6 +90,8 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Observ
      */
     public CyclicBarrier getBarrier() {return this.Barrier;}
     
+    public int getfrequencyCounter() {return this.frequencyCounter;}
+
     /** 
      * set Barrier
      * @param Barrier
@@ -145,10 +148,16 @@ public abstract class Swimmable implements Runnable,SeaCreature,Cloneable,Observ
     /**
     * show's a message that the fish is hungry
     */
-    public void update() {
-        if (hungerstate instanceof Hungry && frequencyCounter==foodFrequency)
-            JOptionPane.showMessageDialog(null,this.getId() +" wants to eat! ","Hungry animal",JOptionPane.PLAIN_MESSAGE);	; 
-     }
+    public void notifyAllObservers(Swimmable s) {
+        	for (Observer observer : list) {
+                observer.update(this);
+            }
+    }
+
+    public void registerObserver(Observer i){
+        list.add(i);
+    }
+
     abstract public void saveState(Color col,int size,int x_front,int y_front,int horSpeed,int verSpeed,int x_dir,int y_dir);
 
     /**

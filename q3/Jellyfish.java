@@ -245,8 +245,8 @@ public class Jellyfish extends Swimmable {
    */
   public Jellyfish clone(){
     Random rand = new Random();
-    int rand_x = rand.nextInt(100,600);
-    int rand_y = rand.nextInt(100,400);
+    int rand_x = rand.nextInt(600);
+    int rand_y = rand.nextInt(400);
     Jellyfish obj = new Jellyfish(this.size, rand_x, rand_y, this.horSpeed, this.verSpeed, this.col,this.callback,this.foodFrequency);
     return obj;
   }
@@ -351,7 +351,7 @@ public class Jellyfish extends Swimmable {
           {
             hungerstate=new Hungry();
             hungerstate.doAction(this);
-            callback.notifyAllObservers();
+            notifyAllObservers(this);
             frequencyCounter=0;
           }
             frequencyCounter++;

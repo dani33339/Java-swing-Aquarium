@@ -174,8 +174,8 @@ public class AddAnimalDialog extends JDialog implements ActionListener {
 			}
 			else{
 				Random rand = new Random();
-				int rand_x = rand.nextInt(100,600);
-				int rand_y = rand.nextInt(100,400);
+				int rand_x = rand.nextInt(600);
+				int rand_y = rand.nextInt(400);
 				abstractSeaFactory=new AnimalFactory(Integer.parseInt(txfsize.getText()), rand_x, rand_y,sl_Horizontal.getValue(), s2_Vertical.getValue(), this.getColor(),this.panel,s3_foodFreq.getValue());
 				if (typeComboBox.getSelectedItem().toString()=="Fish")
 				{

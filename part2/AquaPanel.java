@@ -25,7 +25,7 @@ import part3.*;
  * 
  * @author Daniel Markov ,Anton Volkov 
  */
-public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callback{
+public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callback,Observer{
     private AquaFrame frame;
     private JPanel p1;
     private JButton[] b_num;
@@ -97,6 +97,7 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
      * @param s
      */
     public void addswimmables(Swimmable s){
+        s.registerObserver(this);
         executorService.execute(s);
         this.swimmables.add(s);
         s.setid(Integer.toString(swimmables.size()));  
@@ -523,10 +524,13 @@ public class AquaPanel extends JPanel implements ActionListener,Swimmable.Callba
     /**
      * notifyAllObservers Listener to the hunger status of the animal's, if they hungry shows the massege
      */
-    public void notifyAllObservers(){
-        for (Swimmable s : swimmables)
-           s.update();
+   
+    public void update(Swimmable i) 
+    {
+        if (i.getState() instanceof Hungry && i.getfoodFrequency()==i.getfrequencyCounter())
+            JOptionPane.showMessageDialog(null,i.getId() +" wants to eat! ","Hungry animal",JOptionPane.PLAIN_MESSAGE);	
     }
+    
 
 
     /**

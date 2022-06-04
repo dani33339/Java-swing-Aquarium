@@ -1,5 +1,7 @@
 package part3;
 
+import q3.Swimmable;
+
 /**
  * class Observer:
  * class Observer design pattern
@@ -9,7 +11,7 @@ package part3;
 
 public interface Observer{
 
-    public abstract void update();
+    public abstract void update(Swimmable i);
   
   }
   

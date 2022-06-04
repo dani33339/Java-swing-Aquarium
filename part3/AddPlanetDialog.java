@@ -92,8 +92,8 @@ public class AddPlanetDialog extends JDialog  implements ActionListener {
 			}
 			else{
 				Random rand = new Random();
-				int rand_x = rand.nextInt(100,600);
-				int rand_y = rand.nextInt(100,400);
+				int rand_x = rand.nextInt(600);
+				int rand_y = rand.nextInt(400);
 				abstractSeaFactory=new PlantFactory(Integer.parseInt(txfsize.getText()), rand_x, rand_y);
 				if (typeComboBox.getSelectedItem().toString()=="Laminaria")
 				{
