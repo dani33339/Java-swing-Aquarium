@@ -7,3 +7,6 @@ Listener/Observer
 Decorator
 Memento
 State
+
+
+![Screenshot_1](https://user-images.githubusercontent.com/93151766/177174699-4fd4ac38-be61-47f9-920b-529130a6aaf8.png)
